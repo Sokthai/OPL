@@ -90,7 +90,11 @@
 ;; 	 (sum-alt-squares-recursive 2) is 10 (3^2 + 1^2)
 ;; 	 (sum-alt-squares-recursive 3) is 35 (5^2 + 3^2 + 1^2)
 (define (sum-alt-squares-recursive n)
-  (if (< n 0) 0 (+ (sum-squares-recursive (- n 2)) (* n n))))
+  (cond
+    [(<= n 0) 0]
+    [(= n 1) 1]
+    [else (+ (sum-alt-squares-recursive (- n 1)) 
+             (* (+ n (- n 1)) (+ n (- n 1))))]))
 
 ;; write a recursive procedure for the same
 ;; that produces an ITERATIVE process
@@ -114,23 +118,30 @@
 ;; (two-thirds-series 2) is 3/4
 ;; HINTS: even? and odd? are predicates; (expt 2 3) is 2^3.
 (define (two-thirds-series-r n)
-  ;(cond
-   ; [(< n 0) 1]
-   ; [(= (remainder n 2) 1) (- (two-thirds-series-r (- n 1)) (/ 1 2))] ; minus '-' if odd
-   ; [+ (two-thirds-series-r (- n 1)) (/ 1 2))]
-    0 ) 
+ (cond
+   [(<= n 0) 1]
+   [(= (remainder n 2) 1) (- (two-thirds-series-r (- n 1)) (/ 1 (expt 2 n)))]
+   [else (+ (two-thirds-series-r (- n 1)) (/ 1 (expt 2 n)))])) 
 
 ;; write a recursive procedure for the same
 ;; that produces an ITERATIVE process
 (define (two-thirds-series-i n)
-  1)
+  (two-thirds-series-iter (remainder n 2) n)) 
+
+(define (two-thirds-series-iter m n)
+  (cond
+    [(<= n 0) 1]
+    [(= m 1) (- (two-thirds-series-iter (remainder (- n 1) 2) (- n 1)) (/ 1 (expt 2 n)))]
+    [else (+ (two-thirds-series-iter (remainder (- n 1) 2) (- n 1)) (/ 1 (expt 2 n)))]))
 
 ;; SICP exercise 1.11 (pp. 42).
 ;; https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-11.html#%_thm_1.11
 ;; In this problem, you implement a recursive mathematical function.
 ;; Only do the recursive-process implementation. 
 (define (f-recursive n)
-  1)
+  (if (< n 3) n (+ (f-recursive (- n 1))
+                    (f-recursive (- n 2))
+                    (f-recursive (- n 3)))))
 
 ;; SICP exercise 1.16 (pp. 46).
 ;; https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-11.html#%_thm_1.16
