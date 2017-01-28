@@ -13,8 +13,7 @@
 ;;	(sum-recursive 2) is 3 [it's 2 + 1]
 ;;      (sum-recursive 3) is 6 [it's 3 + 2 + 1]
 (define (sum-recursive n)
-  (if (< n 0) 0 (+ (sum-recursive (- n 1)) n))
-  )
+  0)
 
 ;; what is the TIME complexity of this process?
 ;; for a refresher on Big-O Notation:
@@ -23,7 +22,7 @@
 ;; uncomment the line that has the correct answer
 ;;
 ;; (define sum-recursive-time-complexity "O(1)")
- (define sum-recursive-time-complexity "O(N)")
+;; (define sum-recursive-time-complexity "O(N)")
 ;; (define sum-recursive-time-complexity "O(N^2)")
 ;; (define sum-recursive-time-complexity "O(N log N)")
 
@@ -31,33 +30,27 @@
 ;; uncomment the line that has the correct answer
 ;;
 ;; (define sum-recursive-space-complexity "O(1)")
- (define sum-recursive-space-complexity "O(N)")
+;; (define sum-recursive-space-complexity "O(N)")
 ;; (define sum-recursive-space-complexity "O(N^2)")
 ;; (define sum-recursive-space-complexity "O(N log N)")
 
 ;; write a recursive procedure for adding the first n natural numbers
 ;; which will result in a ITERATIVE process being carried out
 (define (sum-iterative n)
-  (sum-iter 0 1 n)
- )
-(define (sum-iter sum counter n)
-   (if (> counter n)
-       sum
-       (sum-iter (+ sum counter) (+ counter 1) n)    
-  ))
+  0)
 
 ;; what is the TIME complexity of this process?
 ;; uncomment the line that has the correct answer
 ;;
 ;; (define sum-iterative-time-complexity "O(1)")
- (define sum-iterative-time-complexity "O(N)")
+;; (define sum-iterative-time-complexity "O(N)")
 ;; (define sum-iterative-time-complexity "O(N^2)")
 ;; (define sum-iterative-time-complexity "O(N log N)")
 
 ;; what is the SPACE complexity of this process?
 ;; uncomment the line that has the correct answer
 ;;
- (define sum-iterative-space-complexity "O(1)")
+;; (define sum-iterative-space-complexity "O(1)")
 ;; (define sum-iterative-space-complexity "O(N)")
 ;; (define sum-iterative-space-complexity "O(N^2)")
 ;; (define sum-iterative-space-complexity "O(N log N)")
@@ -67,20 +60,13 @@
 ;; e.g., (sum-squares-recursive 0) is 0
 ;; 	 (sum-squares-recursive 1) is 1
 ;; 	 (sum-squares-recursive 2) is 5 (2^2 + 1^2)
-
-
 (define (sum-squares-recursive n)
-  (if (< n 0) 0 (+ (sum-squares-recursive (- n 1)) (* n n))) 
-   )
- 
+  0)
 
 ;; write a recursive procedure for the same
 ;; that produces an ITERATIVE process
 (define (sum-squares-iterative n)
-  (sum-square-iter 0 n))
-
-(define (sum-square-iter n c)
-  (if (< c 0) 0 (+ (sum-square-iter(+ n 1) (- c 1)) (* n n))))
+  0)
 
 ;; write a recursive procedure for sum of squares of first n odd numbers
 ;; (starting with 1)
@@ -90,15 +76,12 @@
 ;; 	 (sum-alt-squares-recursive 2) is 10 (3^2 + 1^2)
 ;; 	 (sum-alt-squares-recursive 3) is 35 (5^2 + 3^2 + 1^2)
 (define (sum-alt-squares-recursive n)
-  (if (< n 0) 0 (+ (sum-squares-recursive (- n 2)) (* n n))))
+  0)
 
 ;; write a recursive procedure for the same
 ;; that produces an ITERATIVE process
 (define (sum-alt-squares-iterative n)
-  (sum-alt-squares-iter n 1))
-
-(define (sum-alt-squares-iter c q)
-  (if (<= c 0) 0 (+ (sum-alt-squares-iter (- c 1) (+ q 2))(* q q))))
+  0)
 
 ;; following series converges to 2/3
 ;; (notice alternating addition and subtraction of the terms):
@@ -114,11 +97,7 @@
 ;; (two-thirds-series 2) is 3/4
 ;; HINTS: even? and odd? are predicates; (expt 2 3) is 2^3.
 (define (two-thirds-series-r n)
-  ;(cond
-   ; [(< n 0) 1]
-   ; [(= (remainder n 2) 1) (- (two-thirds-series-r (- n 1)) (/ 1 2))] ; minus '-' if odd
-   ; [+ (two-thirds-series-r (- n 1)) (/ 1 2))]
-    0 ) 
+  1)
 
 ;; write a recursive procedure for the same
 ;; that produces an ITERATIVE process
