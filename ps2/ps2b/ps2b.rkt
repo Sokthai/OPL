@@ -35,13 +35,13 @@
 ;; representation. 
 ;; Point 
 (define (make-point x y) 
-  1)
+  (cons x y))
 
 (define (x-point p) 
-  1)
+  (car p))
 
 (define (y-point p) 
-  1)
+  (cdr p))
  
 ;; Segment 
 ;; similarly, make-seg is the constructor;
@@ -51,17 +51,26 @@
 ;; make sure to use your point object inside your line segment!
 ;; (two of them)
 (define (make-seg start-point end-point) 
-  1)
+  (cons start-point end-point))
 
 (define (start-seg segment) 
-  1)   
+  (car segment))   
 
 (define (end-seg segment)
-  1)
+  (cdr segment))
   
  ; should return a point
 (define (midpoint-seg segment)
-  1)
+  (let 
+       ( 
+         [x (+ (x-point(start-seg(segment))) (y-point(start-seg(segment))))]
+         [y (+ (x-point(end-seg(segment))) (y-point(end-seg(segment))))]
+       )
+       (
+         make-point (+ (/ x 2) (x-point(start-seg(segment))))
+                   (+ (/ y 2) (x-point(end-seg(segment))))
+       )
+    )) 
   
 ;; SICP exercise 2.3 (pp. 90). Here you represent rectangles and
 ;; construct procedures to compute perimeter and area.  Fill in the
