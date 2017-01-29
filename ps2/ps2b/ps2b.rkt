@@ -61,17 +61,17 @@
   
  ; should return a point
 (define (midpoint-seg segment)
-  (let 
+  (let  
        ( 
-         [x (+ (x-point(start-seg(segment))) (y-point(start-seg(segment))))]
-         [y (+ (x-point(end-seg(segment))) (y-point(end-seg(segment))))]
+         [x (+ (x-point (start-seg segment)) (x-point (end-seg segment)))]
+         [y (+ (y-point (start-seg segment)) (y-point (end-seg segment)))]
        )
-       (
-         make-point (+ (/ x 2) (x-point(start-seg(segment))))
-                   (+ (/ y 2) (x-point(end-seg(segment))))
-       )
+       
+       (make-point (/ x 2) (/ y 2)) ;return midpoint 
     )) 
+;(print-point (midpoint-seg (make-seg (make-point 110 30) (make-point 10 10)))) ; for testing midpoint
   
+
 ;; SICP exercise 2.3 (pp. 90). Here you represent rectangles and
 ;; construct procedures to compute perimeter and area.  Fill in the
 ;; below procedures
@@ -79,17 +79,30 @@
 ;; you may use your point objects if you desire 
 
 (define (make-rect x1 y1 x2 y2)
-  1)
+  (make-seg 
+    (make-seg (make-point x1 y1) (make-seg x2 y1))
+    (make-seg (make-point x2 y2) (make-seg x1 y2))
+  )) 
+
 
 (define (corner1 rect)
+  (x-point (end-seg rect)) ;returning a corner point
   ; should return some kind of object representing a corner
-  1)
+  )
 
-(define (corner2 rect)
+(define (corner2 rect) ;pythagorean theorem
+  (let
+      (
+       [a (- (x-point (y-point (start-seg rect))) (x-point (x-point (start-seg rect))))]
+       [b (- (y-point (x-point (end-seg rect))) (y-point (y-point (start-seg rect))))]
+      )
+       (sqrt (+ (* a a) (* b b)))
+   )
   ; should return the diagonally opposite corner
-  1)
+  )
 
 (define (width rect)
+  
   ; must use corner1 and corner2 selectors
   1)
 
@@ -99,8 +112,10 @@
   
 ;; area and perimeter 
 ;; must use your width and height abstractions!
-(define (area rect) 
-  1)
+(define (area rect) ; A = w * h
+  (* (width rect) (height rect))
+)
 
-(define (perimeter rect) 
-  1)
+(define (perimeter rect) ; P = 2w + 2h
+  (+ (* (width rect) 2) (* (height rect) 2))
+)
