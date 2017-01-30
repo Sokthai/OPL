@@ -1,5 +1,5 @@
 #lang racket
-
+;;Sokthai Tang -- Jan-29-2017
 ;; read Section 1.1 of SICP
 ;; https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-11.html#%_sec_1.1
 
@@ -152,10 +152,15 @@
 ;; complete the fast-expt implementation using an iterative process
 ;; Note: This is hard! If you do this on your own, congratulations.
 (define (fast-expt b n)
-  (cond ((= n 0) 1)
-        ((even? n) (square (fast-expt b (/ n 2))))
-        (else (* b (fast-expt b (- n 1))))))
-
+  (fast-expt-iter 1 b n)
+)
+ 
+(define (fast-expt-iter a b n)
+(cond
+  [(= n 0) 1]
+  [(even? n) (* a (square (fast-expt-iter a b (/ n 2))))]
+  [else (* a (* b (fast-expt-iter a b (- n 1))))]
+))
 ;; Before answering the next two questions, read these sources:
 ;;   https://docs.racket-lang.org/guide/Lists__Iteration__and_Recursion.html#%28part._.Recursion_versus_.Iteration%29
 ;;   https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-34.html#%_idx_6088
