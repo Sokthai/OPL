@@ -140,8 +140,8 @@
 ;; Only do the recursive-process implementation. 
 (define (f-recursive n)
   (if (< n 3) n (+ (f-recursive (- n 1))
-                    (f-recursive (- n 2))
-                    (f-recursive (- n 3)))))
+                    (* 2 (f-recursive (- n 2)))
+                    (* 3 (f-recursive (- n 3))))))
 
 
 
@@ -180,12 +180,12 @@
  (define r3 #f)
 ;;
 ;; 4. Recursive and looping are synonyms.
- (define r4 #t)
-;; (define r4 #f)
+;; (define r4 #t)
+ (define r4 #f)
 ;;
 ;; 5. Iteration and looping are synonyms.
-;; (define r5 #t)
- (define r5 #f)
+ (define r5 #t)
+;; (define r5 #f)
 ;;
 ;; autograding note: this question is graded as all-or-nothing;
 ;; unless you have all of the answers correct, you will not receive credit.
@@ -196,8 +196,8 @@
 ;; whether the statement is true or false.
 ;;
 ;; 1. All recursive programs are tail-recursive.
- (define tr1 #t)
-;; (define tr1 #f)
+;;(define tr1 #t)
+(define tr1 #f)
 ;;
 ;; 2. Tail recursion is a feature implemented by the Scheme interpreter (or compiler).
  (define tr2 #t)
@@ -205,8 +205,8 @@
 ;;
 ;; 3. In order to be considered a proper Scheme implementation, tail recursion must
 ;;    be provided.
-;; (define tr3 #t)
- (define tr3 #f)
+ (define tr3 #t)
+;; (define tr3 #f)
 ;;
 ;; 4. If a program can be optimized with tail recursion, when carried out, it is
 ;;    effectively performing a loop.
