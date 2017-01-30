@@ -86,35 +86,29 @@
 
 
 (define (corner1 rect)
-  ;(x-point (end-seg rect)) ;returning a corner point
-  (make-seg (start-seg rect) (x-point (end-seg rect))) ;return 3 pionts corner
+  (x-point (end-seg rect)) ;returning a corner point
   ; should return some kind of object representing a corner
   )
 
-(define (corner2 rect) 
- ; (let
- ;     (
- ;      [a (- (x-point (y-point (start-seg rect))) (x-point (x-point (start-seg rect))))]
- ;      [b (- (y-point (x-point (end-seg rect))) (y-point (y-point (start-seg rect))))]
- ;     )
- ;      (sqrt (+ (* a a) (* b b)))
- ;  )
-
-  (make-seg (make-seg (x-point (start-seg rect)) (y-point (end-seg rect))) (x-point (end-seg rect)))
-  
-  
+(define (corner2 rect) ;pythagorean theorem
+  (let
+      (
+       [a (- (x-point (y-point (start-seg rect))) (x-point (x-point (start-seg rect))))]
+       [b (- (y-point (x-point (end-seg rect))) (y-point (y-point (start-seg rect))))]
+      )
+       (sqrt (+ (* a a) (* b b)))
+   )
   ; should return the diagonally opposite corner
   )
 
 (define (width rect)
-  (abs (- (x-point (end-seg (corner2 rect))) (x-point (x-point (start-seg (corner1 rect))))))
+  
   ; must use corner1 and corner2 selectors
-  )
+  1)
 
-(define (height rect)
-  (abs (- (y-point (end-seg (corner2 rect))) (y-point (x-point (start-seg (corner1 rect))))))
+(define (height rect) 
   ; must use corner1 and corner2 selectors
-  )
+  1)
   
 ;; area and perimeter 
 ;; must use your width and height abstractions!

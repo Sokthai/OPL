@@ -143,12 +143,18 @@
                     (f-recursive (- n 2))
                     (f-recursive (- n 3)))))
 
+
+
+(define (square n)
+  (* n n))
 ;; SICP exercise 1.16 (pp. 46).
 ;; https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-11.html#%_thm_1.16
 ;; complete the fast-expt implementation using an iterative process
 ;; Note: This is hard! If you do this on your own, congratulations.
 (define (fast-expt b n)
-  1)
+  (cond ((= n 0) 1)
+        ((even? n) (square (fast-expt b (/ n 2))))
+        (else (* b (fast-expt b (- n 1))))))
 
 ;; Before answering the next two questions, read these sources:
 ;;   https://docs.racket-lang.org/guide/Lists__Iteration__and_Recursion.html#%28part._.Recursion_versus_.Iteration%29
@@ -161,25 +167,25 @@
 ;; whether the statement is true or false.
 ;;
 ;; 1. Recursive means defined in terms of itself.
-;; (define r1 #t)
+ (define r1 #t)
 ;; (define r1 #f)
 ;;
 ;; 2. Recursion in computing is analogous to induction in mathematics.
-;; (define r2 #t)
+ (define r2 #t)
 ;; (define r2 #f)
 ;;
 ;; 3. If a process can be defined using an iterative recursion,
 ;;    it's always better to do it that way.
 ;; (define r3 #t)
-;; (define r3 #f)
+ (define r3 #f)
 ;;
 ;; 4. Recursive and looping are synonyms.
-;; (define r4 #t)
+ (define r4 #t)
 ;; (define r4 #f)
 ;;
 ;; 5. Iteration and looping are synonyms.
 ;; (define r5 #t)
-;; (define r5 #f)
+ (define r5 #f)
 ;;
 ;; autograding note: this question is graded as all-or-nothing;
 ;; unless you have all of the answers correct, you will not receive credit.
@@ -190,26 +196,26 @@
 ;; whether the statement is true or false.
 ;;
 ;; 1. All recursive programs are tail-recursive.
-;; (define tr1 #t)
+ (define tr1 #t)
 ;; (define tr1 #f)
 ;;
 ;; 2. Tail recursion is a feature implemented by the Scheme interpreter (or compiler).
-;; (define tr2 #t)
+ (define tr2 #t)
 ;; (define tr2 #f)
 ;;
 ;; 3. In order to be considered a proper Scheme implementation, tail recursion must
 ;;    be provided.
 ;; (define tr3 #t)
-;; (define tr3 #f)
+ (define tr3 #f)
 ;;
 ;; 4. If a program can be optimized with tail recursion, when carried out, it is
 ;;    effectively performing a loop.
 ;; (define tr4 #t)
-;; (define tr4 #f)
+ (define tr4 #f)
 ;;
 ;; 5. In Racket, a non-tail-recursive procedure will exhaust memory at
 ;;    approximately the same depth as a C-style language would overflow the stack.
-;; (define tr5 #t)
+ (define tr5 #t)
 ;; (define tr5 #f)
 ;;
 ;; autograding note: this question is graded as all-or-nothing;
