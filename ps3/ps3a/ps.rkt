@@ -50,11 +50,14 @@
 ;; factorial procedure in terms of product
 (define (factorial n) 
   (product1 identity 1 inc n)
-  ) 
+) 
 
 ;; Approximations to pi using john wallis' formula
-(define (pi-term n) 
-  1)
+;(define (pi-term n) 
+;  (cond
+;    [(< n 1) 1]
+;    [(even? n) ]
+;)
 
 ;; e.g.,
 ;; (* (product1 pi-term 1 next 6) 4)
@@ -63,7 +66,11 @@
 
 ;; (b) Iterative product procedure
 (define (product2 term a next b)
-  1)
+   (define (iter a result)
+     (if (> a b) result (iter (next a) (* (term a) result)))
+   )
+   (iter a 1)
+)
 
 ;; SICP exercise 1.32 (a only): Implement accumulate and show how sum
 ;; and product can be defined with calls to accumulate. Specify
@@ -90,7 +97,7 @@
 ;;  (((double double) inc) 3) is 7
 ;;  (((double (double double)) inc) 5) is 21
 (define (double f) 
-  (lambda (z) z))
+  (lambda (z)  (f (f z))))
 
 ;; SICP exercise 1.42 (pp. 77): More procedures that return procedures.
 ;; e.g.,
@@ -99,7 +106,7 @@
 ;;  ((compose (compose square square) square) 2) is 256
 ;;  ((compose square (compose square square)) 2) is also 256
 (define (compose f g) 
-  (lambda (z) z))
+  (lambda (z) (f (g z))))
 
 ;; Here is an implementation of expnt, a procedure that generates
 ;; a procedure for raising its input to its argument.
@@ -116,14 +123,26 @@
 ;;      ((expnt 2) 10) is 100   (10^2)
 ;;      ((expnt 3) 10) is 1000  (10^3)
 (define (expnt n)
-  (if (= n 0) (lambda (x) 1)
-      (if (= n 1)
+  (if (= n 0) (lambda (x) 1) ; if n = 0 return 1
+      (if (= n 1) ; elseif n = 1 then return x else 
           (lambda (x) x)
-          (lambda (x) (* x ((expnt (- n 1)) x))))))
+          (lambda (x) (* x ((expnt (- n 1)) x)))
+      )
+  )
+)
 
 ;Iterative process 
 (define (expnt-iter n)
-  (lambda (n) n))
+  (cond
+    [(= n 0) 1]
+    [(= n 1) n]
+    [else
+       (lambda (n) n)
+     ]
+  )
+  
+
+)
 
 ;; the below is not graded; it won't be counted.
 ;; 
