@@ -132,14 +132,13 @@
 
 ;Iterative process  
 (define (expnt-iter n)
-;  (cond
-;    [(= n 0) (lambda(x) 1)]
-;    [(= n 1) (lambda(x) x)]
-;    [else
-;       (lambda (x) ((expnt-iter (- n 1)) (* x x))
-;     ]
-;  )
-1
+  (cond
+    [(= n 0) (lambda(x b) 1)]
+    [(= n 1) (lambda(x b) x)]
+    [else
+       (lambda (x b) ((expnt-iter (- n 1)) (* x b) b))
+    ]
+  )
 )
 
 ;; the below is not graded; it won't be counted.
