@@ -173,14 +173,31 @@
   (if (null? lst) 0
       (+ (* (car lst) (car (cdr lst)))
          (sum-of-prods (cdr (cdr lst))))
- ))
+ )) 
 
 
 ;; SICP exercise 2.20 (pp. 104), on the dotted-tail notation.
 ;; While answering this question you may write helper procedures
 (define (same-parity first . lst)
-  1
+
+ (define (parity-helper first lst result)
+   (if (null? lst) result
+      (cond 
+        [(equal? (odd? first) (odd? (car lst)) ) 
+         (append result (parity-helper first (cdr lst) (list (car lst))) ) ]
+
+        [(equal? (even? first) (even? (car lst)) ) 
+         (append result (parity-helper first (cdr lst)  (list (car lst))) ) ]
+
+        [else (parity-helper first (cdr lst) result)]
+      )
+    )
+
+     
+   )
   
+  (if (null? lst) first
+      (parity-helper first lst (list first)))
 )
 
 
