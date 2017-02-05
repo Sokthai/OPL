@@ -30,7 +30,7 @@
 (define list1
   (cons 1 
         (cons 2
-              (cons 3 4))))
+              (cons 3 nil))))
 
 (define list2 
   (cons 1
@@ -89,10 +89,13 @@
 ;; the base case must be that the sum of an empty list is 0.
 
 (define (sum-list-r lst) ;recursive
- (if (= (+ (car lst) (cdr lst)) 0) 0)
-     (sum-list-r (car lst))
-     (sum-list-r (cdr lst))
-)
+  (cond
+    [(null? lst) 0]
+    [else
+       (+ (car lst) (sum-list-r (cdr lst)))
+    ]
+))
+
 
 (define (sum-list-i lst) ;iterative
   1)
