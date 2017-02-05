@@ -81,7 +81,7 @@
 (define (accumulate combiner null-value term a next b)
      (if (> a b) null-value
       (combiner (term a)
-                (accumulate term (next a) next b)))
+          (accumulate combiner null-value term (next a) next b)))
  )
 
 (define (sum1 term a next b)
@@ -94,7 +94,12 @@
 
 ;; (b) Iterative process
 (define (accumulate1 combiner null-value term a next b)
-  1)
+   (define (iter a result)
+     (if (> a b) result
+         (iter (next a) (combiner (term a) result)))
+   )
+   (iter a null-value)
+ )
 
 ;; SICP exercise 1.41 (pp. 77): Procedures that return procedures.
 ;; e.g.
