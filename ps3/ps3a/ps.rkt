@@ -140,6 +140,8 @@
   )
 )
 
+
+;((expnt-iter 3) 10)
 ;Iterative process  
 (define (expnt-iter n)
   (lambda (x) ((expnt-helper n) x x))
