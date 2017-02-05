@@ -179,5 +179,16 @@
 ;; SICP exercise 2.20 (pp. 104), on the dotted-tail notation.
 ;; While answering this question you may write helper procedures
 (define (same-parity first . lst)
-  1)
+  1
+  
+)
 
+
+
+
+
+
+
+
+
+  
