@@ -52,12 +52,12 @@
   (product1 identity 1 inc n)
 ) 
 
-;; Approximations to pi using john wallis' formula
-;(define (pi-term n) 
-;  (cond
-;    [(< n 1) 1]
-;    [(even? n) ]
-;)
+; Approximations to pi using john wallis' formula
+(define (pi-term n) 
+ (if (even? n)
+     (/ (* 2 (+ (/ n 2) 1)) (- (* 2 (+ (/ n 2) 1)) 1))
+     (/ (* 2 (/ (+ n 1) 2)) (+ (* 2 (/ (+ n 1) 2)) 1))
+))
 
 ;; e.g.,
 ;; (* (product1 pi-term 1 next 6) 4)
@@ -124,24 +124,22 @@
 ;;      ((expnt 3) 10) is 1000  (10^3)
 (define (expnt n)
   (if (= n 0) (lambda (x) 1) ; if n = 0 return 1
-      (if (= n 1) ; elseif n = 1 then return x else 
-          (lambda (x) x)
+      (if (= n 1) (lambda (x) x) ; elseif n = 1 then return x else 
           (lambda (x) (* x ((expnt (- n 1)) x)))
       )
   )
 )
 
-;Iterative process 
+;Iterative process  
 (define (expnt-iter n)
-  (cond
-    [(= n 0) 1]
-    [(= n 1) n]
-    [else
-       (lambda (n) n)
-     ]
-  )
-  
-
+;  (cond
+;    [(= n 0) (lambda(x) 1)]
+;    [(= n 1) (lambda(x) x)]
+;    [else
+;       (lambda (x) ((expnt-iter (- n 1)) (* x x))
+;     ]
+;  )
+1
 )
 
 ;; the below is not graded; it won't be counted.
