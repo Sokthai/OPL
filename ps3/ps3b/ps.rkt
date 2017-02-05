@@ -30,16 +30,17 @@
 (define list1
   (cons 1 
         (cons 2
-              (cons 3 nil))))
+              (cons 3 4))))
 
 (define list2 
-  1)
+  (cons 1
+        (cons (cons 2 (cons 3 nil)) (cons 4 nil))))
 
-(define list3
-  1)
+(define list3  
+  (cons (cons 1 (cons 2 nil)) (cons (cons 3 (cons 4 nil)) nil)))
 
 (define list4
-  1)
+  (cons (cons 1 (cons 2 nil)) nil))
 
 ;; now, define statements to produce these lists using
 ;; the quoting function (equivalent to their printed form).
@@ -48,13 +49,13 @@
   '(1 2 3))
 
 (define listq2
-  '())
+  (quote (1 (2 3) 4)))
 
 (define listq3
-  '())
+  (quote ((1 2) (3 4))))
 
 (define listq4
-  '())
+  (quote ((1 2))))
 
 ;; create box-and-pointer diagrams for the following list5 through list8.
 ;; you may create ASCII art and submit as comments,
@@ -63,33 +64,37 @@
 ;; change each flag from #f to #t for each image you upload.
 ;; note: some of these may not be clean lists.
 
-(define list5
-  (cons 1 (list 2 3)))
-
-(define list5flag #f)
+(define list5            
+  (cons 1 (list 2 3)))   
+                         
+(define list5flag #t)
 
 (define list6
   (cons 3 (cons 4 5)))
 
-(define list6flag #f)
+(define list6flag #t)
 
 (define list7
   (list 3 (cons 4 (list 5 6))))
 
-(define list7flag #f)
+(define list7flag #t)
 
 (define list8
   (list (cons 3 4) (list 5 6)))
 
-(define list8flag #f)
+(define list8flag #t)
 
 ;; write procedures to sum up a list of numbers
 ;; first do it with recursive process, then iterative process
 ;; the base case must be that the sum of an empty list is 0.
-(define (sum-list-r lst)
-  1)
 
-(define (sum-list-i lst)
+(define (sum-list-r lst) ;recursive
+ (if (= (+ (car lst) (cdr lst)) 0) 0)
+     (sum-list-r (car lst))
+     (sum-list-r (cdr lst))
+)
+
+(define (sum-list-i lst) ;iterative
   1)
 
 

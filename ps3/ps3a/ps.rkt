@@ -79,13 +79,18 @@
 
 ;; (a) Recursive process
 (define (accumulate combiner null-value term a next b)
-  1)
+     (if (> a b) null-value
+      (combiner (term a)
+                (accumulate term (next a) next b)))
+ )
 
 (define (sum1 term a next b)
-  1)
+  (accumulate + 0 term a next b)
+)
 
 (define (product term a next b)
-  1)
+  (accumulate * 1 term a next b)
+)
 
 ;; (b) Iterative process
 (define (accumulate1 combiner null-value term a next b)
