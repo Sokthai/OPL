@@ -1,5 +1,5 @@
 #lang racket
-;;sokthai tang (opl) Feb 05 2017
+
 ;; last updated Sun Jan 29 19:06:28 2017 fredm@cs.uml.edu
 
 ;; BEFORE DOING THIS ASSIGNMENT, READ:
@@ -98,17 +98,15 @@
 
 
 (define (sum-list-i lst) ;iterative
-  (if (null? lst) 0
-    (if (null? (cdr lst)) (car lst)
+ (if (null? (cdr lst)) (car lst)
       (sum-list-i      
-       (cons
-        (+ (car lst) (car (cdr lst) ) )
-        (cdr (cdr lst))
-        )
+             (cons
+                  (+ (car lst) (car (cdr lst) ) )
+                  (cdr (cdr lst))
+              )
        )
-      )
-    )
- )
+
+  ))
 
 
 ;; Consider the following recursive procedure:
@@ -124,8 +122,8 @@
 ;; a) How many times is list-prod called when evaluating the
 ;; expression (list-prod '(1 2 3 4)) ?
 ;; (define lpa 3)
-;; (define lpa 4)
- (define lpa 5)
+ (define lpa 4)
+;; (define lpa 5)
 ;; (define lpa 6)
 
 ;; b) What is the order of growth in time for the list-prod
@@ -194,6 +192,7 @@
         [else (parity-helper first (cdr lst) result)]
       )
     )
+
      
    )
   
