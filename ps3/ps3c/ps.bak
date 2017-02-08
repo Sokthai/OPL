@@ -1,5 +1,5 @@
 #lang racket
-;;sokthai tang feb/08/2017
+
 ;; last updated Mon Feb  6 13:14:35 2017 fred_martin@uml.edu
 
 ;; +++++++++++++++ Required for auto grading ++++++++++++++++++++++++++++
@@ -28,30 +28,22 @@
 
 ;a)
 (define (double-list1 lst)
-  (define (iter lst newList)
-    (if (null? lst) newList
-        (cons (* (car lst) 2) 
-              (iter (cdr lst) newList))))
-    (iter lst nil)    
-  )
+  1)
 
 ;b)
 ;; using scale-list 
 (define (double-list2 lst)
-  (scale-list lst 2)
- )
+  1)
 
 ;c)
 ;; using map
 (define (double-list3 lst)
-  (map (lambda (x) ( * x 2)) lst))
+  1)
 
 ;; SICP exercise 2.21 (pp. 106), on square-list.
 
 (define (square-list1 items)
-  (if (null? items) nil
-      (cons (* (car items) (car items))
-            (square-list1 (cdr items)))))
+  1)
 
 (define (square-list2 items)
   1)
