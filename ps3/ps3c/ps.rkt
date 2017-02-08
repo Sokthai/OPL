@@ -67,11 +67,11 @@
 
 ;; write an iterative-process version of this.
 (define (enum-range-i a b)
-  (define (iter a newList)
-    (if (> a b) newList
-        (iter (add1 1) (cons (add1 a) newList)))
+  (define (iter b newList)
+    (if (< b a) newList
+        (iter (- b 1) (cons b newList)))
         )
-  (iter a nil)
+  (iter b nil)
 )
 
 ;; this is a list of the first 100 natural numbers
@@ -82,6 +82,7 @@
 
 ;; all odd numbers
 (define (odds lst) 
+  
   ;; some map/filter expr over
   1)
 
