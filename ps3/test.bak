@@ -144,65 +144,7 @@
 
 
 
-;----------------------ps3c and ps3d
 
-
-#lang racket
-(define (accumulate op initial sequence)
-  (if (null? sequence)
-      initial
-      (op (car sequence)
-          (accumulate op initial (cdr sequence)))))
-
-
-(define (count-leaves x)
-  (cond ((null? x) 0)
-        ((not (pair? x)) 1)
-        (else (+ (count-leaves (car x))
-             (count-leaves (cdr x))))))
-
-(define (map proc items)
-  (if (null? items) '()
-      (cons (proc (car items))
-         (map proc (cdr items)))))
-
-;(map (lambda (x y) (+ x (* 2 y))) (list 1 2 3) (list 4 5 6))
-
-(define (mapOk seq)
-(map
- (lambda (x)
-    (if (not (list? x))(list x)
-     (apply append (for/list ([e x])
-              (mapOk e)))))
- seq)
-
-  )
-
-(define (list-elements x)
-    (if
-     (not (list? x))
-     (list x)
-     (apply append
-            (for/list ([e x]) 
-              (list-elements e)))))
-
-(define (test seq)
-  (accumulate (lambda (x y) (* x x)) 0 seq))
-
-(define (testMap seq)
-  
-  (map (lambda (x)
-         (cond
-           [(list? x) (testMap  x)] 
-           [else 1 ]
-           ) 
-         )
-       seq)
-  )
-  
- 
-(define (testAccu)
-  (accumulate (lambda (v l) (cons (+ v 1) l)) '(6 7) '(1 2)))
 
 
 

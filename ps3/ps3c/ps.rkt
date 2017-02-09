@@ -136,11 +136,15 @@
 ;; note! you may recursively call this "count-leaves" fcn
 ;;  inside of it!
 ;; e.g.:
-;;  (define tree (list 1 2 (list 3 4) (list 5 (list 6 7)))) 
+  (define tree (list 1 2 (list 3 4) (list 5 (list 6 7)))) 
 ;;  (count-leaves tree) => 7
 
 (define (count-leaves tree)
-  (accumulate '<??> '<??> (map '<??> '<??>)))
+  (accumulate + 0 (map (lambda (x)
+         (if 
+           ((list? x) (count-leaves  x) 1        ) 
+         )
+       tree)))
 
 ;; SICP exercise 2.33 (pp. 119), implementing map, append, and
 ;; length.  Replace '<??> with answer
