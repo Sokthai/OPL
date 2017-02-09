@@ -38,7 +38,7 @@
 ;b)
 ;; using scale-list 
 (define (double-list2 lst)
-  (scale-list lst 2)
+  (scale-list lst 2) 
  )
 
 ;c)
@@ -82,26 +82,29 @@
 
 ;; all odd numbers
 (define (odds lst) 
-  
+  (filter odd? lst)
   ;; some map/filter expr over
-  1)
+  )
 
 ;; each number tripled
 ;; e.g. 3, 6, 9, ... , 300
 (define (triples lst)
+  (map (lambda (x) (* x 3)) lst)
   ;; maps and/or filters over
-  1)
+  )
 
 ;; sum of squares
 ;; i.e., 1 + 4 + 9 + 16 + ... + 10000
 (define (square-sum lst)
+  (accumulate + 0 (map square lst))
   ;; probably an accumulation is involved here
-  1)
+  )
 
 ;; product of each item
 ;; = 1 * 2 * 3 * ... * 100
 (define (products lst)
-  1)
+ (accumulate * 1 lst)
+  )
 
 ;; suppose we have a list of lists.
 ;; each sublist contains two numbers; e.g.:
@@ -121,8 +124,12 @@
 
 ;; write the accumulation function here
 (define (sum-of-prod-lists lst)
+  (if (null? lst) 0
+      (+ (accumulate * 1 (car lst)) 
+         (sum-of-prod-lists (rest lst)))
+  )
   ;; some accum
-  1) 
+) 
 
 ;; SICP exercise 2.35 (pp. 120), redefining count-leaves as an
 ;; accumulation.  Fill in the below procedure. Replace '<??>.
