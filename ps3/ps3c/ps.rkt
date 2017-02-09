@@ -140,11 +140,7 @@
 ;;  (count-leaves tree) => 7
 
 (define (count-leaves tree)
-  (accumulate + 0 (map (lambda (x)
-         (if 
-           ((list? x) (count-leaves  x) 1        ) 
-         )
-       tree)))
+  (accumulate + 0 (map (lambda (x) (if (list? x) (count-leaves  x) 1)) tree)))
 
 ;; SICP exercise 2.33 (pp. 119), implementing map, append, and
 ;; length.  Replace '<??> with answer
@@ -161,7 +157,7 @@
   (accumulate (lambda (x y) '<??> ) nil sequence))
 
 (define (append-from-fold seq1 seq2)
-  (accumulate cons '<??> '<??>))
+  (accumulate cons seq1 seq2))
 
 (define (length-from-fold sequence)
   (accumulate '<??> 0 sequence))
