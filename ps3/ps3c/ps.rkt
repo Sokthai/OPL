@@ -230,6 +230,9 @@
 ;  (deep-reverse '((1 2) (3 4))) => '((4 3) (2 1))
 ;  (deep-reverse '((1 2) (3 (4 5)))) => '(((5 4) 3) (2 1))
 
-(define (deep-reverse items) 
-  items)
+(define (deep-reverse items)
+   (if (list? items)
+      (my-reverse (map deep-reverse items))
+      items)     
+ )
 
