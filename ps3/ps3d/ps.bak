@@ -35,19 +35,15 @@
 ;; Answer:
 ;2a.
 (define (count-leaves tree) 
-  (tree-manip tree 0 (lambda (x) (/ x x)) +)
- 
-  )
+  1)
 
 ;2b.
-(define (sum-leaves tree)
-  (tree-manip tree 0 (lambda (x) x) +)
-  )
+(define (sum-leaves tree) 
+  1)
 
 ;2c.
 (define (triple-leaves tree) 
-  (tree-manip tree nil (lambda (x) (* x 3)) cons)
- )
+  1)
 
 ;; **********************************************************************
 ;;
@@ -57,10 +53,8 @@
 ;; uncomment line starting with "foldl" and replace with answer
 
 (define (count-leaves-with-map t)
-  ;(foldl  0 (map '<??> '<??>))
-  1
-)
-;; not the right answer :)
+;;  (foldl '<??> '<??> (map '<??> '<??>)))
+  135)  ;; not the right answer :)
 
 
 ;; **********************************************************************
@@ -89,12 +83,11 @@
 
 ;;Answer:
 ;3.b 
-(define (flip-cons lst1 lst2)
-  ((flip (lambda (a b) (list a b))) lst1 lst2)
- )
+(define (flip-cons lst1 lst2)  
+  0)
 
-(define (flip-minus x y)  ;what does flip-minus do?
-  ((negate (lambda (x) (< x 0))) y))
+(define (flip-minus x y)  
+  0)
 
 ;3.c
 (define (flip-odd x)
