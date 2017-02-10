@@ -154,13 +154,13 @@
 ;; your way to an answer.
 
 (define (map-from-fold p sequence)
-  (accumulate (lambda (x y) '<??> ) nil sequence))
+  (accumulate (lambda (x y) (cons (p x) y )) nil sequence))
 
 (define (append-from-fold seq1 seq2)
-  (accumulate cons seq1 seq2))
+  (accumulate cons seq2 seq1))
 
 (define (length-from-fold sequence)
-  (accumulate '<??> 0 sequence))
+  (accumulate (lambda (x y) (+ y 1)) 0 sequence))
 
 ;; think back to the sum-of-prod-lists problem a little while back.
 ;; now let's do it with a flat list; e.g.
@@ -174,9 +174,26 @@
 ;; you've just computed a product, or need to carry forward
 ;; a multiplicand to the next operation
 (define (sum-of-prods lst)
-  ;; just need a single accumulation if it's done right
-  1)
+  
 
+      
+ (accumulate (lambda (x y)
+               (+ x y)  
+               
+               )
+               0 lst)
+  
+  ;; just need a single accumulation if it's done right
+ )
+;-----------
+; (define (accu initial sequence)
+;  (if (null? sequence) initial
+;      (lambda (x y) (car sequence) (accu initial (cdr sequence))
+;        (+ y 1)
+;       )
+;      )
+;   )
+;-----------             
 
 
 ;; Solve SICP exercise 2.27 on deep-reverse.
@@ -200,8 +217,12 @@
 ;  (my-reverse '((1 2) (3 4))) => '((3 4) (1 2))
 
 (define (my-reverse items) 
-  items)
-
+  (if (null? items) nil
+      (append 
+            (my-reverse (cdr items))
+            (list (car items)))
+  )
+)
 ; deep reverse
 ; recursively reverse sublists
 ; e.g.
