@@ -157,7 +157,7 @@
   (accumulate (lambda (x y) '<??> ) nil sequence))
 
 (define (append-from-fold seq1 seq2)
-  (accumulate cons seq1 seq2))
+  (accumulate cons seq2 seq1))
 
 (define (length-from-fold sequence)
   (accumulate '<??> 0 sequence))
