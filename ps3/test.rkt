@@ -90,11 +90,11 @@
 
 
 
-(define (accumulate combiner null-value term a next b)
-     (if (> a b) null-value
-      (combiner (term a)
-          (accumulate combiner null-value term (next a) next b)))
- )
+;(define (accumulate combiner null-value term a next b)
+;     (if (> a b) null-value
+;      (combiner (term a)
+;          (accumulate combiner null-value term (next a) next b)))
+; )
 
 
 (define (sum1 term a next b)
@@ -147,7 +147,7 @@
 ;----------------------ps3c and ps3d
 
 
-#lang racket
+
 (define (accumulate op initial sequence)
   (if (null? sequence)
       initial
@@ -204,9 +204,28 @@
 (define (testAccu)
   (accumulate (lambda (v l) (cons (+ v 1) l)) '(6 7) '(1 2)))
 
+;--------
 
+(define (reverse lst)
+  (let loop ([lst lst] [lst-reversed '()])
+    (if (empty? lst)
+        lst-reversed
+        (loop (rest lst) (cons (first lst) lst-reversed)))))
 
-
+(define (rev lst)
+ (if (null? lst)
+     '()
+      (append (rev (cdr lst)) (car lst)))) 
 
     
+(define (reverse1 items)
+  (if (null? items)
+      '()
+      (cons (reverse1 (cdr items)) (car items))))
 
+(define (myrev l)
+  (if (null? l)
+      '()
+      (append (myrev (cdr l)) (list (car l)))
+  )
+)
