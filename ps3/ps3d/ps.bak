@@ -1,5 +1,5 @@
 #lang racket
-;ps3d
+
 ;; last modified Sat Feb 20 15:45:14 2016 fredm@cs.uml.edu
 
 ;; +++++++++++++++ Required for auto grading ++++++++++++++++++++++++++++
@@ -35,33 +35,26 @@
 ;; Answer:
 ;2a.
 (define (count-leaves tree) 
-  (tree-manip tree 0 (lambda (x) (/ x x)) +)
- 
-  )
+  1)
 
 ;2b.
-(define (sum-leaves tree)
-  (tree-manip tree 0 (lambda (x) x) +)
-  )
+(define (sum-leaves tree) 
+  1)
 
 ;2c.
 (define (triple-leaves tree) 
-  (tree-manip tree nil (lambda (x) (* x 3)) cons)
- )
+  1)
 
 ;; **********************************************************************
-;; 
+;;
 ;; 3. SICP exercise 2.35 (pp. 120), another way of implementing
 ;; count-leaves as an accumulation.  Fill in the below procedure.
 ;;
 ;; uncomment line starting with "foldl" and replace with answer
 
-
-
 (define (count-leaves-with-map t)
-  (foldl + 0 (map (lambda (x) (if (list? x) (count-leaves  x) 1)) t))  
-)
-;; not the right answer :)
+;;  (foldl '<??> '<??> (map '<??> '<??>)))
+  135)  ;; not the right answer :)
 
 
 ;; **********************************************************************
@@ -90,22 +83,18 @@
 
 ;;Answer:
 ;3.b 
-(define (flip-cons lst1 lst2)
-  
-  ((flip (lambda (a b) (list a b))) lst1 lst2)
- )
+(define (flip-cons lst1 lst2)  
+  0)
 
-(define (flip-minus x y)  ;what does flip-minus do?
-  ((flip -) x y)
- )
+(define (flip-minus x y)  
+  0)
 
 ;3.c
 (define (flip-odd x)
-  ((negate even?) x) 
- )
+  0)
 
 ;; **********************************************************************
-;; 
+;;
 ;; 5. SICP exercise 2.38 (pp. 121), introducing fold-right and fold-left.
 ;; https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-15.html#%_thm_2.38
 ;;
@@ -123,54 +112,20 @@
 
 ;; Answer the following:
 ;; Given in the question that accumulate is also known as fold-right. So,
-(define (fold-right op initial sequence)
-  (if (null? sequence)
-      initial
-      (op (car sequence)
-          (fold-right op initial (cdr sequence))))
-  )
-
-(define (fold-left op initial sequence)
-  (define (iter result rest)
-    (if (null? rest)
-        result
-        (iter (op result (car rest))
-              (cdr rest)))
-    )
-  
-  (iter initial sequence)
-  )
+(define (fold-right op initial sequence) 
+  1)
 
 ;(fold-right / 1 (list 1 2 3))
-;(/ 1 (fold-right / 1 (list 2 3)))
-;(/ 1 (/ 2 (fold-right / 1 (list 3))))
-;(/ 1 (/ 2 (/ 3 (fold-right / 1 (list nil)))))
-;(/ 1 (/ 2 (/ 3 1)))
-;(/ 1 (/ 2 3))
-;(/ 1 2/3)
-;3/2
+;write substitution steps
 
 ;(fold-left / 1 (list 1 2 3))
-;(iter 1 (list 1 2 3))
-;(iter (/ 1 1) (list 2 3))
-;(iter (/ 1 2) (list 3))
-;(iter (/ 0.5 3) (list nil))
-;1/6
+;write substitution steps
 
 ;(fold-right list nil (list 1 2 3))
-;(list 1 (fold-right list nil (list 2 3)))
-;(list 1 (list 2 (folder-right list nil (list 3))))
-;(list 1 (list 2 (list 3 (fold-right list nil (list nil)))))
-;(list 1 (list 2 (list 3 nil)))
-;'(1 (2 (3 ())))
+;write substitution steps
 
 ;(fold-left list nil (list 1 2 3))
-;(iter nil (list 1 2 3))
-;(iter (list nil 1) (list 2 3))
-;(iter (list (list nil 1) 2) (list 3))
-;(iter (list (list (list nil 1) 2) 3) (list nil))
-;(list (list (list nil 1) 2) 3) 
-;'(((() 1) 2) 3)
+;write substitution steps
 
 ;; Which property must op should satisfy to guarantee that fold-right
 ;; and fold-left will produce the same values for any sequence?
@@ -178,14 +133,14 @@
 ;; uncomment the correct answer
 ;; note: answer to this question is not autograded locally
 ;;
- (define fold-property 'commutative)
+;; (define fold-property 'commutative)
 ;; (define fold-property 'associative)
 ;; (define fold-property 'distributive)
 
 
 
 ;; **********************************************************************
-;; 
+;;
 ;; 6. Use fold-right to define the function bucket. 
 ;;
 ;; It consumes a list of numbers, and returns a list of sublists of
@@ -212,17 +167,6 @@
 ;; Fill in the below procedure
 ;; 
 (define (bucket lst)
-  (fold-right (lambda (x p)
-                (if (null?  p) (list (list x))
-                    (if (= x  (car (car p)))
-                        (if (null? (rest p))
-                            (list (append (list x) (car p)))
-                            (append (list (append (list x) (car p))) (rest p)) 
-                         )
-                        (append (list (list x))  p))
-                ))
-  
-     nil lst)
+  lst);
 
- );
 ;; ************************ END OF FILE *********************************

@@ -1,5 +1,5 @@
 #lang racket
-;;sokthai tang feb/08/2017
+;;sokthai tang feb/08/2017 ps3c
 ;; last updated Mon Feb  6 13:14:35 2017 fred_martin@uml.edu
 
 ;; +++++++++++++++ Required for auto grading ++++++++++++++++++++++++++++
@@ -173,27 +173,26 @@
 ;; step into two different things depending on whether
 ;; you've just computed a product, or need to carry forward
 ;; a multiplicand to the next operation
-(define (sum-of-prods lst)
-  
-
-      
- (accumulate (lambda (x y)
-               (+ x y)  
-               
+(define (sum-of-prods lst)  
+ (car (accumulate (lambda (x p)
+               (if (null? (car p)) (list x nil nil)
+                   (if (null? (cadr (cdr p))) 
+                       (list (* (car p) x) nil 0)
+                       (if (null? (cadr p))
+                           (list (car p) x 0)
+                           (list (+ (car p) (* x (cadr p))) nil 0))
+                    )
+                 ) 
                )
-               0 lst)
-  
-  ;; just need a single accumulation if it's done right
- )
-;-----------
-; (define (accu initial sequence)
-;  (if (null? sequence) initial
-;      (lambda (x y) (car sequence) (accu initial (cdr sequence))
-;        (+ y 1)
-;       )
-;      )
-;   )
-;-----------             
+               (list nil nil nil) lst)))
+
+  ;initialize a empty list of three elements. 
+  ;the first element used to store the first multiplication group (4*3)
+  ;the second element used to store the second multiplication group (2*1)
+  ;the last one is used to check if the first and second elements
+  ;are ready to add. 
+  ;------------------------
+            
 
 
 ;; Solve SICP exercise 2.27 on deep-reverse.
