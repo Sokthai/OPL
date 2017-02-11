@@ -174,11 +174,9 @@
 ;; you've just computed a product, or need to carry forward
 ;; a multiplicand to the next operation
 (define (sum-of-prods lst)
-  
-
       
  (accumulate (lambda (x y)
-               (+ x y)  
+               
                
                )
                0 lst)

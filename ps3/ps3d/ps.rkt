@@ -50,7 +50,7 @@
  )
 
 ;; **********************************************************************
-;;
+;; 
 ;; 3. SICP exercise 2.35 (pp. 120), another way of implementing
 ;; count-leaves as an accumulation.  Fill in the below procedure.
 ;;
@@ -90,18 +90,21 @@
 ;;Answer:
 ;3.b 
 (define (flip-cons lst1 lst2)
+  
   ((flip (lambda (a b) (list a b))) lst1 lst2)
  )
 
 (define (flip-minus x y)  ;what does flip-minus do?
-  ((negate (lambda (x) (< x 0))) y))
+  ((flip -) x y)
+ )
 
 ;3.c
 (define (flip-odd x)
-  0)
+  ((negate even?) x) 
+ )
 
 ;; **********************************************************************
-;;
+;; 
 ;; 5. SICP exercise 2.38 (pp. 121), introducing fold-right and fold-left.
 ;; https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-15.html#%_thm_2.38
 ;;
@@ -147,7 +150,7 @@
 
 
 ;; **********************************************************************
-;;
+;; 
 ;; 6. Use fold-right to define the function bucket. 
 ;;
 ;; It consumes a list of numbers, and returns a list of sublists of

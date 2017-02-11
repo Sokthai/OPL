@@ -229,3 +229,9 @@
       (append (myrev (cdr l)) (list (car l)))
   )
 )
+
+(define (deep-reverse l)
+  (if (list? l)
+      (reverse (map deep-reverse l))
+      l))
+
