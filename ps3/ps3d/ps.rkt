@@ -1,5 +1,5 @@
 #lang racket
-
+;ps3d
 ;; last modified Sat Feb 20 15:45:14 2016 fredm@cs.uml.edu
 
 ;; +++++++++++++++ Required for auto grading ++++++++++++++++++++++++++++
@@ -56,9 +56,12 @@
 ;;
 ;; uncomment line starting with "foldl" and replace with answer
 
+
+;; e.g.:
+  (define tree (list 1 2 (list 3 4) (list 5 (list 6 7)))) 
+;;  (count-leaves tree) => 7
 (define (count-leaves-with-map t)
-  ;(foldl  0 (map '<??> '<??>))
-  1
+  (foldl + 0 (map (lambda (x) (if (list? x) (count-leaves  x) 1)) tree))  
 )
 ;; not the right answer :)
 
@@ -122,20 +125,54 @@
 
 ;; Answer the following:
 ;; Given in the question that accumulate is also known as fold-right. So,
-(define (fold-right op initial sequence) 
-  1)
+(define (fold-right op initial sequence)
+  (if (null? sequence)
+      initial
+      (op (car sequence)
+          (fold-right op initial (cdr sequence))))
+  )
+
+(define (fold-left op initial sequence)
+  (define (iter result rest)
+    (if (null? rest)
+        result
+        (iter (op result (car rest))
+              (cdr rest)))
+    )
+  
+  (iter initial sequence)
+  )
 
 ;(fold-right / 1 (list 1 2 3))
-;write substitution steps
+;(/ 1 (fold-right / 1 (list 2 3)))
+;(/ 1 (/ 2 (fold-right / 1 (list 3))))
+;(/ 1 (/ 2 (/ 3 (fold-right / 1 (list nil)))))
+;(/ 1 (/ 2 (/ 3 1)))
+;(/ 1 (/ 2 3))
+;(/ 1 2/3)
+;3/2
 
 ;(fold-left / 1 (list 1 2 3))
-;write substitution steps
+;(iter 1 (list 1 2 3))
+;(iter (/ 1 1) (list 2 3))
+;(iter (/ 1 2) (list 3))
+;(iter (/ 0.5 3) (list nil))
+;1/6
 
 ;(fold-right list nil (list 1 2 3))
-;write substitution steps
+;(list 1 (fold-right list nil (list 2 3)))
+;(list 1 (list 2 (folder-right list nil (list 3))))
+;(list 1 (list 2 (list 3 (fold-right list nil (list nil)))))
+;(list 1 (list 2 (list 3 nil)))
+;'(1 (2 (3 ())))
 
 ;(fold-left list nil (list 1 2 3))
-;write substitution steps
+;(iter nil (list 1 2 3))
+;(iter (list nil 1) (list 2 3))
+;(iter (list (list nil 1) 2) (list 3))
+;(iter (list (list (list nil 1) 2) 3) (list nil))
+;(list (list (list nil 1) 2) 3) 
+;'(((() 1) 2) 3)
 
 ;; Which property must op should satisfy to guarantee that fold-right
 ;; and fold-left will produce the same values for any sequence?
@@ -143,7 +180,7 @@
 ;; uncomment the correct answer
 ;; note: answer to this question is not autograded locally
 ;;
-;; (define fold-property 'commutative)
+ (define fold-property 'commutative)
 ;; (define fold-property 'associative)
 ;; (define fold-property 'distributive)
 
@@ -177,6 +214,17 @@
 ;; Fill in the below procedure
 ;; 
 (define (bucket lst)
-  lst);
+  (fold-right (lambda (x p)
+                (if (null?  p) (list (list x))
+                    (if (= x  (car (car p)))
+                        (if (null? (rest p))
+                            (list (append (list x) (car p)))
+                            (append (list (append (list x) (car p))) (rest p)) 
+                         )
+                        (append (list (list x))  p))
+                ))
+  
+     nil lst)
 
+ );
 ;; ************************ END OF FILE *********************************

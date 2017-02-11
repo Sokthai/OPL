@@ -235,3 +235,28 @@
       (reverse (map deep-reverse l))
       l))
 
+(define (sum-of-prods lst)  
+ (car (accumulate (lambda (x p)
+               (if (null? (car p)) (list x nil nil)
+                   (if (null? (cadr (cdr p))) ; (= "n" )?
+                       (list (* (car p) x) nil 0) ; 0 = yes
+                       (if (null? (cadr p))
+                           (list (car p) x 0)
+                           (list (+ (car p) (* x (cadr p))) nil 0))
+                    )
+                 ) 
+               )
+               (list nil nil nil) lst))
+
+;   (car (accumulate (lambda (x p)
+;               (if (not (number? (car p))) (list x nil nil)
+;                   (if (not (number? (cadr (cdr p)))) ; (= "n" )?
+;                       (list (* (car p) x) nil 0) ; 0 = yes
+;                       (if (not (number? (cadr p)))
+;                           (list (car p) x 0)
+;                           (list (+ (car p) (* x (cadr p))) nil 0))
+;                    )
+;                 ) 
+;               )
+;               (list nil nil nil) lst))
+   )
