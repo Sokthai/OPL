@@ -57,11 +57,9 @@
 ;; uncomment line starting with "foldl" and replace with answer
 
 
-;; e.g.:
-  (define tree (list 1 2 (list 3 4) (list 5 (list 6 7)))) 
-;;  (count-leaves tree) => 7
+
 (define (count-leaves-with-map t)
-  (foldl + 0 (map (lambda (x) (if (list? x) (count-leaves  x) 1)) tree))  
+  (foldl + 0 (map (lambda (x) (if (list? x) (count-leaves  x) 1)) t))  
 )
 ;; not the right answer :)
 
