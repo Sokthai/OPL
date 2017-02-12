@@ -95,7 +95,7 @@
   ((flip (lambda (a b) (list a b))) lst1 lst2)
  )
 
-(define (flip-minus x y)  ;what does flip-minus do?
+(define (flip-minus x y) 
   ((flip -) x y)
  )
 
