@@ -175,7 +175,7 @@
 ;; a multiplicand to the next operation
 (define (sum-of-prods lst)  
  (car (accumulate (lambda (x p)
-               (if (null? (car p)) (list x nil nil)
+               (if (= 0 (car p)) (list x nil nil)
                    (if (null? (cadr (cdr p))) 
                        (list (* (car p) x) nil 0)
                        (if (null? (cadr p))
@@ -184,7 +184,7 @@
                     )
                  ) 
                )
-               (list nil nil nil) lst)))
+               (list 0 nil nil) lst)))
 
   ;initialize a empty list of three elements. 
   ;the first element used to store the first multiplication group (4*3)
