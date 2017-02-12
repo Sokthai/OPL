@@ -218,8 +218,8 @@
 (define (my-reverse items) 
   (if (null? items) nil
       (append 
-            (my-reverse (cdr items))
-            (list (car items)))
+            (my-reverse (cdr items)) 
+            (list (car items))) ;construct each item to a list and append them
   )
 )
 ; deep reverse
@@ -231,7 +231,7 @@
 
 (define (deep-reverse items)
    (if (list? items)
-      (my-reverse (map deep-reverse items))
+      (my-reverse (map deep-reverse items)) ;reverse each elements of subtree
       items)     
  )
 
