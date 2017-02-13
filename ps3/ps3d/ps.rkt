@@ -93,6 +93,7 @@
 (define (flip-cons lst1 lst2)
   
   ((flip (lambda (a b) (list a b))) lst1 lst2)
+  
  )
 
 (define (flip-minus x y) 
@@ -178,9 +179,9 @@
 ;; uncomment the correct answer
 ;; note: answer to this question is not autograded locally
 ;;
- (define fold-property 'commutative)
-;; (define fold-property 'associative)
-;; (define fold-property 'distributive)
+;; (define fold-property 'commutative)
+;;(define fold-property 'associative)
+ (define fold-property 'distributive)
 
 
 
