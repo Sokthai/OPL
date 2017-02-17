@@ -28,11 +28,8 @@
 ;; Include as ASCII drawing in this file, or upload image named
 ;; exercise3.1-env.png (or .jpg)
 
-(define (make-accumulator balance)
-  (lambda (amount)
-      (begin (set! balance (+ balance amount)) balance) 
-   )
-  )
+(define (make-accumulator)
+  'foo)
 
 (define exercise-3.1-env #f)
 ;; change to #t after you include diagram
