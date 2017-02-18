@@ -35,42 +35,16 @@
 	(b (- x y)))
     (+ (square a) (square b))))
 
-(define (proc1Lambda x y)
-  ((lambda (a b)
-   (+ (square a) (square b)))
-   (+ x y) (- x y) ; a = (x + y), b = (x - y)
-  ) 
-)
-
-
-
 (define (proc2 n)
   (let ((a (+ n 1))
 	(b (+ n 2))
 	(c (+ n 3)))
     (* a b c)))
 
-(define (proc2Lambda n)
-  ((lambda (a b c)
-     (* a b c))
-   (+ n 1) (+ n 2) (+ n 3))
-  )
-
-
 (define (proc3 n)
   (let ((a (+ n 1)))
     (let ((b (* a 2)))
       (+ a b))))
-
-(define (proc3Lambda n)
-  ((lambda (a)
-     ((lambda (b)
-        (+ a b))
-      (* a 2)))
-   (+ n 1))
-  )
-
-
 
 ;; in the following procedures, rewrite to be equivalent
 ;; by transforming the lambda expressions into let's
@@ -79,29 +53,9 @@
   ((lambda (a b) (* a b))
    (* 3 x) (/ y 4)))
 
-
-(define (proc4Let x y)
-  (let
-      ([a (* 3 x)]
-       [b (/ y 4)])
-       (* a b)
-  )
-)
-
-
 (define (proc5 n)
   ((lambda (y z) (* (- y 1) (- z 1)))
    (* n 2) (- n 3)))
-
-(define (proc5Let n)
-  (let
-      ([y (* n 2)]
-       [z (- n 3)])
-    (* (- y 1) (- z 1))
-  )
-  
-)
-
 
 (define (proc6 a b c)
   ((lambda (n)
@@ -109,16 +63,6 @@
         (* n m))
       (+ a n)))
    (+ b c)))
-
-
-
-(define (proc6Let a b c)
-  (let 
-       ([n (+ b c)])
-       (let
-           ([m (+ a n)])
-           (* n m)))
-  )
 
 ;; There is also a version of let, named "let*", where you write a
 ;; series of let's, but this series is transformed into a nested
@@ -140,14 +84,3 @@
         (* n m))
       (+ a n)))
    (+ b c)))
-
-(define (proc6-startLet a b c)
-  (let*
-      ([n (+ b c)]
-       [m (+ a n)]) ;nested let 
-    (* n m))
-                 
-  )
-
-
-
