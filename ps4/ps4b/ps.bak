@@ -31,12 +31,10 @@
 ;; 1.1.5.) 
 
 (define (my-car z)
-  (z (lambda (x y) x ))
- )
+  1)
 
 (define (my-cdr z)
-  (z (lambda (x y) y))
- )
+  1)
 
 
 ;; now, make an environment diagram to show what is created when
