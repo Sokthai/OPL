@@ -51,7 +51,7 @@
 ;; submit your drawing as a JPG image or as
 ;; commented-out ASCII art in this file
 ;; change the following symbol from #f to #t when it's done
-(define env-diagram #t)
+(define env-diagram #f)
 
 
 ;; some tests

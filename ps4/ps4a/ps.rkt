@@ -34,7 +34,7 @@
    )
   )
 
-(define exercise-3.1-env #f)
+(define exercise-3.1-env #t)
 ;; change to #t after you include diagram
 
 ;; Exercise 3.2
@@ -58,7 +58,7 @@
     )
   )
 
-(define exercise-3.2-env #f)
+(define exercise-3.2-env #t)
 ;; change to #t after you include diagram
 
 
