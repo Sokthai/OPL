@@ -215,10 +215,10 @@
   (fold-right (lambda (x p)
                 (if (null?  p) (list (list x))
                     (if (= x  (car (car p)))
-                        (if (null? (rest p))
-                            (list (append (list x) (car p)))
+                        ;(if (null? (rest p))
+                         ;   (list (append (list x) (car p)))
                             (append (list (append (list x) (car p))) (rest p)) 
-                         )
+                         ;)
                         (append (list (list x))  p))
                 ))
   
