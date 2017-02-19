@@ -30,12 +30,14 @@
 ;; by transforming the let expressions into lambda's
 
 
-(define (proc1-old x y)
-  (let ((a (+ x y))
-	(b (- x y)))
-    (+ (square a) (square b))))
 
-(define (proc1 x y)
+
+;(define (proc1 x y)
+;  (let ((a (+ x y))
+;	(b (- x y)))
+;    (+ (square a) (square b))))
+
+(define (proc1 x y) ;using lambda
   ((lambda (a b)
    (+ (square a) (square b)))
    (+ x y) (- x y) ; a = (x + y), b = (x - y)
@@ -44,25 +46,25 @@
 
 
 
-(define (proc2-old n)
-  (let ((a (+ n 1))
-	(b (+ n 2))
-	(c (+ n 3)))
-    (* a b c)))
+;(define (proc2 n)
+;  (let ((a (+ n 1))
+;	(b (+ n 2))
+;	(c (+ n 3)))
+;    (* a b c)))
 
-(define (proc2 n)
+(define (proc2 n) ;using lambda
   ((lambda (a b c)
      (* a b c))
    (+ n 1) (+ n 2) (+ n 3))
   )
 
 
-(define (proc3-old n)
-  (let ((a (+ n 1)))
-    (let ((b (* a 2)))
-      (+ a b))))
+;(define (proc3 n)
+;  (let ((a (+ n 1)))
+;    (let ((b (* a 2)))
+;      (+ a b))))
 
-(define (proc3 n)
+(define (proc3 n) ;using lambda
   ((lambda (a)
      ((lambda (b)
         (+ a b))
@@ -75,12 +77,12 @@
 ;; in the following procedures, rewrite to be equivalent
 ;; by transforming the lambda expressions into let's
 
-(define (proc4-old x y)
-  ((lambda (a b) (* a b))
-   (* 3 x) (/ y 4)))
+;(define (proc4 x y)
+;  ((lambda (a b) (* a b))
+;   (* 3 x) (/ y 4)))
 
 
-(define (proc4 x y)
+(define (proc4 x y) ;using let
   (let
       ([a (* 3 x)]
        [b (/ y 4)])
@@ -89,11 +91,11 @@
 )
 
 
-(define (proc5-old n)
-  ((lambda (y z) (* (- y 1) (- z 1)))
-   (* n 2) (- n 3)))
+;(define (proc5 n)
+;  ((lambda (y z) (* (- y 1) (- z 1)))
+;   (* n 2) (- n 3)))
 
-(define (proc5 n)
+(define (proc5 n) ;using let
   (let
       ([y (* n 2)]
        [z (- n 3)])
@@ -103,16 +105,15 @@
 )
 
 
-(define (proc6-old a b c)
-  ((lambda (n)
-     ((lambda (m)
-        (* n m))
-      (+ a n)))
-   (+ b c)))
+;(define (proc6 a b c)
+;  ((lambda (n)
+;     ((lambda (m)
+;        (* n m))
+;      (+ a n)))
+;   (+ b c)))
 
 
-
-(define (proc6 a b c)
+(define (proc6 a b c) ;using let
   (let 
        ([n (+ b c)])
        (let
@@ -134,14 +135,16 @@
 ;;
 ;; Re-write this procedure using let*.
 
-(define (proc6-star-old a b c)
-  ((lambda (n)
-     ((lambda (m)
-        (* n m))
-      (+ a n)))
-   (+ b c)))
 
-(define (proc6-star a b c)
+
+;(define (proc6-star a b c)
+;  ((lambda (n)
+;     ((lambda (m)
+;        (* n m))
+;      (+ a n)))
+;   (+ b c)))
+
+(define (proc6-star a b c) ;using let*
   (let*
       ([n (+ b c)]
        [m (+ a n)]) ;nested let 
