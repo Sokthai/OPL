@@ -72,7 +72,7 @@
   (define (deposit amount)
     (set! balance (+ balance amount))
     balance)
-  (define (dispatch passwdVerify m)
+  (define (dispatch m passwdVerify)
     (cond
       [(not (eq? passwd passwdVerify)) (error "Incorrect password")]
       [(eq? m 'withdraw) withdraw]
@@ -99,7 +99,7 @@
     (define (deposit amount)
       (set! balance (+ balance amount))
       balance)
-    (define (dispatch passwdVerify m)
+    (define (dispatch m passwdVerify)
       (cond
         [(>= attempt 7) (error (call-the-cops))]
         [(not (eq? passwd passwdVerify))
