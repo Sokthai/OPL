@@ -81,6 +81,18 @@
 
   dispatch   
   )
+
+;;testing as the following from pdf book (page 304), result as expected
+;;(define acc (make-account 100 'secret-password))
+;;((acc 'secret-password 'withdraw) 40)
+;;60
+;;((acc 'some-other-password 'deposit) 50)
+;;"Incorrect password"
+
+
+
+
+
                                        
 ;; Exercise 3.4
 ;; https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-20.html#%_thm_3.4
@@ -91,7 +103,7 @@
 ;;   once an account is locked, you should not be able to withdraw funds
 ;;   from it, even if then using the correct password!
 (define (make-account-secure balance passwd)
-  (let ([attempt 0])
+  (let ([attempt 1])
     (define (withdraw amount)
       (if (>= balance amount)
           (begin (set! balance (- balance amount)) balance)
@@ -101,11 +113,12 @@
       balance)
     (define (dispatch m passwdVerify)
       (cond
-        [(>= attempt 7) (error (call-the-cops))]
+        [(and (>= attempt 7) (not (eq? passwd passwdVerify)))
+          (error (call-the-cops))]
         [(not (eq? passwd passwdVerify))
          (begin (set! attempt (+ attempt 1)) (error "Incorrect password"))]
-        [(eq? m 'withdraw) withdraw]
-        [(eq? m 'deposit) deposit]
+        [(eq? m 'withdraw) (begin (set! attempt 1) withdraw)]
+        [(eq? m 'deposit) (begin (set! attempt 1) deposit)]
         [else (error "Unknown request: MAKE-ACCOUNT" m)]))
     
   dispatch   )
@@ -114,4 +127,19 @@
 ; don't modify this
 (define (call-the-cops)
   "your account has been locked. please call customer service.")
-  
+
+
+
+;;testing as the following 
+;;(define acc (make-account-secure 100 'secret-password))
+;;((acc 'secret-password 'withdraw) 40)
+;;60
+;;((acc 'some-other-password 'deposit) 50)
+;;"Incorrect password"
+;; after 7  "your account has been locked. please call customer service.")
+
+
+
+
+
+
