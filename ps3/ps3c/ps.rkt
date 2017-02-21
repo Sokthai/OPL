@@ -175,7 +175,7 @@ ar #lang racket
 ;; a multiplicand to the next operation
 (define (sum-of-prods lst)  
  (car (accumulate (lambda (x p)
-               (if (= 0 (car p)) (list x nil nil)
+               (if (null? (car p)) (list x nil nil)
                    (if (null? (cadr (cdr p))) 
                        (list (* (car p) x) nil 0)
                        (if (null? (cadr p))
@@ -184,7 +184,7 @@ ar #lang racket
                     )
                  ) 
                )
-               (list 0 nil nil) lst)))
+               (list nil nil nil) lst)))
 
   ;initialize a empty list of three elements. 
   ;the first element used to store the first multiplication group (4*3)
@@ -218,8 +218,8 @@ ar #lang racket
 (define (my-reverse items) 
   (if (null? items) nil
       (append 
-            (my-reverse (cdr items)) 
-            (list (car items))) ;construct each item to a list and append them
+            (my-reverse (cdr items))
+            (list (car items)))
   )
 )
 ; deep reverse
@@ -231,7 +231,7 @@ ar #lang racket
 
 (define (deep-reverse items)
    (if (list? items)
-      (my-reverse (map deep-reverse items)) ;reverse each elements of subtree
+      (my-reverse (map deep-reverse items))
       items)     
  )
 
