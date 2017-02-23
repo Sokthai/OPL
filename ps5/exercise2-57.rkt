@@ -3,9 +3,6 @@
 ;; Exercise 2.57 on pp. 151.
 ;; Extend the differentiator to handle sums and products of length 2+.
 
-;; Don't remove the equation1 definition.
-(define equation1 '(* x y (+ x 3)))  ; i.e., ((x^2)y + 3xy) dx
-
 ;; You will need to change the following procedures:
 ;; make-sum
 ;; augend
@@ -96,3 +93,14 @@
 	 (error "unknown expression type -- DERIV" exp))))
 
 
+;; Don't remove the equation definitions.
+(define equation1
+  (make-product 'x
+                'y
+                (make-sum 'x 3))) ; i.e., ((x^2)y + 3xy) dx
+
+(define equation2
+  (make-sum (make-product 5 (make-exponentiation 'x 3))
+            (make-product 7 (make-exponentiation 'x 2))
+            (make-product -3 'x)
+            12)) ;; 5x^3 + 7x^2 - 3x + 12

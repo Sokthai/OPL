@@ -41,7 +41,7 @@ sub scm_equal_sign {
     return $result eq "#t";
 }
 
-use Test::Simple tests => 52;
+use Test::Simple tests => 57;
 
 ok(scm_equal(scm_eval("exercise2-58.rkt", "(make-sum 'x 3)"), "'(x + 3)"), "infix make-sum constructor");
 ok(scm_equal(scm_eval("exercise2-58.rkt", "(sum? (make-sum 'x 3))"), "#t"), "infix sum predicate");
@@ -89,6 +89,12 @@ ok(scm_equal(scm_eval("exercise2-57.rkt", "(multiplicand '(* x y z))"), "'(* y z
 
 ok(scm_equal(scm_eval("exercise2-57.rkt", "(multiplicand equation1)"), "'(* y (+ x 3))"), "(multiplicand equation1) is correct");
 ok(scm_equal(scm_eval("exercise2-57.rkt", "(deriv equation1 'x)"), "'(+ (* x y) (* y (+ x 3)))"), "(deriv equation1 'x) is correct");
+ok(scm_equal(scm_eval("exercise2-57.rkt", "(deriv equation1 'x)"), "'(+ (* x y) (* y (+ x 3)))"), "(deriv equation1 'x) is correct");
+ok(scm_equal(scm_eval("exercise2-57.rkt", "(deriv equation1 'x)"), "'(+ (* x y) (* y (+ x 3)))"), "(deriv equation1 'x) is correct");
+
+ok(scm_equal(scm_eval("exercise2-57.rkt", "(deriv equation2 'x)"), "'(+ (* 5 (* 3 (** x 2))) (+ (* 7 (* 2 x)) -3))"), "(deriv equation2 'x) is correct");
+ok(scm_equal(scm_eval("exercise2-57.rkt", "(deriv equation2 'x)"), "'(+ (* 5 (* 3 (** x 2))) (+ (* 7 (* 2 x)) -3))"), "(deriv equation2 'x) is correct");
+ok(scm_equal(scm_eval("exercise2-57.rkt", "(deriv equation2 'x)"), "'(+ (* 5 (* 3 (** x 2))) (+ (* 7 (* 2 x)) -3))"), "(deriv equation2 'x) is correct");
 
 ok(scm_equal(scm_eval("exercises.rkt", "(accumulate-n + 0 (list (list 1 2 3) (list 4 5 6) (list 7 8 9) (list 10 11 12)))"), "'(22 26 30)"), "(accumulate-n + 0 (list (list 1 2 3) (list 4 5 6) (list 7 8 9) (list 10 11 12)))");
 ok(scm_equal(scm_eval("exercises.rkt", "p2_1"), '#t'), "p2_1");

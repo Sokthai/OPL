@@ -91,8 +91,8 @@
 ;;Answer:
 ;3.b 
 (define (flip-cons lst1 lst2)
-  
-  ((flip (lambda (a b) (list a b))) lst1 lst2)
+  ((flip cons) lst1 lst2)
+  ;((flip (lambda (a b) (list a b))) lst1 lst2)
  )
 
 (define (flip-minus x y)  ;what does flip-minus do?
