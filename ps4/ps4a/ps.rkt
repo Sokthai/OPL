@@ -113,11 +113,12 @@
       balance)
     (define (dispatch passwdVerify m)
       (cond
-        [(and (= attempt 2) (not (eq? passwd passwdVerify)))
-      (begin (set! attempt (+ attempt 1)) (lambda (x) (call-the-cops)))]
-        [(>= attempt 3) (error (call-the-cops))]
+        [(> attempt 6) (lambda (x) (call-the-cops))]
+        [(and (= attempt 6) (not (eq? passwd passwdVerify)))
+         (begin (set! attempt (+ attempt 1))(lambda (x) (call-the-cops)))]
         [(not (eq? passwd passwdVerify))
-         (begin (set! attempt (+ attempt 1)) (error "Incorrect password"))]
+         (begin (set! attempt (+ attempt 1)) 
+                (lambda (x) "Incorrect password"))]
         [(eq? m 'withdraw) (begin (set! attempt 0) withdraw)]
         [(eq? m 'deposit) (begin (set! attempt 0) deposit)]
         [else (error "Unknown request: MAKE-ACCOUNT" m)]))
