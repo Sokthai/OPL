@@ -61,7 +61,7 @@
 (define (count-leaves-with-map t)
   (foldl + 0 (map (lambda (x) (if (list? x) (count-leaves  x) 1)) t))  
 )
-;; not the right answer :)
+
 
 
 ;; **********************************************************************

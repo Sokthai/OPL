@@ -176,7 +176,7 @@
 (define (sum-of-prods lst)  
  (car (accumulate (lambda (x p)
                (if (null? (car p)) (list x nil nil)
-                   (if (null? (cadr (cdr p))) 
+                   (if (null? (caddr p)) 
                        (list (* (car p) x) nil 0)
                        (if (null? (cadr p))
                            (list (car p) x 0)

@@ -29,16 +29,8 @@
 ;;
 ;; the code for the length 1 case is quite similar to the original
 ;; implementation; you should bring it in and modify it
-
-(define (make-sum a1 . augend) ;augend is the list (after dot)
-  (cond
-    [(or (null? augend) (eq? (car augend) 0)) a1] ;if list is null, length is 1 and value is 0
-    [(same-variable? a1 augend) (list '+ a1 augend)]
-    [(and (number? a1) (number? augend)) (+ a1 augend)]
-    [(variable? a1) (list '+ a1 augend)]
-    [else "invalid"]
-         )
-  )
+(define (make-sum a1 . augend)
+  'z)
 
 (define (sum? x)
   (and (pair? x) (eq? (car x) '+)))
@@ -49,9 +41,7 @@
 ;; you will need to test for the length of the augend, and do
 ;; something different the length=1 case and length is 2+ case. 
 (define (augend s)
- 'a
-  ;if length is 1 return it, otherwise 
-  )
+  'z)
 
 ;; like make-sum, this should work with 1, 2, or 3+ args
 ;; and perform reductions on 1 and 2 arg cases

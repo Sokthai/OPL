@@ -1,5 +1,5 @@
 #lang racket
-;;sokthai tang (opl) Feb 05 2017
+;;sokthai tang (opl) Feb 05 2017 ps3b
 ;; last updated Sun Jan 29 19:06:28 2017 fredm@cs.uml.edu
 
 ;; BEFORE DOING THIS ASSIGNMENT, READ:
