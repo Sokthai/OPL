@@ -30,23 +30,25 @@
 ;; the code for the length 1 case is quite similar to the original
 ;; implementation; you should bring it in and modify it
 
+(define (lengths elements)
+    (if (null? elements) 0
+        (+ 1 (lengths (cdr elements))))) 
+
 (define (make-sum a1 . augend) ;augend is the list (after dot)
 
-  (define (length elements)
-    (if (null? elements) 0
-        (+ 1 (length (cdr elements)))))  
+   
 
   (cond
     [(null? augend) a1] ;if null, return a1
-    [(= (length augend) 1) (cond ;length 1 case
+    [(= (lengths augend) 1) (cond ;length 1 case
                             [(=number? a1 0) (car augend)]
                             [(=number? augend 0) a1]
                             [(and (number? a1) (number? (car augend))) (+ a1 (car augend))]
                             [else (list '+ a1 (car augend))])]
      
-    [(> (length augend) 1) (cond ;length 1 case
+    [(> (lengths augend) 1) (cond ;length 1 case
                             [(=number? a1 0) (append (list '+) (addNumber augend))]
-                            [(and (= (length (addNumber augend)) 1) (number? a1) (number? (car (addNumber augend)))) 
+                            [(and (equal? (lengths (addNumber augend)) 1) (number? a1) (number? (car (addNumber augend)))) 
                                         (+ a1 (car (addNumber augend)))]
                             [(and (> (length (addNumber augend)) 1) (number? a1) (number? (car (addNumber augend)))) 
                                         (append (list (+ a1 (car (addNumber augend)))) (cdr (addNumber augend)))]
@@ -100,10 +102,9 @@
 ;; like make-sum, this should work with 1, 2, or 3+ args
 ;; and perform reductions on 1 and 2 arg cases
 (define (make-product m1 . multiplicandxx)
-(cond
-  [(null? multiplicandxx) m1]
-  [else "ok"]
-  ))
+;(if (null? multiplicandxx) m1 "ok")
+  2
+ )
 
 (define (product? x) (and (pair? x) (eq? (car x) '*)))
 
