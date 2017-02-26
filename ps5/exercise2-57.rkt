@@ -69,6 +69,7 @@
     [(null? multiplicand) m1]
     [(= (length multiplicand) 1)
      (cond
+      [(or (=number? (car multiplicand) 0) (=number? m1 0)) 0] 
        [(=number? (car multiplicand) 1) m1]
        [(=number? m1 1) (car multiplicand)]
        [(and (number? m1) (number? (car multiplicand))) (* m1 (car multiplicand))]
