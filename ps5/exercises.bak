@@ -55,32 +55,31 @@
 
 ;(list 'a 'b 'c)
 (define p2_1 #t)
-;It would be print out the '(a b c) since the quotation make ' is used clearly as the literal value. 
+;It would be print out the '(a b c) since the quation make ' is used clearly as the literal value. 
 
 
 ;(list (list 'george))
 (define p2_2 #t)
-;it would print a list of literal word 'george', because the 'george' is a symbol due to quotation
+;it would print a list of list of literal word 'geoorge', because the 'george' is the literal word sublist of a list
 
 ;(cdr '((x1 x2) (y1 y2)))
 (define p2_3 #t)
-;it will print a sublist start from the second item, in this case is '((y1 y2)) since its items is another list. 
-;the quotation will treat each items in list as symbol 
-
+;it will print a list of list of '((y1 y2)), since there are only 2 items in it. 
+;every sublist in the list will be treated as an item that delimited with
+;a blank and parenthesis.
 
 ;(cadr '((x1 x2) (y1 y2)))
 (define p2_4 #t)
-;the cadr selector extract the second item of the list. this will produce the list of '(y1 y2) since
-;its second item is also a list
+;it will print out a list of '(y1 y2), the cadr selector extract the second item of the list 
 
 
 
 
 ;(pair? (car '(a short list)))
 (define p2_5 #t)
-;it will produce a #f (false) result. the car selector extract the symbol 'a which is
-;obviously not the pair. the quotation before the parenthesis will literally treat every word in
-;the parenthesis as a string of character rather than variables
+;it will produce a #f (false) result. the car selector extract a literal letter 'a which is
+;obviously not the pair. the quotation before the parenthesis will treat every varibles in
+;the parenthesis as a literal word rather than is actual value
 
 
 
@@ -96,7 +95,7 @@
 ;(memq 'red '(red shoes blue socks))
 (define p2_7 #t)
 ;it will return the original list since the first item in the list is the keyword
-;the memq are searching for. it return the the every items after the match keyword including the
+;the memq are searching for. it return the the every items after the match keyword inlude the
 ;keyword itself '(red shoes blue socks)
 
 ;; **********************************************************************
@@ -105,45 +104,19 @@
 ; Fill in the below procedure
 
 (define (my-equal? list1 list2)
+
   (cond
-    [(and (null? list1) (null? list2)) #t]
-    [(or (null? list1) (null? list2)) #f]
-    [
-      (cond
-          [(and (list? (car list1)) (list? (car list2)))
-           (if (not (eq? (caar list1) (caar list2))) #f
-               (my-equal? (newLst list1) (newLst list2)))]
-                                                                   
-          [(and (not (list? (car list1))) (not (list? (car list2))))
-              (if (not (eq? (car list1) (car list2))) #f
-               (my-equal? (cdr list1) (cdr list2)))]
-           
-           
-          [else (my-equal? (cdr list1) (cdr list2))]
-      )
-     ]
-    
-    [(not (eq? (car list1) (car list2))) #f]
-    [else (my-equal? (cdr list1) (cdr list2))]
-    )
+        ((and (null? list1) (null? list2)) #t)
+        ((or (null? list1) (null? list2)) #f)
+        ((not (eq? (car list1) (car list2))) #f)
+        (else (my-equal? (cdr list1) (cdr list2)))
+        ))
 
-  )
-
-(define (newLst lst)
-  (if (= (length (car lst)) 1) (cdr lst)
-             (append (list (cdr (car lst))) (cdr lst)))
-
-)
-
-;(print (my-equal? '() '())) t 
-;(print (my-equal? '(this is a list) '(this is a list))) t
-;(print (my-equal? '(this is a list) '(this (is a) list))) #f
-;(print (my-equal? '(this (is a) list) '(this (is a) list))) t
-;(print (my-equal? '(this is a list) '())) f
-
-
-
-;; **********************************************************************
+;(print (my-equal? '() '()))
+;(print (my-equal? '(this is a list) '(this is a list)))
+;(print (my-equal? '(this is a list) '(this (is a) list)))
+;(print (my-equal? '(this (is a) list) '(this (is a) list)))
+;(print (my-equal? '(this is a list) ()))
 
 ;;4. Exercise 2.55 on pp. 145, pushing the limits of quote.
 ;
@@ -156,14 +129,8 @@
 ; Write the answer and explanation for the below procedure call and replace
 ; #f with #t.
 
-(define p4 #t)
-;because the quoation ''abracadabra is return a pair of list which
-;the first item is the quote and the second item is the string of character.
-;if she types (cdr ''abracadabra), she would have gotten the "abracadabra" word
+(define p4 #f)
 
 ;; **********************************************************************
-
-
-
 
 
