@@ -46,7 +46,7 @@
     [else (append (list '+ a1) augend)]
    )
  )
-    
+     
 
 (define (sum? x)
   (and (pair? x) (eq? (car x) '+)))
