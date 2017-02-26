@@ -1,5 +1,5 @@
 #lang racket
-; Feb/26/2017
+
 ;; Exercise 2.57 on pp. 151.
 ;; Extend the differentiator to handle sums and products of length 2+.
 
@@ -57,10 +57,9 @@
 ;; you will need to test for the length of the augend, and do
 ;; something different the length=1 case and length is 2+ case. 
 (define (augend s)
-(if (> (length s) 2)
-  (if (null? (cdddr s)) (caddr s)  (append (list '+) (cddr s))) 
-   (list)
-  )  
+ (if (null? (cdddr s)) (caddr s)
+     (cons '+ (cddr s)))
+  ;if length is 1 return it, otherwise 
   )
 
 ; like make-sum, this should work with 1, 2, or 3+ args
@@ -70,11 +69,6 @@
     [(null? multiplicand) m1]
     [(= (length multiplicand) 1)
      (cond
-<<<<<<< HEAD
-      [(or (=number? (car multiplicand) 0) (=number? m1 0)) 0] 
-=======
-       [(or (=number? (car multiplicand) 0) (=number? m1 0)) 0]
->>>>>>> 158dbde27f1335cf19321afc85586e40721ef3fd
        [(=number? (car multiplicand) 1) m1]
        [(=number? m1 1) (car multiplicand)]
        [(and (number? m1) (number? (car multiplicand))) (* m1 (car multiplicand))]
@@ -96,11 +90,10 @@
 
 ;; may also construct a product expression
 (define (multiplicand p)
-(if (> (length p) 2)
-  (if (null? (cdddr p)) (caddr p) (append (list '*) (cddr p))) 
-  (list)
+  (if (null? (cdddr p)) (caddr p)
+     (cons '* (cddr p)))
   )
-)
+
 
 ;;; differentiation for exponents 
 (define (make-exponentiation x y)
