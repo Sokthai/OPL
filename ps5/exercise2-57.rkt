@@ -30,30 +30,33 @@
 ;; the code for the length 1 case is quite similar to the original
 ;; implementation; you should bring it in and modify it
 
-(define (make-sum a1 . augend) ;augend is the list (after dot)
 
   (define (length elements)
     (if (null? elements) 0
         (+ 1 (length (cdr elements)))))  
 
-  (cond
-    [(null? augend) a1] ;if null, return a1
-    [(= (length augend) 1) (cond ;length 1 case
-                            [(=number? a1 0) (car augend)]
-                            [(=number? augend 0) a1]
-                            [(and (number? a1) (number? (car augend))) (+ a1 (car augend))]
-                            [else (list '+ a1 (car augend))])]
-     
-    [(> (length augend) 1) (cond ;length 1 case
-                            [(=number? a1 0) (append (list '+) (addNumber augend))]
-                            [(and (= (length (addNumber augend)) 1) (number? a1) (number? (car (addNumber augend)))) 
-                                        (+ a1 (car (addNumber augend)))]
-                            [(and (> (length (addNumber augend)) 1) (number? a1) (number? (car (addNumber augend)))) 
-                                        (append (list (+ a1 (car (addNumber augend)))) (cdr (addNumber augend)))]
-                            [else (append (list '+ a1)  (addNumber augend))]
-                            )
-                           ] 
-  )
+(define (make-sum a1 . augend) ;augend is the list (after dot)
+
+;
+;  (cond
+;    [(null? augend) a1] ;if null, return a1
+;    [(= (length augend) 1) (cond ;length 1 case
+;                            [(=number? a1 0) (car augend)]
+;                            [(=number? augend 0) a1]
+;                            [(and (number? a1) (number? (car augend))) (+ a1 (car augend))]
+;                            [else (list '+ a1 (car augend))])]
+;     
+;    [(> (length augend) 1) (cond ;length 1 case
+;                            [(=number? a1 0) (append (list '+) (addNumber augend))]
+;                            [(and (= (length (addNumber augend)) 1) (number? a1) (number? (car (addNumber augend)))) 
+;                                        (+ a1 (car (addNumber augend)))]
+;                            [(and (> (length (addNumber augend)) 1) (number? a1) (number? (car (addNumber augend)))) 
+;                                        (append (list (+ a1 (car (addNumber augend)))) (cdr (addNumber augend)))]
+;                            [else (append (list '+ a1)  (addNumber augend))]
+;                            )
+;                           ] 
+;  )
+2
   )
     
   
@@ -61,7 +64,7 @@
   (if (= (length lst) 1) (car lst)
       (cond
         [(not (pair? (car lst))) (cond ;set up a list 
-                                   [(and (number? (car lst)) (number? (cadr lst))) (addNumber (append (list (list (+ (car lst) (cadr lst)))) (rest (cdr lst))))] ;both #
+                                   [(and (number? (car lst)) (number? (cadr lst))) (addNumber (append (list (list (* (car lst) (cadr lst)))) (rest (cdr lst))))] ;both #
                                    [(and (variable? (car lst)) (variable? (cadr lst))) (addNumber (append (list (list (car lst) (cadr lst))) (rest (cdr lst))))] ;both symbol
                                    [(and (number? (car lst)) (variable? (cadr lst))) (addNumber (append (list (list (car lst) (cadr lst))) (rest (cdr lst))))] ; first #, second symbol
                                    [(and (variable? (car lst)) (number? (cadr lst))) (addNumber (append (list (list (cadr lst) (car lst))) (rest (cdr lst))))])] ;first symbol, second #
@@ -69,7 +72,7 @@
         [(variable? (cadr lst)) (addNumber (append (list (append (car lst) (list (cadr lst)))) (rest (cdr lst))))] ;if second is symbol
 
         [(number? (cadr lst)) (if (number? (fcar lst)) 
-                                (addNumber (append (list (append (list (+ (fcar lst) (cadr lst))) (fcdr lst) )) (rest (cdr lst))))
+                                (addNumber (append (list (append (list (* (fcar lst) (cadr lst))) (fcdr lst) )) (rest (cdr lst))))
                                 ;lst
                                 (addNumber (append (list (append (list (cadr lst)) (car lst) )) (rest (cdr lst))))   
                                 )] ;both #
@@ -92,18 +95,49 @@
 ;; you're allowed to have augend also be a constructor
 ;; you will need to test for the length of the augend, and do
 ;; something different the length=1 case and length is 2+ case. 
-(define (augend s)
- 'a
-  ;if length is 1 return it, otherwise 
+(define (augend lst)
+ (if (= (length lst) 1) (car lst)
+      (cond
+        [(not (pair? (car lst))) (cond ;set up a list 
+                                   [(and (number? (car lst)) (number? (cadr lst))) (addNumber (append (list (list (+ (car lst) (cadr lst)))) (rest (cdr lst))))] ;both #
+                                   [(and (variable? (car lst)) (variable? (cadr lst))) (addNumber (append (list (list (car lst) (cadr lst))) (rest (cdr lst))))] ;both symbol
+                                   [(and (number? (car lst)) (variable? (cadr lst))) (addNumber (append (list (list (car lst) (cadr lst))) (rest (cdr lst))))] ; first #, second symbol
+                                   [(and (variable? (car lst)) (number? (cadr lst))) (addNumber (append (list (list (cadr lst) (car lst))) (rest (cdr lst))))])] ;first symbol, second #
+        
+        [(variable? (cadr lst)) (addNumber (append (list (append (car lst) (list (cadr lst)))) (rest (cdr lst))))] ;if second is symbol
+
+        [(number? (cadr lst)) (if (number? (fcar lst)) 
+                                (addNumber (append (list (append (list (+ (fcar lst) (cadr lst))) (fcdr lst) )) (rest (cdr lst))))
+                                ;lst
+                                (addNumber (append (list (append (list (cadr lst)) (car lst) )) (rest (cdr lst))))   
+                                )] ;both #
+        
+        )
+  )
   )
 
 ;; like make-sum, this should work with 1, 2, or 3+ args
 ;; and perform reductions on 1 and 2 arg cases
-(define (make-product m1 . multiplicandxx)
-(cond
-  [(null? multiplicandxx) m1]
-  [else "ok"]
-  ))
+(define (make-product a1 . augend)
+ (cond
+    [(null? augend) a1] ;if null, return a1
+    [(= (length augend) 1) (cond ;length 1 case
+                            [(=number? a1 0) (car augend)]
+                            [(=number? augend 0) a1]
+                            [(and (number? a1) (number? (car augend))) (* a1 (car augend))]
+                            [else (list '+ a1 (car augend))])]
+     
+    [(> (length augend) 1) (cond ;length 1 case
+                            [(=number? a1 0) (append (list '*) (addNumber augend))]
+                            [(and (= (length (addNumber augend)) 1) (number? a1) (number? (car (addNumber augend)))) 
+                                        (* a1 (car (addNumber augend)))]
+                            [(and (> (length (addNumber augend)) 1) (number? a1) (number? (car (addNumber augend)))) 
+                                        (append (list (* a1 (car (addNumber augend)))) (cdr (addNumber augend)))]
+                            [else (append (list '* a1)  (addNumber augend))]
+                            )
+                           ] 
+  )
+  )
 
 (define (product? x) (and (pair? x) (eq? (car x) '*)))
 
