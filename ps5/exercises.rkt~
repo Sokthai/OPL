@@ -110,10 +110,6 @@
     [(or (null? list1) (null? list2)) #f]
     [
       (cond
-        [(and (not (list? list1)) (not (list? list2)))
-           (if (not (eq? list1 list2)) #f
-               (my-equal? (newLst list1) (newLst list2)))]
-          
           [(and (list? (car list1)) (list? (car list2)))
            (if (not (eq? (caar list1) (caar list2))) #f
                (my-equal? (newLst list1) (newLst list2)))]
@@ -123,14 +119,10 @@
                (my-equal? (cdr list1) (cdr list2)))]
            
            
-          [else (my-equal? (cdr list1) (cdr list2))] 
+          [else (my-equal? (cdr list1) (cdr list2))]
       )
      ]
-
-    [(and (not (list? list1)) (not (list? list2)))
-           (if (not (eq? list1 list2)) #f
-               (my-equal? (newLst list1) (newLst list2)))]
-
+    
     [(not (eq? (car list1) (car list2))) #f]
     [else (my-equal? (cdr list1) (cdr list2))]
     )
@@ -138,11 +130,8 @@
   )
 
 (define (newLst lst)
-  (if (list? lst) 
   (if (= (length (car lst)) 1) (cdr lst)
              (append (list (cdr (car lst))) (cdr lst)))
-  (list)
-  )
 
 )
 
