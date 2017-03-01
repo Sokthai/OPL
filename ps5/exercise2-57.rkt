@@ -46,7 +46,7 @@
     [else (append (list '+ a1) augend)]
    )
  )
-     
+    
 
 (define (sum? x)
   (and (pair? x) (eq? (car x) '+)))
@@ -70,11 +70,7 @@
     [(null? multiplicand) m1]
     [(= (length multiplicand) 1)
      (cond
-<<<<<<< HEAD
-      [(or (=number? (car multiplicand) 0) (=number? m1 0)) 0] 
-=======
        [(or (=number? (car multiplicand) 0) (=number? m1 0)) 0]
->>>>>>> 158dbde27f1335cf19321afc85586e40721ef3fd
        [(=number? (car multiplicand) 1) m1]
        [(=number? m1 1) (car multiplicand)]
        [(and (number? m1) (number? (car multiplicand))) (* m1 (car multiplicand))]

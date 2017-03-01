@@ -28,10 +28,10 @@
 ;;
  (define (accumulate-n op init seqs)
    (if (null? (car seqs))
-       nil 
+       nil  
        
-       (cons (accumulate op init (newList seqs))
-             (accumulate-n op init (newNextList seqs) )))
+       (cons (accumulate op init (map car seqs)) 
+             (accumulate-n op init (newNextList seqs)) ))
  )
 
 
