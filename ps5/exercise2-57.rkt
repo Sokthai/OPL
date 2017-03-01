@@ -8,7 +8,7 @@
 ;; augend
 ;; make-product
 ;; multiplicand
-
+ 
 (define (variable? x) (symbol? x))
 
 (define (same-variable? v1 v2)
