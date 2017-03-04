@@ -13,14 +13,12 @@ module Main where
 --fib n = 1
 
 
-fib :: (Integral n) => n -> n
 
+--fib :: (Integral n) => n -> n
+--fib :: (Eq a1, Num a, Num a1) => a1 -> a
 fib 0 = 1
 fib 1 = 1
 fib n =  fib (n - 1) + fib (n + 2)
-
---
-
 
 
 

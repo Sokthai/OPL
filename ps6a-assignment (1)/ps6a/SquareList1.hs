@@ -16,18 +16,13 @@ module Main where
 -- a function that returns its input.
 -- this is clearly not the answer; it's only given so you have
 -- something which will compile.
-
 --squareList = id
 
-squareList :: (Num a) => [a] -> [a]
-squareLIst [] = []
-squareList (x:xs) = (x * x):squareList xs
-
-zip' :: [a] -> [a]
-zip' [] = []
-zip' (x:xs) = x:zip' xs
 
 
+squareList :: (Num t) => [t] -> [t]
+squareList [] = []
+squareList (x:xs) = (x * x) : squareList xs
 
 
 

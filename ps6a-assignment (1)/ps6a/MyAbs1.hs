@@ -10,6 +10,7 @@ module Main where
 --myAbs x = x
 
 
+
 --myAbs :: Float -> Float
 myAbs :: (Num t, Ord t) => t -> t
 myAbs x = (if x < 0 then x * (-1) else x)
@@ -23,10 +24,11 @@ myAbs x = (if x < 0 then x * (-1) else x)
 
 
 
-
 -- don't change anything below this line;
 -- this code is for communication with the autograder.
 
-main = do
+main = do  
   l <- getLine
   putStr $ show $ myAbs (read l :: Float)
+          
+  
