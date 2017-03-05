@@ -16,10 +16,11 @@ myAbs :: (Num t, Ord t) => t -> t
 myAbs x = (if x < 0 then x * (-1) else x)
 
 --Description
---This function will require a float input argument
---and return the positive number.
---it check to see if the value of 'x' is less than
---0 then it multiply with (-1) and else it would
+--This function will require a parameter
+--this function using if-then-else statement
+--to check if the given number is less than 0.
+--if the value of 'x' is less than
+--0, it will multiply it with (-1), or it would
 --just return the value of 'x'
 
 
@@ -27,8 +28,6 @@ myAbs x = (if x < 0 then x * (-1) else x)
 -- don't change anything below this line;
 -- this code is for communication with the autograder.
 
-main = do  
+main = do
   l <- getLine
   putStr $ show $ myAbs (read l :: Float)
-          
-  

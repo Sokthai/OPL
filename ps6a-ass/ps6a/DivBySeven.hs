@@ -1,4 +1,4 @@
---module Main where
+module Main where
 
 -- Write a function named "divBySeven" that takes a list of numbers
 -- and returns a list of numbers that are divisible by 7
@@ -21,16 +21,18 @@
 
 --divBySeven = id
 
---divBySeven :: (Num t) => [t] -> [t]
-divBySeven [] = []
-divBySeven (x:xs) = x `mod` 7 == 0 : divBySeven xs
+divBySeven :: (Integral t) => [t] -> [t]
+divBySeven x = [a | a <- x, a `mod` 7 == 0]
+
+
+
 
 
 -- don't change anything below this line;
 -- this code is for communication with the autograder.
 
---main = do
---  l <- getLine
---  putStr $ unwords $
---    map show
---    (divBySeven (map (\x -> read x :: Int) (words l)))
+main = do
+  l <- getLine
+  putStr $ unwords $
+    map show
+    (divBySeven (map (\x -> read x :: Int) (words l)))

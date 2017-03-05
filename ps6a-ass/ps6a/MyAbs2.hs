@@ -12,7 +12,14 @@
 
 
 myAbs :: (Ord a, Num a) => a -> a
+myAbs 0 = 0
 myAbs x | x >= 0 = x | otherwise = x * (-1)
+
+--Description:
+--The function is using the pattern matching for the zero case,
+--it also guards for given input number. It takes one parameter
+--and return a positive number if the input number is greater than 0
+--or it will multiply by (-1) if the input number is less than 0
 
 
 

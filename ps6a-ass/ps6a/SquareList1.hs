@@ -24,6 +24,14 @@ squareList :: (Num t) => [t] -> [t]
 squareList [] = []
 squareList (x:xs) = (x * x) : squareList xs
 
+--Description
+--This SquareList function is taking a list of number and recursively
+--square each elements in the list and return with new list.
+--if the input list is empty, it simply return the empty list.
+
+
+
+
 
 
 -- don't change anything below this line;
