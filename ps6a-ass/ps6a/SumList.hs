@@ -14,11 +14,15 @@ module Main where
 
 --sumList _     = 0
 
-sumList :: (Num a) => [a] -> a
+--sumList :: (Num a) => [a] -> a
 sumList [] = 0
 sumList (x:xs) = x + sumList xs
 
 
+--Description
+--The sumList takes one list of number and sum all element in the list
+--if the list is empty, it will return 0 else
+--it will recursively add each element in the list return the sum.
 
 
 

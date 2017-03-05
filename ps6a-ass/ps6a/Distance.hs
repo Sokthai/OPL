@@ -19,21 +19,21 @@ module Main where
 -- Think specifically about what typeclass its parameters should be.
 -- Write a plain-English description of how to read and understand it.
 
---distance _ = 0
-
-
-tuple1  = (5, 6)
-tuple2  = (3, 2)
-tuple = (tuple1, tuple2)
-
---distance _ = (fst tuple1 - fst tuple2)^2 + (snd tuple1 - snd tuple2)^2
 
 distance :: Floating a => ((a, a), (a, a)) -> a
 distance ((x1, y1), (x2, y2)) = sqrt((x1 - x2)^2 + (y1 - y2)^2)
 --distance x = sqrt((fst (fst x) - (fst (snd x)))^2 + (snd (fst x) - (snd (snd x)))^2)
 
---removeNonUppercase :: [Char] -> [Char]
---removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
+--the distance function is taking one tuple with two inner tuples.
+--the ((x1, y1), (x2, y2)) of the distance parameter are represented the
+--two inner tuples coordinates of the plane.
+--use the formula given above, sqrt ((x1-x2)^2 + (y1-y2)^2), to calculator the result
+
+
+
+
+
+
 
 
 -- don't change anything below this line;

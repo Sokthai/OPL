@@ -19,7 +19,21 @@ module Main where
 -- of your work, back off to the starter code and at least you won't
 -- cause Bottlenose to hang.
 
-fibi n = 1
+
+
+--tail recursive
+fibi :: (Num t, Num t1, Eq t1) => t1 -> t
+fibi x = fibi' x 1 1 where
+    fibi' 0 y z = z
+    fibi' 1 y z = z
+    fibi' x y z = fibi' (x-1) z (z + y)
+
+--Description:
+--The tail recursion (iterative) Fibonacci is using a helper function
+--to implement it. the helper function fibi' taking 3 parameters. the first parameter
+--will be decrement 1 for each iteration. the second parameter will hold the
+--third parameter value while the third parameter is the result that add from the second.
+--the result is store at the third parameter and will return when the counter is either 1 or 0;
 
 
 
@@ -27,8 +41,6 @@ fibi n = 1
 -- don't change anything below this line;
 -- this code is for communication with the autograder.
 
-main = do  
+main = do
   l <- getLine
   putStr $ show $ fibi (read l :: Integer)
-          
-  
