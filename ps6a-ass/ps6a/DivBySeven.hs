@@ -24,6 +24,17 @@ module Main where
 divBySeven :: (Integral t) => [t] -> [t]
 divBySeven x = [a | a <- x, a `mod` 7 == 0]
 
+--http://learnyouahaskell.com/starting-out#im-a-list-comprehension
+
+
+
+--Description
+--This divBySeven function will take a parameter of list
+--and return a list of any element that is divisible by 7.
+--it uses a guard to filter out any number that has zero remainder
+--when doing the modular operation. if the remainder is zero,
+--it will pass that number to 'a' then will form a list due to the
+--square bracket
 
 
 
