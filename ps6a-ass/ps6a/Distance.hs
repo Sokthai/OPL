@@ -24,6 +24,9 @@ distance :: Floating a => ((a, a), (a, a)) -> a
 distance ((x1, y1), (x2, y2)) = sqrt((x1 - x2)^2 + (y1 - y2)^2)
 --distance x = sqrt((fst (fst x) - (fst (snd x)))^2 + (snd (fst x) - (snd (snd x)))^2)
 
+
+
+--Description :
 --the distance function is taking one tuple with two inner tuples.
 --the ((x1, y1), (x2, y2)) of the distance parameter are represented the
 --two inner tuples coordinates of the plane.
