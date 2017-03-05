@@ -14,7 +14,7 @@ module Main where
 
 --sumList _     = 0
 
---sumList :: (Num a) => [a] -> a
+sumList :: (Num a) => [a] -> a
 sumList [] = 0
 sumList (x:xs) = x + sumList xs
 

@@ -1,4 +1,4 @@
---module Main where
+module Main where
 
 -- Implement Fibonacci numbers using recursion.
 -- Use pattern matching for the case of fib 0 = 1 and fib 1 = 1.
@@ -10,16 +10,18 @@
 
 -- the below is wrong: it says the fib of any number is 1.
 -- so it'll pass a couple of tests, but don't get too excited.
---fib n = 1
+
+ 
 
 
-
+<<<<<<< HEAD
 --fib :: (Integral n) => n -> n
+=======
+>>>>>>> accc3b8adbdd9330e06c7dda0060800055058d34
 fib :: (Eq a1, Num a, Num a1) => a1 -> a
 fib 0 = 1
 fib 1 = 1
-fib n =  fib (n - 1) + fib (n + 2)
-
+fib n = fib (n - 1) + fib (n - 2)
 
 
 
@@ -27,6 +29,6 @@ fib n =  fib (n - 1) + fib (n + 2)
 -- don't change anything below this line;
 -- this code is for communication with the autograder.
 
---main = do
---  l <- getLine
---  putStr $ show $ fib (read l :: Int)
+main = do
+  l <- getLine
+  putStr $ show $ fib (read l :: Int)
