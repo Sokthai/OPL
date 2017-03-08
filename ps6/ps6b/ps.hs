@@ -1,4 +1,4 @@
--- This material prepared by Fred Martin, fred_martin@uml.edu
+-- This material prepared by Fred Martin, fred_martin@uml.edu 
 -- Sat Mar  4 21:34:54 2017
 
 -- This Haskell problem set covers:
@@ -7,7 +7,7 @@
 --  * defining your own typeclass
 --  * the bucket problem redux
 
--- what is the type signature of:   (>6)
+-- what is the type signature of :    (>6)
 --
 -- A.  Num -> Bool
 -- B.  (Num a, Ord a) => a -> Bool
