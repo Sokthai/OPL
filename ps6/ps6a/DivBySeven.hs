@@ -24,6 +24,11 @@ module Main where
 divBySeven :: (Integral t) => [t] -> [t]
 divBySeven x = [a | a <- x, a `mod` 7 == 0]
 
+--divBySeven [] = []
+--divBySeven (x:xs) = if x `mod` 7 == 0 
+--					then x:divBySeven xs
+--					else divBySeven xs
+
 --http://learnyouahaskell.com/starting-out#im-a-list-comprehension
 
 
