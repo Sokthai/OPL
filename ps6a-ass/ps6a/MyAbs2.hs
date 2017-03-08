@@ -1,4 +1,4 @@
---module Main where
+module Main where
 
 -- Modify the myAbs function to work properly.
 -- Use pattern matching for the zero case,
@@ -11,7 +11,7 @@
 --myAbs x = x
 
 
-myAbs :: (Ord a, Num a) => a -> a
+myAbs :: (Num a, Ord a) => a -> a
 myAbs 0 = 0
 myAbs x | x >= 0 = x | otherwise = x * (-1)
 
@@ -28,6 +28,6 @@ myAbs x | x >= 0 = x | otherwise = x * (-1)
 -- don't change anything below this line;
 -- this code is for communication with the autograder.
 
---main = do
---  l <- getLine
---  putStr $ show $ myAbs (read l :: Float)
+main = do
+  l <- getLine
+  putStr $ show $ myAbs (read l :: Float)

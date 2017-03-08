@@ -14,7 +14,7 @@ module Main where
 
 
 
-fib :: (Eq a1, Num a, Num a1) => a1 -> a
+fib :: (Eq a, Num a) => a -> a
 fib 0 = 1
 fib 1 = 1
 fib n = fib (n - 1) + fib (n - 2)

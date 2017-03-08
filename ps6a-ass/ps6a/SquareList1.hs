@@ -20,7 +20,7 @@ module Main where
 
 
 
-squareList :: (Num t) => [t] -> [t]
+squareList :: Num a => [a] -> [a]
 squareList [] = []
 squareList (x:xs) = (x * x) : squareList xs
 

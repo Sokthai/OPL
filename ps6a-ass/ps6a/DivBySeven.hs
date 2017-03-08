@@ -21,7 +21,7 @@ module Main where
 
 --divBySeven = id
 
-divBySeven :: (Integral t) => [t] -> [t]
+divBySeven :: Integral a => [a] -> [a]
 divBySeven x = [a | a <- x, a `mod` 7 == 0]
 
 --http://learnyouahaskell.com/starting-out#im-a-list-comprehension

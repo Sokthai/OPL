@@ -22,11 +22,11 @@ module Main where
 
 
 --tail recursive
-fibi :: (Num t, Num t1, Eq t1) => t1 -> t
+fibi :: (Eq a, Num a) => a -> a
 fibi x = fibi' x 1 1 where
     fibi' 0 y z = z
     fibi' 1 y z = z
-    fibi' x y z = fibi' (x-1) z (z + y)
+    fibi' x y z = fibi' (x - 1) z (z + y)
 
 --Description:
 --The tail recursion (iterative) Fibonacci is using a helper function

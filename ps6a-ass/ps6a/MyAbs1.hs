@@ -12,7 +12,7 @@ module Main where
 
 
 --myAbs :: Float -> Float
-myAbs :: (Num t, Ord t) => t -> t
+myAbs :: (Num a, Ord a) => a -> a
 myAbs x = (if x < 0 then x * (-1) else x)
 
 --Description
