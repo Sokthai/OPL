@@ -1,6 +1,6 @@
 
 PROGS=$(shell ls *.hs | perl -lpE 's/\.hs\b//')
-
+ 
 all: $(PROGS)
 
 $(PROGS): $(shell echo *.hs) 

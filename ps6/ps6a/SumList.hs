@@ -1,5 +1,5 @@
 module Main where
-
+ 
 -- Write a function named 'sumList' that takes a list of numbers
 -- and returns the sum of the list.
 

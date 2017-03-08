@@ -3,7 +3,7 @@ module Main where
 -- Write a function named "divBySeven" that takes a list of numbers
 -- and returns a list of numbers that are divisible by 7
 -- (in the same order that they appeared in the original list).
-
+ 
 -- See http://learnyouahaskell.com/recursion for guidance.
 
 -- See http://stackoverflow.com/questions/5891140/difference-between-mod-and-rem-in-haskell

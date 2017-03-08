@@ -1,5 +1,5 @@
 module Main where
-
+ 
 -- Write a function named "squareList" which will take a list of numbers
 -- and output a list where each item is squared.
 --

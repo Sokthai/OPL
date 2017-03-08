@@ -1,5 +1,5 @@
 module Main where
-
+  
 -- Write a function named "distance" that takes a tuple of two items,
 -- each being a tuple of two numbers.  Assume that the two inner tuples
 -- represent (x, y) coordinates on a plane, and output the distance
