@@ -1,4 +1,4 @@
--- This material prepared by Fred Martin, fred_martin@uml.edu 
+-- This material prepared by Fred Martin, fred_martin@uml.edu
 -- Sat Mar  4 21:34:54 2017
 
 -- This Haskell problem set covers:
@@ -30,7 +30,7 @@ gt6int = "Z"
 
 
 -- which of the following map expressions may legitimately be
--- evaluated? 
+-- evaluated?
 --
 -- A.  map (*2) [1..5]
 -- B.  map (>3) [1..5]
@@ -77,18 +77,26 @@ myfun = "Z"
 -- write a function "zeroIsNothing" which
 -- converts 0 to Nothing, and any other number to Just that number
 -- also write its type signature
-zeroIsNothing z
-  | otherwise = 1
+
+zeroIsNothing :: (Eq a, Num a) => a -> Maybe a
+zeroIsNothing 0 = Nothing
+zeroIsNothing z = Just z
+
 
 
 -- write a function "nothingIsZero" which
 -- converts Nothing to 0, and (Just a) to the number a
 -- also write its type signature
-nothingIsZero a = a
+
+
+nothingIsZero :: (Eq a, Num a) => Maybe a1 -> a
+nothingIsZero Maybe a = a
+nothingIsZero Nothing = 0
+
 
 
 -- Create a typeclass called NumOrString that can contain either an
--- Integer or String object. 
+-- Integer or String object.
 -- see
 -- http://learnyouahaskell.com/making-our-own-types-and-typeclasses#algebraic-data-types
 -- and http://learnyouahaskell.com/making-our-own-types-and-typeclasses#type-synonyms
@@ -117,10 +125,10 @@ getNum a = a
 -- also write its type signature
 makeString a = a
 
--- write a function getString which accepts a NumOrString object and 
+-- write a function getString which accepts a NumOrString object and
 -- produces a Maybe object, where
 -- if the NumOrString object is a String, it should be "Just <that
--- string>" 
+-- string>"
 -- otherwise, Nothing
 -- also write its type signature
 getString a = a
@@ -132,7 +140,7 @@ getString a = a
 -- [<NumOrString object with numeric 1>, <NumOrString object with
 -- numeric 2>, <NumOrString object with numeric 3>, <NumOrString
 -- object with numeric 4>, <NumOrString object with numeric 5>]
--- 
+--
 -- and where
 -- map getNum <that list> should be [Just 1,Just 2,Just 3,Just 4,Just
 -- 5]
@@ -167,4 +175,3 @@ bucket_op n l = []
 -- now write the main bucket (which must use foldr and bucket_op)
 -- and write its type signature
 bucket l = []
-
