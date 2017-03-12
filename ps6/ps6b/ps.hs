@@ -78,7 +78,7 @@ myfun = "E"
 -- converts 0 to Nothing, and any other number to Just that number
 -- also write its type signature
 
-zeroIsNothing :: (Eq a, Num a) => a -> Maybe a
+zeroIsNothing :: (Ord a, Num a) => a -> Maybe a
 zeroIsNothing 0 = Nothing
 zeroIsNothing z = Just z
 
@@ -89,8 +89,8 @@ zeroIsNothing z = Just z
 -- also write its type signature
 
 
-nothingIsZero :: (Eq a, Num a) => Maybe a1 -> a
---nothingIsZero Maybe a = a
+nothingIsZero :: (Ord a, Num a) => Maybe a -> a
+nothingIsZero (Just a) = a
 nothingIsZero Nothing = 0
 
 
@@ -105,7 +105,7 @@ nothingIsZero Nothing = 0
 -- it may be printed
 
 
-data NumOrString = Num Integer | String Char deriving (Show)
+data NumOrString = Num Integer | String String deriving (Show)
 
 
 
@@ -150,7 +150,7 @@ getNum (Num a) = Just a
 -- encapsulates its value
 -- also write its type signature
 
-makeString :: Char -> NumOrString
+makeString :: String -> NumOrString
 makeString a = String a
 
 
@@ -164,7 +164,7 @@ makeString a = String a
 -- otherwise, Nothing
 -- also write its type signature
 
-getString :: NumOrString -> Maybe Char
+getString :: NumOrString -> Maybe String
 getString (Num a) = Nothing
 getString (String a) = Just a
 
@@ -189,6 +189,7 @@ getString (String a) = Just a
 --makeNumList :: (Eq a, Num a) => a -> [NumOrString]
 --makeNumList :: (Eq a, Num a, Num a1) => a -> a1
 makeNumList :: Integer -> [NumOrString]
+makeNumList 0 = []
 makeNumList 1 = [Num 1]
 makeNumList n = makeNumList (n - 1) ++ [Num n]
 
@@ -222,16 +223,11 @@ makeNumList n = makeNumList (n - 1) ++ [Num n]
 
 
 
-bucket_op :: Eq t => t -> [[t]] -> [[t]]
-bucket_op n l = if null l 
-					then [[n]] 
-					else 
-						if n == head (head l)    --l !! 0 !! 0
-						then (n : head l) : tail l
-						else [n] : l
+bucket_op :: Ord t => t -> [[t]] -> [[t]]
+bucket_op n l = if null l then [[n]] else if n == head (head l) then (n : head l) : tail l else [n] : l
 
 
-
+  --l !! 0 !! 0
 
 --if 20 == head (head l) then (20 : head l) : tail l else [20] : l
 -- let l = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15]]
@@ -239,7 +235,8 @@ bucket_op n l = if null l
 
 -- now write the main bucket (which must use foldr and bucket_op)
 -- and write its type signature
-bucket :: (Foldable t, Eq t1) => t t1 -> [[t1]]
+
+--bucket :: (Foldable t, Eq t1) => t t1 -> [[t1]]
 bucket l = foldr bucket_op [] l
 
 
