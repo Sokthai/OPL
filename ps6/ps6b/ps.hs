@@ -26,7 +26,7 @@ gt6num = "B"
 -- D.  Num -> Bool
 -- E.  none of these
 -- put letter A - E in the quotes to specify the correct answer.
-gt6int = "B"
+gt6int = "C"
 
 
 -- which of the following map expressions may legitimately be
@@ -41,32 +41,34 @@ gt6int = "B"
 mapq = "D"
 
 
+
 -- Which of these following function definitions will correctly map 0
 -- to True and other numbers to False?
 --
 -- A.
- --myfun 0 :: Int -> True
- --myfun z = False
+-- myfun 0 :: Int -> True
+-- myfun z = False
 --
 -- B.
--- myfun1 :: Num a => a -> Bool
--- myfun1 0 = True
--- myfun1 z = False
+-- myfun :: Num a => a -> Bool
+-- myfun 0 = True
+-- myfun z = False
 --
 -- C.
--- myfun2 :: (Int a) => a -> Bool
--- myfun2 0 = True
--- myfun2 z = False
+-- myfun :: (Int a) => a -> Bool
+-- myfun 0 = True
+-- myfun z = False
 --
 -- D.
--- myfun3 :: Int -> Bool
--- myfun3 0 = True
--- myfun3 z = False
+-- myfun :: Int -> Bool
+-- myfun 0 = True
+-- myfun z = False
 --
 -- E. none of these
 --
 -- put letter A - E in the quotes to specify the correct answer.
-myfun = "E"
+
+myfun = "D"
 
 
 
@@ -78,7 +80,8 @@ myfun = "E"
 -- converts 0 to Nothing, and any other number to Just that number
 -- also write its type signature
 
-zeroIsNothing :: (Ord a, Num a) => a -> Maybe a
+
+zeroIsNothing :: (Eq a, Num a) => a -> Maybe a  
 zeroIsNothing 0 = Nothing
 zeroIsNothing z = Just z
 
@@ -88,8 +91,9 @@ zeroIsNothing z = Just z
 -- converts Nothing to 0, and (Just a) to the number a
 -- also write its type signature
 
-
-nothingIsZero :: (Ord a, Num a) => Maybe a -> a
+--nothingIsZero :: Integer => Maybe a -> a 
+--nothingIsZero :: (Eq a, Num a) => Maybe a -> a 
+nothingIsZero :: Maybe Integer -> Integer
 nothingIsZero (Just a) = a
 nothingIsZero Nothing = 0
 
@@ -221,7 +225,7 @@ makeNumList n = makeNumList (n - 1) ++ [Num n]
 
 
 
-bucket_op :: Ord t => t -> [[t]] -> [[t]]
+bucket_op :: Eq a => a -> [[a]] -> [[a]] -- here
 bucket_op n l = if null l then [[n]] else if n == head (head l) then (n : head l) : tail l else [n] : l
 
 
@@ -235,5 +239,5 @@ bucket_op n l = if null l then [[n]] else if n == head (head l) then (n : head l
 -- now write the main bucket (which must use foldr and bucket_op)
 -- and write its type signature
 
---bucket :: (Foldable t, Eq t1) => t t1 -> [[t1]]
+--bucket :: (Foldable a, Ord a1) => a a1 -> [[a1]]
 bucket l = foldr bucket_op [] l
