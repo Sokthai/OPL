@@ -221,16 +221,6 @@ makeNumList n = makeNumList (n - 1) ++ [Num n]
 
 
 
-
-
-bucket_op :: Eq t => t -> [[t]] -> [[t]]
-bucket_op n l = if null l
-					then [[n]]
-					else
-						if n == head (head l)    --l !! 0 !! 0
-						then (n : head l) : tail l
-						else [n] : l
-
 bucket_op :: Ord t => t -> [[t]] -> [[t]]
 bucket_op n l = if null l then [[n]] else if n == head (head l) then (n : head l) : tail l else [n] : l
 
@@ -247,5 +237,3 @@ bucket_op n l = if null l then [[n]] else if n == head (head l) then (n : head l
 
 --bucket :: (Foldable t, Eq t1) => t t1 -> [[t1]]
 bucket l = foldr bucket_op [] l
-
- 
