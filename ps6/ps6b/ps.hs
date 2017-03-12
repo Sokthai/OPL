@@ -15,7 +15,7 @@
 -- D.  (Num a) => a -> Bool
 -- E.  none of these
 -- put letter A - E in the quotes to specify the correct answer.
-gt6num = "Z"
+gt6num = "B"
 
 
 -- what is the type signature of:   (> (6 :: Integer))
@@ -26,7 +26,7 @@ gt6num = "Z"
 -- D.  Num -> Bool
 -- E.  none of these
 -- put letter A - E in the quotes to specify the correct answer.
-gt6int = "Z"
+gt6int = "B"
 
 
 -- which of the following map expressions may legitimately be
@@ -38,35 +38,35 @@ gt6int = "Z"
 -- D.  A, B, and C are all fine
 -- E.  none of A, B, or C will work
 -- put letter A - E in the quotes to specify the correct answer.
-mapq = "Z"
+mapq = "D"
 
 
 -- Which of these following function definitions will correctly map 0
 -- to True and other numbers to False?
 --
 -- A.
--- myfun 0 :: Int = True
--- myfun z = False
+ --myfun 0 :: Int -> True
+ --myfun z = False
 --
 -- B.
--- myfun :: Num a => a -> Bool
--- myfun 0 = True
--- myfun z = False
+-- myfun1 :: Num a => a -> Bool
+-- myfun1 0 = True
+-- myfun1 z = False
 --
 -- C.
--- myfun :: (Int a) => a -> Bool
--- myfun 0 = True
--- myfun z = False
+-- myfun2 :: (Int a) => a -> Bool
+-- myfun2 0 = True
+-- myfun2 z = False
 --
 -- D.
--- myfun :: Int -> Bool
--- myfun 0 = True
--- myfun z = False
+-- myfun3 :: Int -> Bool
+-- myfun3 0 = True
+-- myfun3 z = False
 --
 -- E. none of these
 --
 -- put letter A - E in the quotes to specify the correct answer.
-myfun = "Z"
+myfun = "E"
 
 
 
@@ -90,7 +90,7 @@ zeroIsNothing z = Just z
 
 
 nothingIsZero :: (Eq a, Num a) => Maybe a1 -> a
-nothingIsZero Maybe a = a
+--nothingIsZero Maybe a = a
 nothingIsZero Nothing = 0
 
 
@@ -105,11 +105,24 @@ nothingIsZero Nothing = 0
 -- it may be printed
 
 
+data NumOrString = Num Integer | String Char deriving (Show)
+
+
+
 -- write a function makeNum
 -- which accepts an Integer and produces a NumOrString object that
 -- encapsulates its value
 -- also write its type signature
-makeNum a = a
+
+
+makeNum :: Integer -> NumOrString
+makeNum a = Num a
+
+
+
+
+
+
 
 -- write a function getNum which accepts a NumOrString object and
 -- produces a Maybe object, where
@@ -117,13 +130,32 @@ makeNum a = a
 -- number>"
 -- otherwise, Nothing
 -- also write its type signature
-getNum a = a
+
+getNum :: NumOrString -> Maybe Integer
+getNum (String a) = Nothing
+getNum (Num a) = Just a
+
+
+
+
+
+
+
+
+
+
 
 -- write a function makeString
--- which accepts an String and produces a NumOrString object that
+-- which accepts a String and produces a NumOrString object that
 -- encapsulates its value
 -- also write its type signature
-makeString a = a
+
+makeString :: Char -> NumOrString
+makeString a = String a
+
+
+
+
 
 -- write a function getString which accepts a NumOrString object and
 -- produces a Maybe object, where
@@ -131,7 +163,11 @@ makeString a = a
 -- string>"
 -- otherwise, Nothing
 -- also write its type signature
-getString a = a
+
+getString :: NumOrString -> Maybe Char
+getString (Num a) = Nothing
+getString (String a) = Just a
+
 
 -- write a function named "makeNumList" which accepts a numeric argument
 -- and outputs a list of that many NumOrString objects, counting up
@@ -149,7 +185,17 @@ getString a = a
 -- append operator, which is ++
 -- note the type signature of (++) is
 -- (++) :: [a] -> [a] -> [a]
-makeNumList n = [1, 2, 3]
+
+--makeNumList :: (Eq a, Num a) => a -> [NumOrString]
+--makeNumList :: (Eq a, Num a, Num a1) => a -> a1
+makeNumList :: Integer -> [NumOrString]
+makeNumList 1 = [Num 1]
+makeNumList n = makeNumList (n - 1) ++ [Num n]
+
+
+
+
+
 
 -- let's write bucket in Haskell
 -- if you've already done it in Scheme, this shouldn't be too bad
@@ -171,7 +217,41 @@ makeNumList n = [1, 2, 3]
 --
 -- define the bucket op fcn first
 -- name it bucket_op, and write its type signature
-bucket_op n l = []
+
+
+
+
+
+bucket_op :: Eq t => t -> [[t]] -> [[t]]
+bucket_op n l = if null l 
+					then [[n]] 
+					else 
+						if n == head (head l)    --l !! 0 !! 0
+						then (n : head l) : tail l
+						else [n] : l
+
+
+
+
+--if 20 == head (head l) then (20 : head l) : tail l else [20] : l
+-- let l = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15]]
+
+
 -- now write the main bucket (which must use foldr and bucket_op)
 -- and write its type signature
-bucket l = []
+bucket :: (Foldable t, Eq t1) => t t1 -> [[t1]]
+bucket l = foldr bucket_op [] l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
