@@ -41,6 +41,7 @@ gt6int = "B"
 mapq = "D"
 
 
+
 -- Which of these following function definitions will correctly map 0
 -- to True and other numbers to False?
 --
@@ -49,24 +50,24 @@ mapq = "D"
  --myfun z = False
 --
 -- B.
--- myfun1 :: Num a => a -> Bool
--- myfun1 0 = True
--- myfun1 z = False
+--myfun :: Num a => a -> Bool
+--myfun 0 = True
+--myfun z = False
 --
 -- C.
--- myfun2 :: (Int a) => a -> Bool
--- myfun2 0 = True
--- myfun2 z = False
+-- myfun :: (Int a) => a -> Bool
+--myfun 0 = True
+--myfun z = False
 --
 -- D.
--- myfun3 :: Int -> Bool
--- myfun3 0 = True
--- myfun3 z = False
+myfun :: Int -> Bool
+myfun 0 = True
+myfun z = False
 --
 -- E. none of these
 --
 -- put letter A - E in the quotes to specify the correct answer.
-myfun = "E"
+--myfun = "C"
 
 
 
