@@ -1,4 +1,4 @@
-
+;Sokthai Tang 3/12/2017
 #lang web-server/insta
 (require web-server/servlet)
 (define (start request)
@@ -9,9 +9,7 @@
                        (type "text/css"))))
 
           (body 
-                (h1 "Registration Form")
-                ;(p "This is  " (span ((class "hot")) "awesome") ".")
-              
+                (h1 "Registration Form")              
                 (label "Username : ")
                 (input ((name "username")))
                 (br)(br)
