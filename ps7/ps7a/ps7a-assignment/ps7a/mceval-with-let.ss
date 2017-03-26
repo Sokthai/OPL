@@ -23,8 +23,6 @@
         ((definition? exp) (eval-definition exp env))
         ((if? exp) (eval-if exp env))
 	((and? exp) (eval-and exp env))
-        ((or? exp) (eval-or exp env))
-        ;((not? exp) (eval-not exp env))
         ((lambda? exp)
          (make-procedure (lambda-parameters exp) (lambda-body exp) env))
         ((begin? exp) (eval-sequence (begin-actions exp) env))
@@ -45,7 +43,7 @@
 	  (extend-environment (procedure-parameters procedure)
 			      arguments
 			      (procedure-environment procedure))))
-        (else (error "Unknown procedure type -- MC-APPLY" procedure))))  
+        (else (error "Unknown procedure type -- MC-APPLY" procedure))))
 
 ;;; list-of-values is used to produce the list of arguments to which
 ;;; a procedure is to be applied
@@ -197,41 +195,6 @@
 (define (and? exp) (tagged-list? exp 'uml:and))
 
 (define (and-clauses exp) (cdr exp))
-
-
-
-;;;;;;;;;;;--------------or----------
-
-(define (eval-or exp env)  
-  (define (iter clauses)
-     (cond ((null? clauses) #t)
-           ((and (null? (cdr clauses)) (false? (mc-eval (car clauses) env))) #f)
-           ((true? (mc-eval (car clauses) env)) #t)
-           (else (iter (cdr clauses))))
-  )
-  
- (iter (or-clauses exp)))
-
-(define (or? exp) (tagged-list? exp 'uml:or))
-
-(define (or-clauses exp) (cdr exp))
-
-
-;;;;;;;;;;;---------not---------------
-
-
-
-
-
-
-
-
-
-;;;;;;;;;;;--------------------------
-
-
-
-
 
 
 ;;; begin expressions (a.k.a. sequences)
@@ -446,17 +409,14 @@
 ;;; evaluator to be run
 
 (define (setup-environment)
-  (let (
-        (initial-env
+  (let ((initial-env
 	 (extend-environment (primitive-procedure-names)
 			     (primitive-procedure-objects)
-			     the-empty-environment ) 
-         )
-        )
+			     the-empty-environment)))
     (define-variable! 'true #t initial-env)
     (define-variable! 'false #f initial-env)
     (define-variable! 'nil '() initial-env)
-    initial-env)) 
+    initial-env))
 
 (define (primitive-procedure? proc)
   (tagged-list? proc 'primitive))
@@ -474,16 +434,14 @@
 	(list 'uml:/ /)
 	(list 'uml:= =)
 	(list 'uml:> >)
-	(list 'uml:< <)
-        (list 'uml:not not)
-        ))
+	(list 'uml:< <)))
 
 
 (define (primitive-procedure-names)
   (map car
        primitive-procedures))
 
-(define (primitive-procedure-objects) 
+(define (primitive-procedure-objects)
   (map (lambda (proc) (list 'primitive (cadr proc)))
        primitive-procedures))
 
@@ -500,7 +458,7 @@
 
 (define (driver-loop)
   (prompt-for-input input-prompt)
-  (let ((input (read)))  
+  (let ((input (read)))
     (let ((output (mc-eval input the-global-environment)))
       (announce-output output-prompt)
       (user-print output)))
@@ -544,18 +502,4 @@
 ; then, copy-paste into a comment here how the procedure is
 ; represented internally.
 ; change this flag to true.
-(define printed-uml:not? #t)
-
-(define (eval-not exp env)
-  (define (iter clauses)
-      (cond ((eq? (car clauses) 'false) #t)
-            ((eq? (car clauses) 'true) #f)
-            (else  (error "type mismatch"))))
-             
-  (iter (not-clauses exp)))
-
-(define (not? exp) (tagged-list? exp 'uml:not))
-
-(define (not-clauses exp) (cdr exp))
-
-
+(define printed-uml:not? #f)

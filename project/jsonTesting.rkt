@@ -1,10 +1,9 @@
 #lang racket
 
 
-  (require  json 2htdp/batch-io)
-(require web-server/http)
-(require net/http-client)
-(require net/url)
+(require  json srfi/13 net/url)
+;(require web-server/http)
+;(require net/http-client)
 
 
 ;------connection-------------------
@@ -15,23 +14,28 @@
 
 
 
-;(define respond "")
+(define myrespond "")
 
 
 
 
 (define (search w)
   
-(define con-url (string->url (string-append open_api w)))
-(define dict-port (get-pure-port con-url (list app_id app_key)))
+  (define con-url (string->url (string-append open_api w)))
+  (define dict-port (get-pure-port con-url (list app_id app_key)))
+  (define respond (port->string dict-port))
+  
+  (begin (set! myrespond respond))
+  
+  (close-input-port dict-port)
+  
+  (cond ((number? (string-contains respond "404 Not Found")) (printf "Not Found"))
+        (else
+         (getAnswer (readjson-from-input respond) '|word| "word        : ")
+         (getAnswer (readjson-from-input respond) '|definitions| "definitions : ")
+         (getAnswer (readjson-from-input respond) '|examples| "examples    : ")))
 
-(define respond (port->string dict-port))
-(close-input-port dict-port)
-(getAnswer (readjson-from-input respond) '|word| "word: ")
-(getAnswer (readjson-from-input respond) '|definitions| "definitions: ")
-(getAnswer (readjson-from-input respond) '|examples| "examples: ")
-
-  )
+)
 
 
 
@@ -52,8 +56,8 @@
 
 
 (define (getAnswer hash k des)
-  (cond ((list? hash)  (getAnswer (car hash) k))
-        ((and (hash? hash) (not (empty? (hash-ref hash k (lambda () empty))))) (display hash k))     
+  (cond ((list? hash)  (getAnswer (car hash) k des))
+        ((and (hash? hash) (not (empty? (hash-ref hash k (lambda () empty))))) (display hash k des))     
         (else        
          (cond ((hash? hash)              
                 (for (((key val) (in-hash hash)))
@@ -79,7 +83,7 @@
   (cond ((null? lst) lst)
         (else
          (for (((key val) (in-hash (car lst )))) 
-           (printf "~a~a\n" des (hash-keys (car lst)) val ))
+           (printf "~a~a\n" des val ))
 
          (show (cdr lst) k des)
          )))

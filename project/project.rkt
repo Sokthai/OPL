@@ -12,3 +12,4 @@
 (define url  (string->url "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/rain"))
 (define header (list app_id app_key))
 (define my-port (get-pure-port url header))
+(define respond (port->string my-port))
