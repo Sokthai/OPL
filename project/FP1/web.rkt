@@ -9,36 +9,41 @@
                        (type "text/css"))))
 
           (body 
-                (h1 "Registration Form")              
-                (label "Username : ")
-                (input ((name "username")))
+                (h1 "Dictionary")              
+                (label "Search : ")
+                (input ((name "search")))
                 (br)(br)
-                (label "Password : ")
-                (input ((name "password")))
+                (label "Word : ")
+                (input ((name "word")))
                 (br)(br)
-                (label "Name : ")
-                (input ((name "name")))
+                (label "Definition : ")
+                (input ((name "definition")))
                 (br)(br)
-                (label "Address : ")
-                (input ((name "address")))
-                (br)(br)
-                (label "Country : ")
-                (select (option "Select a country")
-                        (option "United States")
-                        (option "United Kingdom")
-                        (option "Canada")
-                ) 
-                (br)(br)
-                (label "Zipcode : ")
-                (input ((name "zipcode")))
-                (br)(br)
-                (label "Email : ")
-                (input ((type "email" name "email")))
-                (br)(br)
+                (label "Examples : ")
+                (input ((name "example")))
+              
+                (br)
                 (input ((type "submit")))
           )
      )
 
    ))
+
+
+
+(send/suspend
+ (lambda (k-url)
+   (response/xexpr
+    `(html (head (title "Enter a number"))
+           (body
+            (form ([action ,k-url])
+                  "Enter a number: "
+                  (input ([name "number"]))
+                  (input ([type "submit"]))))))))
+
+
+
+
+
  
 (static-files-path "htdocs")

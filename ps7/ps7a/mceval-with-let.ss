@@ -200,7 +200,7 @@
 
 
 
-;;;;;;;;;;;--------------or----------
+;;;;--------------eval-or----------------
 
 (define (eval-or exp env)  
   (define (iter clauses)
@@ -217,11 +217,54 @@
 (define (or-clauses exp) (cdr exp))
 
 
-;;;;;;;;;;;---------not---------------
+;this (or) procedure is working as expected. it loops through the list of clauses
+;and stop if it evaluates to true. the (mc-eval) will evaluate the whole clauses
+;and determine ture/false. it will evaluate the whole clauses if the clauses all false,
+;for this (uml:or) is mean to return true if the clauses is null?
 
 
+;EVIDENCE
+
+;;; MC-Eval input: (uml:or true)
+;;; MC-Eval value: #t
+;OR of true is true
+
+;;; MC-Eval input: (uml:or false)
+;;; MC-Eval value: #f
+;OR of false is false 
+
+;;; MC-Eval input: (uml:or true true)
+;;; MC-Eval value: #t
+;OR of two true is true
 
 
+;;; MC-Eval input: (uml:or false false false)
+;;; MC-Eval value: #f
+;OR of three false is false
+
+;;; MC-Eval input: (uml:or true false)
+;;; MC-Eval value: #t
+;OR of one true is true
+
+;;; MC-Eval input: (uml:define foo 1)
+;;; MC-Eval value: ok
+;define foo to 1
+
+;;; MC-Eval input: (uml:or true (uml:begin (uml:set! foo 2) true))
+;;; MC-Eval value: #t
+;short-circuited OR, it evaluates to true and the second argument is not executed
+
+;;; MC-Eval input: foo
+;;; MC-Eval value: 1
+;foo is still 1
+
+;;; MC-Eval input: (uml:or false (uml:begin (uml:set! foo 2) true))
+;;; MC-Eval value: #t
+;it evaluates both arguments since the first argument is false
+
+;;; MC-Eval input: foo
+;;; MC-Eval value: 2
+;foo is now 2
 
 
 
@@ -500,7 +543,7 @@
 
 (define (driver-loop)
   (prompt-for-input input-prompt)
-  (let ((input (read)))  
+  (let ((input (read)))   
     (let ((output (mc-eval input the-global-environment)))
       (announce-output output-prompt)
       (user-print output)))
@@ -518,7 +561,7 @@
 		     (procedure-parameters object)
 		     (procedure-body object)
 		     '<procedure-env>))
-      (display object)))
+      (display object))) 
 
 (define the-global-environment (setup-environment))
 
@@ -546,17 +589,65 @@
 ; change this flag to true.
 (define printed-uml:not? #t)
 
+
+
+
+;---------eval-not------------------
+
+
 (define (eval-not exp env)
   (define (iter clauses)
-      (cond ((eq? (car clauses) 'false) #t)
-            ((eq? (car clauses) 'true) #f)
-            (else  (error "type mismatch"))))
-             
+
+    (cond ((false? (mc-eval (car clauses) env)) #t)
+          ((true? (mc-eval (car clauses) env)) #f)
+            (else  (error "type mismatch")))
+    )             
   (iter (not-clauses exp)))
 
 (define (not? exp) (tagged-list? exp 'uml:not))
 
 (define (not-clauses exp) (cdr exp))
+
+
+;this (uml:not) is expect a true/false clauses. it evaulates the first
+;item of the clauses and return true if the clauses is false,
+;and false if the clauses is true;
+
+;EVIDENCE
+
+;;; MC-Eval input: (uml:not false)
+;;; MC-Eval value: #t
+;NOT false is true
+
+
+;;; MC-Eval input: (uml:not true)
+;;; MC-Eval value: #f
+;NOT true is false
+
+
+;;; MC-Eval input: (uml:not (uml:and true true))
+;;; MC-Eval value: #f
+;NOT true is false
+
+
+;;; MC-Eval input: (uml:not (uml:or false false))
+;;; MC-Eval value: #t
+;NOT false is true
+
+
+;;; MC-Eval input: (uml:not (uml:or false true))
+;;; MC-Eval value: #f
+;NOT true is false
+
+
+;;; MC-Eval input: (uml:not (uml:and true))
+;;; MC-Eval value: #f
+;NOT true is false
+
+
+
+;-------------the-global-environment---------------
+
 
 
 ;the-global-environment
