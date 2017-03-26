@@ -1,0 +1,216 @@
+{
+    "metadata": {
+        "provider": "Oxford University Press"
+    },
+    "results": [
+        {
+            "id": "rain",
+            "language": "en",
+            "lexicalEntries": [
+                {
+                    "entries": [
+                        {
+                            "etymologies": [
+                                "Old English regn (noun), regnian (verb), of Germanic origin; related to Dutch regen and German Regen"
+                            ],
+                            "grammaticalFeatures": [
+                                {
+                                    "text": "Mass",
+                                    "type": "Countability"
+                                },
+                                {
+                                    "text": "Singular",
+                                    "type": "Number"
+                                }
+                            ],
+                            "homographNumber": "000",
+                            "senses": [
+                                {
+                                    "definitions": [
+                                        "the condensed moisture of the atmosphere falling visibly in separate drops"
+                                    ],
+                                    "domains": [
+                                        "Meteorology"
+                                    ],
+                                    "examples": [
+                                        {
+                                            "text": "it's pouring with rain sokthai"
+                                        },
+                                        {
+                                            "text": "the rain had not stopped for days"
+                                        },
+										{
+                                            "text-added": "it is wet when it is raining"
+                                        }
+										
+                                    ],
+                                    "id": "m_en_gbus0842610.005",
+                                    "subsenses": [
+                                        {
+                                            "definitions": [
+                                                "falls of rain"
+                                            ],
+                                            "domains": [
+                                                "Meteorology"
+                                            ],
+                                            "examples": [
+                                                {
+                                                    "text": "the plants were washed away by unusually heavy rains"
+                                                }
+                                            ],
+                                            "id": "m_en_gbus0842610.007",
+                                            "notes": [
+                                                {
+                                                    "text": "\"rains\"",
+                                                    "type": "wordFormNote"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "definitions": [
+                                                "a large or overwhelming quantity of things that fall or descend"
+                                            ],
+                                            "examples": [
+                                                {
+                                                    "text": "he fell under the rain of blows"
+                                                }
+                                            ],
+                                            "id": "m_en_gbus0842610.010",
+                                            "notes": [
+                                                {
+                                                    "text": "in singular",
+                                                    "type": "grammaticalNote"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "language": "en",
+                    "lexicalCategory": "Noun",
+                    "pronunciations": [
+                        {
+                            "audioFile": "http://audio.oxforddictionaries.com/en/mp3/rain_gb_1.mp3",
+                            "dialects": [
+                                "British English"
+                            ],
+                            "phoneticNotation": "IPA",
+                            "phoneticSpelling": "reɪn"
+                        }
+                    ],
+                    "text": "rain"
+                },
+                {
+                    "entries": [
+                        {
+                            "grammaticalFeatures": [
+                                {
+                                    "text": "Intransitive",
+                                    "type": "Subcategorization"
+                                },
+                                {
+                                    "text": "Present",
+                                    "type": "Tense"
+                                }
+                            ],
+                            "homographNumber": "001",
+                            "senses": [
+                                {
+                                    "definitions": [
+                                        "rain falls"
+                                    ],
+                                    "examples": [
+                                        {
+                                            "text": "it was beginning to rain"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0842610.012",
+                                    "notes": [
+                                        {
+                                            "text": "\"it rains\", \"it is raining\", etc.",
+                                            "type": "wordFormNote"
+                                        }
+                                    ],
+                                    "subsenses": [
+                                        {
+                                            "definitions": [
+                                                "(of the sky, the clouds, etc.) send down rain"
+                                            ],
+                                            "examples": [
+                                                {
+                                                    "text": "the low sky raining over tower'd Camelot"
+                                                }
+                                            ],
+                                            "id": "m_en_gbus0842610.018",
+                                            "registers": [
+                                                "literary"
+                                            ]
+                                        },
+                                        {
+                                            "definitions": [
+                                                "fall or cause to fall in large or overwhelming quantities"
+                                            ],
+                                            "examples": [
+                                                {
+                                                    "text": "bombs rained down"
+                                                },
+                                                {
+                                                    "text": "she rained blows on to him"
+                                                }
+                                            ],
+                                            "id": "m_en_gbus0842610.019",
+                                            "notes": [
+                                                {
+                                                    "text": "with adverbial of direction",
+                                                    "type": "grammaticalNote"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "definitions": [
+                                                "used to convey that a specified thing is falling in large quantities"
+                                            ],
+                                            "examples": [
+                                                {
+                                                    "text": "it was just raining glass"
+                                                }
+                                            ],
+                                            "id": "m_en_gbus0842610.020",
+                                            "notes": [
+                                                {
+                                                    "text": "with object",
+                                                    "type": "grammaticalNote"
+                                                },
+                                                {
+                                                    "text": "\"it rains ——\", \"it is raining ——\", etc.",
+                                                    "type": "wordFormNote"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "language": "en",
+                    "lexicalCategory": "Verb",
+                    "pronunciations": [
+                        {
+                            "audioFile": "http://audio.oxforddictionaries.com/en/mp3/rain_gb_1.mp3",
+                            "dialects": [
+                                "British English"
+                            ],
+                            "phoneticNotation": "IPA",
+                            "phoneticSpelling": "reɪn"
+                        }
+                    ],
+                    "text": "rain"
+                }
+            ],
+            "type": "headword",
+            "word": "rain"
+        }
+    ]
+}

@@ -24,7 +24,7 @@
         ((if? exp) (eval-if exp env))
 	((and? exp) (eval-and exp env))
         ((or? exp) (eval-or exp env))
-        ;;((not? exp) (eval-not exp env))
+        ((not? exp) (eval-not exp env))
         ((lambda? exp)
          (make-procedure (lambda-parameters exp) (lambda-body exp) env))
         ((begin? exp) (eval-sequence (begin-actions exp) env))
@@ -539,4 +539,19 @@
 ; then, copy-paste into a comment here how the procedure is
 ; represented internally.
 ; change this flag to true.
-(define printed-uml:not? #f)
+(define printed-uml:not? #t)
+
+(define (eval-not exp env)
+  (define (iter clauses)
+    (if (null? clauses)
+	#t
+	(if (false? (mc-eval (car clauses) env))
+	    #f
+	    (iter (cdr clauses)))))
+  (iter (not-clauses exp)))
+
+(define (not? exp) (tagged-list? exp 'uml:not))
+
+(define (not-clauses exp) (cdr exp))
+
+
