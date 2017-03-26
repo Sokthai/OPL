@@ -24,7 +24,7 @@
         ((if? exp) (eval-if exp env))
 	((and? exp) (eval-and exp env))
         ((or? exp) (eval-or exp env))
-        ;((not? exp) (eval-not exp env))
+        ((not? exp) (eval-not exp env))
         ((lambda? exp)
          (make-procedure (lambda-parameters exp) (lambda-body exp) env))
         ((begin? exp) (eval-sequence (begin-actions exp) env))
@@ -558,4 +558,36 @@
 
 (define (not-clauses exp) (cdr exp))
 
+
+;the-global-environment
+;(((nil
+;   false
+;   true
+;   uml:car
+;   uml:cdr
+;   uml:cons
+;   uml:null?
+;   uml:+
+;   uml:-
+;   uml:*
+;   uml:/
+;   uml:=
+;   uml:>
+;   uml:<
+;   uml:not)
+;  ()
+;  #f
+;  #t
+;  (primitive #<procedure:mcar>)
+;  (primitive #<procedure:mcdr>)
+;  (primitive #<procedure:mcons>)
+;  (primitive #<procedure:null?>)
+;  (primitive #<procedure:+>)
+;  (primitive #<procedure:->)
+;  (primitive #<procedure:*>)
+;  (primitive #<procedure:/>)
+;  (primitive #<procedure:=>)
+;  (primitive #<procedure:>>)
+;  (primitive #<procedure:<>)
+;  (primitive #<procedure:not>)))
 
