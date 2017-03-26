@@ -1,0 +1,14 @@
+body {
+  margin-left: 10%;
+  margin-right: 10%;
+  background-color: lightblue;
+}
+p { font-family: sans-serif }
+h1 { color: green }
+h2 { font-size: small }
+label { 
+  	display : inline-block;
+	width : 75px;
+	text-align : right;
+	text-color : red;
+}

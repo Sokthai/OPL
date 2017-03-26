@@ -4,6 +4,7 @@ all:
 test:
 	perl test.t
 
+  
 clean:
 	rm -f *~ 
 

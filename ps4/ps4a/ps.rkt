@@ -103,7 +103,7 @@
 ;;   once an account is locked, you should not be able to withdraw funds
 ;;   from it, even if then using the correct password!
 (define (make-account-secure balance passwd)
-  (let ([attempt 1])
+  (let ([attempt 0])
     (define (withdraw amount)
       (if (>= balance amount)
           (begin (set! balance (- balance amount)) balance)
@@ -113,12 +113,14 @@
       balance)
     (define (dispatch passwdVerify m)
       (cond
-        [(and (>= attempt 7) (not (eq? passwd passwdVerify)))
-          (error (call-the-cops))]
+        [(> attempt 6) (lambda (x) (call-the-cops))]
+        [(and (= attempt 6) (not (eq? passwd passwdVerify)))
+         (begin (set! attempt (+ attempt 1))(lambda (x) (call-the-cops)))]
         [(not (eq? passwd passwdVerify))
-         (begin (set! attempt (+ attempt 1)) (error "Incorrect password"))]
-        [(eq? m 'withdraw) (begin (set! attempt 1) withdraw)]
-        [(eq? m 'deposit) (begin (set! attempt 1) deposit)]
+         (begin (set! attempt (+ attempt 1)) 
+                (lambda (x) "Incorrect password"))]
+        [(eq? m 'withdraw) (begin (set! attempt 0) withdraw)]
+        [(eq? m 'deposit) (begin (set! attempt 0) deposit)]
         [else (error "Unknown request: MAKE-ACCOUNT" m)]))
     
   dispatch   )

@@ -1,6 +1,6 @@
 #lang racket
 
-;; BEFORE DOING THIS PROBLEM SET, READ:
+;; BEFORE DOING THIS PROBLEM SET, READ: ps3a
 ;; Section 1.3, "Formulating Abstractions with Higher-Order
 ;; Procedures"
 ;; pp 74 - 79 of SICP PDF file

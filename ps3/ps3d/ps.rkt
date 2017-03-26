@@ -61,7 +61,7 @@
 (define (count-leaves-with-map t)
   (foldl + 0 (map (lambda (x) (if (list? x) (count-leaves  x) 1)) t))  
 )
-;; not the right answer :)
+
 
 
 ;; **********************************************************************
@@ -91,8 +91,8 @@
 ;;Answer:
 ;3.b 
 (define (flip-cons lst1 lst2)
-  
-  ((flip (lambda (a b) (list a b))) lst1 lst2)
+  ((flip cons) lst1 lst2)
+  ;((flip (lambda (a b) (list a b))) lst1 lst2)
  )
 
 (define (flip-minus x y)  ;what does flip-minus do?
@@ -225,4 +225,11 @@
      nil lst)
 
  );
+
+;(define (fold-right op initial sequence)
+;  (if (null? sequence)
+;      initial
+;      (op (car sequence)
+;          (fold-right op initial (cdr sequence))))
+;  )
 ;; ************************ END OF FILE *********************************

@@ -1,5 +1,5 @@
 #lang racket
-; Feb/26/2017
+
 ;; Exercise 2.57 on pp. 151.
 ;; Extend the differentiator to handle sums and products of length 2+.
 
@@ -8,7 +8,7 @@
 ;; augend
 ;; make-product
 ;; multiplicand
- 
+
 (define (variable? x) (symbol? x))
 
 (define (same-variable? v1 v2)
@@ -25,28 +25,12 @@
 ;; [augend length 1]   (make-sum 'x 3) is '(+ x 3)
 ;;                     (make-sum 'x 0) is 'x
 ;;                     (make-sum 1 2) is 3
-;; [augend is 2+]      (make-sum 'x 'y 'z) is '(+ x y z)
+;; [augend is 2+]      (make-sum 'x 'y 'x) is '(+ x y z)
 ;;
 ;; the code for the length 1 case is quite similar to the original
 ;; implementation; you should bring it in and modify it
-
-
-
-(define (make-sum a1 . augend) ;augend is the list (after dot)
-  (cond
-    [(null? augend) a1]
-    [(= (length augend) 1)
-     (cond
-       [(=number? (car augend) 0) a1]
-       [(=number? a1 0) (car augend)]
-       [(and (number? a1) (number? (car augend))) (+ a1 (car augend))]
-       [else (list '+ a1 (car augend))]
-      )
-    ]
-    [else (append (list '+ a1) augend)]
-   )
- )
-    
+(define (make-sum a1 . augend)
+  'z)
 
 (define (sum? x)
   (and (pair? x) (eq? (car x) '+)))
@@ -57,34 +41,12 @@
 ;; you will need to test for the length of the augend, and do
 ;; something different the length=1 case and length is 2+ case. 
 (define (augend s)
-(if (> (length s) 2)
-  (if (null? (cdddr s)) (caddr s)  (append (list '+) (cddr s))) 
-   (list)
-  )  
-  )
+  'z)
 
-; like make-sum, this should work with 1, 2, or 3+ args
-; and perform reductions on 1 and 2 arg cases
+;; like make-sum, this should work with 1, 2, or 3+ args
+;; and perform reductions on 1 and 2 arg cases
 (define (make-product m1 . multiplicand)
-  (cond
-    [(null? multiplicand) m1]
-    [(= (length multiplicand) 1)
-     (cond
-       [(or (=number? (car multiplicand) 0) (=number? m1 0)) 0]
-       [(=number? (car multiplicand) 1) m1]
-       [(=number? m1 1) (car multiplicand)]
-       [(and (number? m1) (number? (car multiplicand))) (* m1 (car multiplicand))]
-       [else (list '* m1 (car multiplicand))]
-      )
-    ]
-    [else (append (list '* m1) multiplicand)]
-   )
- )
-
-
-
-
-
+  'z)
 
 (define (product? x) (and (pair? x) (eq? (car x) '*)))
 
@@ -92,13 +54,9 @@
 
 ;; may also construct a product expression
 (define (multiplicand p)
-(if (> (length p) 2)
-  (if (null? (cdddr p)) (caddr p) (append (list '*) (cddr p))) 
-  (list)
-  )
-)
+  'z)
 
-;;; differentiation for exponents 
+;;; differentiation for exponents
 (define (make-exponentiation x y)
   (cond ((= y 0) 1)
 	((= y 1) x)
@@ -111,6 +69,7 @@
 
 (define (exponent x) (caddr x))
 
+;;; deriv including exponentiation
 
 (define (deriv exp var)
   (cond ((number? exp) 0)
@@ -132,6 +91,8 @@
 				     (deriv (base exp) var))))
 	(else
 	 (error "unknown expression type -- DERIV" exp))))
+
+
 ;; Don't remove the equation definitions.
 (define equation1
   (make-product 'x
@@ -139,7 +100,7 @@
                 (make-sum 'x 3))) ; i.e., ((x^2)y + 3xy) dx
 
 (define equation2
-  (make-sum (make-product 5 (make-exponentiation 'x 3)) 
+  (make-sum (make-product 5 (make-exponentiation 'x 3))
             (make-product 7 (make-exponentiation 'x 2))
             (make-product -3 'x)
             12)) ;; 5x^3 + 7x^2 - 3x + 12
