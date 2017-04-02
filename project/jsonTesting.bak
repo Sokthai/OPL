@@ -1,0 +1,55 @@
+#lang racket
+
+
+ (require json)
+
+(define api
+    "{
+      \"metadata\":
+        {
+            \"provider\": \"Oxford University Press\"
+        },
+     \"results\":
+        {
+            \"id\": \"rain\",
+            \"language\": \"en\",
+             \"the condensed moisture of the atmosphere falling visibly in separate drops\"
+            \"type\": \"headword\",
+            \"word\": \"rain\"
+        }\"
+    
+  }"
+)
+
+
+
+(define v (hasheq 'arr 1))
+(define x (string->jsexpr "{\"foo\": \"bar\", \"bar\": \"baz\"}"))
+
+
+(define json  #hash(("a" . 1) ("b" . 20)))
+
+
+;(with-input-from-string json
+;    (lambda () (read-json)))
+
+(with-input-from-string
+   ; "{\"sandwich\":1}"
+    x
+    (λ () (read-json)))
+ 
+
+
+
+
+(for (((key val) (in-hash json)))
+  (if (eq? key "a") " this is string" 
+      (printf "not string\n")))
+  ;(printf "key is ~a = value is ~a~%" key val))
+
+(if (eq? "a" "b") "\na"
+    (printf "\nb")) 
+
+
+
+

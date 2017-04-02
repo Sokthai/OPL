@@ -178,8 +178,8 @@
 ;; uncomment the correct answer
 ;; note: answer to this question is not autograded locally
 ;;
- (define fold-property 'commutative)
-;; (define fold-property 'associative)
+;; (define fold-property 'commutative)
+ (define fold-property 'associative)
 ;; (define fold-property 'distributive)
 
 

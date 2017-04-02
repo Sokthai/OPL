@@ -1,5 +1,5 @@
 module Main where
- 
+
 -- Write a function named "squareList" which will take a list of numbers
 -- and output a list where each item is squared.
 --
@@ -21,8 +21,9 @@ module Main where
 
 
 squareList :: (Num t) => [t] -> [t]
+--squareList :: [Int] -> [Int]
 squareList [] = []
-squareList (x:xs) = (x * x) : squareList xs
+squareList (x:xs) = x * x : squareList xs
 
 --Description
 --This SquareList function is taking a list of number and recursively

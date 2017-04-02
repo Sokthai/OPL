@@ -1,6 +1,6 @@
 ;;; mc-eval-with-let.ss
 ;;; Metacircular evaluator from section 4.1 of SICP
-
+;;ps7a
 ;;; MUST SET LANGUAGE TO R5RS
 ;;;
 ;;; this is necessary because environments implementation
@@ -24,7 +24,7 @@
         ((if? exp) (eval-if exp env))
 	((and? exp) (eval-and exp env))
         ((or? exp) (eval-or exp env))
-        ;;((not? exp) (eval-not exp env))
+        ((not? exp) (eval-not exp env))
         ((lambda? exp)
          (make-procedure (lambda-parameters exp) (lambda-body exp) env))
         ((begin? exp) (eval-sequence (begin-actions exp) env))
@@ -45,7 +45,7 @@
 	  (extend-environment (procedure-parameters procedure)
 			      arguments
 			      (procedure-environment procedure))))
-        (else (error "Unknown procedure type -- MC-APPLY" procedure))))
+        (else (error "Unknown procedure type -- MC-APPLY" procedure))))  
 
 ;;; list-of-values is used to produce the list of arguments to which
 ;;; a procedure is to be applied
@@ -200,28 +200,71 @@
 
 
 
-;;;;;;;;;;;--------------or----------
-
-;(define (eval-or exp env)  
-;  (define (iter clauses)
-;     (cond ((null? clauses) #t)
-;           ((and (null? (cdr clauses)) (false? (mc-eval (car clauses) env))) #f)
-;           ((true? (mc-eval (car clauses) env)) #t)
-;           (else (iter (cdr clauses))))
-;  )
-;  
-; (iter (or-clauses exp)))
-;
-;(define (or? exp) (tagged-list? exp 'uml:or))
-;
-;(define (or-clauses exp) (cdr exp))
+;;;;--------------eval-or----------------
 
 
-;;;;;;;;;;;---------not---------------
+(define (eval-or exp env)  
+  (define (iter clauses)
+     (cond ((null? clauses) #f)         
+           ((true? (mc-eval (car clauses) env)) #t)
+           (else (iter (cdr clauses))))
+  )
+  
+ (iter (or-clauses exp)))
+
+(define (or? exp) (tagged-list? exp 'uml:or))
+
+(define (or-clauses exp) (cdr exp))
 
 
 
+;this (or) procedure is working as expected. it loops through the list of clauses
+;and stop if it evaluates to true. the (mc-eval) will evaluate the whole clauses
+;and determine ture/false. it will evaluate the whole clauses if the clauses all false,
 
+
+;EVIDENCE
+
+;;; MC-Eval input: (uml:or true)
+;;; MC-Eval value: #t
+;OR of true is true
+
+;;; MC-Eval input: (uml:or false)
+;;; MC-Eval value: #f
+;OR of false is false 
+
+;;; MC-Eval input: (uml:or true true)
+;;; MC-Eval value: #t
+;OR of two true is true
+
+
+;;; MC-Eval input: (uml:or false false false)
+;;; MC-Eval value: #f
+;OR of three false is false
+
+;;; MC-Eval input: (uml:or true false)
+;;; MC-Eval value: #t
+;OR of one true is true
+
+;;; MC-Eval input: (uml:define foo 1)
+;;; MC-Eval value: ok
+;define foo to 1
+
+;;; MC-Eval input: (uml:or true (uml:begin (uml:set! foo 2) true))
+;;; MC-Eval value: #t
+;short-circuited OR, it evaluates to true and the second argument is not executed
+
+;;; MC-Eval input: foo
+;;; MC-Eval value: 1
+;foo is still 1
+
+;;; MC-Eval input: (uml:or false (uml:begin (uml:set! foo 2) true))
+;;; MC-Eval value: #t
+;it evaluates both arguments since the first argument is false
+
+;;; MC-Eval input: foo
+;;; MC-Eval value: 2
+;foo is now 2
 
 
 
@@ -446,14 +489,17 @@
 ;;; evaluator to be run
 
 (define (setup-environment)
-  (let ((initial-env
+  (let (
+        (initial-env
 	 (extend-environment (primitive-procedure-names)
 			     (primitive-procedure-objects)
-			     the-empty-environment)))
+			     the-empty-environment ) 
+         )
+        )
     (define-variable! 'true #t initial-env)
     (define-variable! 'false #f initial-env)
     (define-variable! 'nil '() initial-env)
-    initial-env))
+    initial-env)) 
 
 (define (primitive-procedure? proc)
   (tagged-list? proc 'primitive))
@@ -471,18 +517,20 @@
 	(list 'uml:/ /)
 	(list 'uml:= =)
 	(list 'uml:> >)
-	(list 'uml:< <)))
+	(list 'uml:< <)
+        (list 'uml:not not)
+        ))
 
 
 (define (primitive-procedure-names)
   (map car
        primitive-procedures))
 
-(define (primitive-procedure-objects)
+(define (primitive-procedure-objects) 
   (map (lambda (proc) (list 'primitive (cadr proc)))
        primitive-procedures))
 
-(define (apply-primitive-procedure proc args)
+(define (apply-primitive-procedure proc args) 
   (apply-in-underlying-scheme
    (primitive-implementation proc) args))
 
@@ -495,7 +543,7 @@
 
 (define (driver-loop)
   (prompt-for-input input-prompt)
-  (let ((input (read)))  
+  (let ((input (read)))   
     (let ((output (mc-eval input the-global-environment)))
       (announce-output output-prompt)
       (user-print output)))
@@ -513,7 +561,7 @@
 		     (procedure-parameters object)
 		     (procedure-body object)
 		     '<procedure-env>))
-      (display object)))
+      (display object))) 
 
 (define the-global-environment (setup-environment))
 
@@ -539,4 +587,98 @@
 ; then, copy-paste into a comment here how the procedure is
 ; represented internally.
 ; change this flag to true.
-(define printed-uml:not? #f)
+(define printed-uml:not? #t)
+
+
+
+
+;---------eval-not------------------
+
+
+(define (eval-not exp env)
+  (define (iter clauses)
+
+    (cond ((false? (mc-eval (car clauses) env)) #t)
+          ((true? (mc-eval (car clauses) env)) #f)
+            (else  (error "type mismatch")))
+    )             
+  (iter (not-clauses exp)))
+
+(define (not? exp) (tagged-list? exp 'uml:not))
+
+(define (not-clauses exp) (cdr exp))
+
+
+;this (uml:not) is expect a true/false clauses. it evaulates the first
+;item of the clauses and return true if the clauses is false,
+;and false if the clauses is true;
+
+;EVIDENCE
+
+;;; MC-Eval input: (uml:not false)
+;;; MC-Eval value: #t
+;NOT false is true
+
+
+;;; MC-Eval input: (uml:not true)
+;;; MC-Eval value: #f
+;NOT true is false
+
+
+;;; MC-Eval input: (uml:not (uml:and true true))
+;;; MC-Eval value: #f
+;NOT true is false
+
+
+;;; MC-Eval input: (uml:not (uml:or false false))
+;;; MC-Eval value: #t
+;NOT false is true
+
+
+;;; MC-Eval input: (uml:not (uml:or false true))
+;;; MC-Eval value: #f
+;NOT true is false
+
+
+;;; MC-Eval input: (uml:not (uml:and true))
+;;; MC-Eval value: #f
+;NOT true is false
+
+
+
+;-------------the-global-environment---------------
+
+
+
+;the-global-environment
+;(((nil
+;   false
+;   true
+;   uml:car
+;   uml:cdr
+;   uml:cons
+;   uml:null?
+;   uml:+
+;   uml:-
+;   uml:*
+;   uml:/
+;   uml:=
+;   uml:>
+;   uml:<
+;   uml:not)
+;  ()
+;  #f
+;  #t
+;  (primitive #<procedure:mcar>)
+;  (primitive #<procedure:mcdr>)
+;  (primitive #<procedure:mcons>)
+;  (primitive #<procedure:null?>)
+;  (primitive #<procedure:+>)
+;  (primitive #<procedure:->)
+;  (primitive #<procedure:*>)
+;  (primitive #<procedure:/>)
+;  (primitive #<procedure:=>)
+;  (primitive #<procedure:>>)
+;  (primitive #<procedure:<>)
+;  (primitive #<procedure:not>)))
+
