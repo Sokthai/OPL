@@ -56,7 +56,7 @@ mapq = "D"
 --myfun z = False
 --
 -- C.
--- myfun :: (Int a) => a -> Bool
+--myfun :: (Int a) => a -> Bool
 --myfun 0 = True
 --myfun z = False
 --
@@ -65,31 +65,17 @@ mapq = "D"
 --myfun 0 = True
 --myfun z = False
 
--- myfun :: Num a => a -> Bool
--- myfun 0 = True
--- myfun z = False
---
--- C.
--- myfun :: (Int a) => a -> Bool
--- myfun 0 = True
--- myfun z = False
---
--- D.
--- myfun :: Int -> Bool
--- myfun 0 = True
--- myfun z = False
-
 --
 -- E. none of these
 --
 -- put letter A - E in the quotes to specify the correct answer.
 
---myfun = "C"
-=======
 
 myfun = "D"
 
 
+myfun1 0 = True
+myfun1 z = False
 
 
 -- some exercises with Maybe, Nothing, and Just a
@@ -101,7 +87,8 @@ myfun = "D"
 -- also write its type signature
 
 
-zeroIsNothing :: (Eq a, Num a) => a -> Maybe a  
+--zeroIsNothing :: (Eq a, Num a) => a -> Maybe a
+zeroIsNothing :: (Integral a) => a -> Maybe a
 zeroIsNothing 0 = Nothing
 zeroIsNothing z = Just z
 
@@ -111,8 +98,8 @@ zeroIsNothing z = Just z
 -- converts Nothing to 0, and (Just a) to the number a
 -- also write its type signature
 
---nothingIsZero :: Integer => Maybe a -> a 
---nothingIsZero :: (Eq a, Num a) => Maybe a -> a 
+--nothingIsZero :: Integer => Maybe a -> a
+--nothingIsZero :: (Eq a, Num a) => Maybe a -> a
 nothingIsZero :: Maybe Integer -> Integer
 nothingIsZero (Just a) = a
 nothingIsZero Nothing = 0
@@ -261,3 +248,36 @@ bucket_op n l = if null l then [[n]] else if n == head (head l) then (n : head l
 
 --bucket :: (Foldable a, Ord a1) => a a1 -> [[a1]]
 bucket l = foldr bucket_op [] l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fact 1 = 1
+fact n = n * fact (n -1)
+
+
+
+
+
+

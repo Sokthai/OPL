@@ -31,20 +31,13 @@
   
   (cond ((number? (string-contains respond "404 Not Found")) (printf "Not Found"))
         (else
-         (getAnswer (readjson-from-input respond) '|word| "word        : ")
-         (getAnswer (readjson-from-input respond) '|definitions| "definitions : ")
-         (getAnswer (readjson-from-input respond) '|examples| "examples    : ")))
+         (searchDict (readjson-from-input respond) '|word| "word        : ")
+         (searchDict (readjson-from-input respond) '|definitions| "definitions : ")
+         (searchDict (readjson-from-input respond) '|examples| "examples    : ")))
 
 )
 
 
-
-
-(define (readjson-from-file file)
-  (with-input-from-string 
-  (call-with-input-file file (lambda (in) (port->string in)))
-    (lambda () (read-json)))
-)
 
 
 (define (readjson-from-input var)
@@ -55,15 +48,15 @@
 
 
 
-(define (getAnswer hash k des)
-  (cond ((list? hash)  (getAnswer (car hash) k des))
+(define (searchDict hash k des)
+  (cond ((list? hash)  (searchDict (car hash) k des))
         ((and (hash? hash) (not (empty? (hash-ref hash k (lambda () empty))))) (display hash k des))     
         (else        
          (cond ((hash? hash)              
                 (for (((key val) (in-hash hash)))
-                  (getAnswer (hash-ref hash key) k des)))                  
+                  (searchDict (hash-ref hash key) k des)))                  
                (else hash)))))
-;--------------
+
 (define (display hash k des)
   (cond
     
@@ -76,7 +69,7 @@
   ))
     
   
-;-------------
+
 
 
 (define (show lst k des)
@@ -88,5 +81,5 @@
          (show (cdr lst) k des)
          )))
 
-;--------------
+
 

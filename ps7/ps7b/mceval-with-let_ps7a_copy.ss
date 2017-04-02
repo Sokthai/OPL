@@ -24,13 +24,14 @@
         ((if? exp) (eval-if exp env))
 	((and? exp) (eval-and exp env))
         ((or? exp) (eval-or exp env))
-        ((not? exp) (eval-not exp env))
+        ((not? exp) (eval-not exp env))        
         ((lambda? exp)
          (make-procedure (lambda-parameters exp) (lambda-body exp) env))
         ((begin? exp) (eval-sequence (begin-actions exp) env))
         ((cond? exp) (mc-eval (cond->if exp) env))
 	((let? exp) (mc-eval (let->combination exp) env))
-        ((application? exp)
+        ;((for? exp) (mc-eval (for->combination exp) env))
+        ((application? exp) 
          (mc-apply (mc-eval (operator exp) env)
 		(list-of-values (operands exp) env)))
         (else (error "Unknown expression type -- MC-EVAL"))))
@@ -359,7 +360,7 @@
           (values (let-values exp))
           (body (let-body exp)))
        (cons (cons 'uml:lambda (cons variables body))
-             values)))
+             values))) 
 
 ;;; Data structures for our evaluator
 
@@ -607,76 +608,39 @@
 (define (not-clauses exp) (cdr exp))
 
 
-;this (uml:not) is expect a true/false clauses. it evaulates the first
-;item of the clauses and return true if the clauses is false,
-;and false if the clauses is true;
 
-;EVIDENCE
-
-;;; MC-Eval input: (uml:not false)
-;;; MC-Eval value: #t
-;NOT false is true
-
-
-;;; MC-Eval input: (uml:not true)
-;;; MC-Eval value: #f
-;NOT true is false
-
-
-;;; MC-Eval input: (uml:not (uml:and true true))
-;;; MC-Eval value: #f
-;NOT true is false
-
-
-;;; MC-Eval input: (uml:not (uml:or false false))
-;;; MC-Eval value: #t
-;NOT false is true
-
-
-;;; MC-Eval input: (uml:not (uml:or false true))
-;;; MC-Eval value: #f
-;NOT true is false
-
-
-;;; MC-Eval input: (uml:not (uml:and true))
-;;; MC-Eval value: #f
-;NOT true is false
+;------------------------------------------------------
+(define (for->combination exp)
+    (let ((variables (let-variables exp)) 
+          (values (let-values exp))
+          (body (let-body exp)))
+       (cons (cons 'uml:lambda (cons variables body))
+             values)))
+;------------------------------------------------------
 
 
 
-;-------------the-global-environment---------------
+;(define mylet '(uml:let ((x 3) ( y 8)) (uml:+ x y)))
+;(define for-conbination) 
+
+
+(uml:for (index start end body)
+(uml:define (for index end)
+  body
+  
+    (uml:if (uml:< index end)
+            (for (+ index 1) end)
+            'ok)
+  )
+(for start end))
 
 
 
-;the-global-environment
-;(((nil
-;   false
-;   true
-;   uml:car
-;   uml:cdr
-;   uml:cons
-;   uml:null?
-;   uml:+
-;   uml:-
-;   uml:*
-;   uml:/
-;   uml:=
-;   uml:>
-;   uml:<
-;   uml:not)
-;  ()
-;  #f
-;  #t
-;  (primitive #<procedure:mcar>)
-;  (primitive #<procedure:mcdr>)
-;  (primitive #<procedure:mcons>)
-;  (primitive #<procedure:null?>)
-;  (primitive #<procedure:+>)
-;  (primitive #<procedure:->)
-;  (primitive #<procedure:*>)
-;  (primitive #<procedure:/>)
-;  (primitive #<procedure:=>)
-;  (primitive #<procedure:>>)
-;  (primitive #<procedure:<>)
-;  (primitive #<procedure:not>)))
+  
+
+
+
+
+
+
 

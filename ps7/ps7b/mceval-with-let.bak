@@ -283,6 +283,41 @@
        (cons (cons 'uml:lambda (cons variables body))
              values)))
 
+;;; Adding uml:for
+;;;
+;;; Structure:
+;;;   (uml:for (<var> <exp1> <exp2>) <body>)
+;;;
+;;; This should create an environment in which <var> is initially bound
+;;; to the value of <exp1> and body is evaluated.
+;;; then <var> is incremented. If it's less than <exp2>,
+;;; then <body> is evaluated again, etc.
+;;;
+;;; for example, you should be able to write
+;;;   (uml:for (i 1 3) (uml:set! n (uml:+ i n)))
+;;; (assuming n was defined previously)
+;;;
+;;; e.g., the following should run as indicated
+;;; > (mc-eval '(uml:define n 0) the-global-environment)
+;;; ok
+;;; > (mc-eval '(uml:for (i 1 3) (uml:set! n (uml:+ n i))) the-global-environment)
+;;; ok
+;;; > (mc-eval 'n the-global-environment)
+;;; 6
+;;;
+;;; Do this by adding a procedure "for->combination"
+;;; that rewrites the uml:for expression as a procedure that implements
+;;; a recursive loop to carry out the iteration
+;;; followed by an application of this procedure
+;;; 
+;;; you need to use uml:begin in your transformed expression to do these
+;;; two things
+;;; 
+;;; follow the examples of cond->if and let->combination
+
+;;; add your work here, and also add a line to mc-eval.
+
+
 ;;; Data structures for our evaluator
 
 ;;; for conditionals, we accept anything that isn't the explicit false

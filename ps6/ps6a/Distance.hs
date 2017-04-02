@@ -1,5 +1,5 @@
 module Main where
-  
+
 -- Write a function named "distance" that takes a tuple of two items,
 -- each being a tuple of two numbers.  Assume that the two inner tuples
 -- represent (x, y) coordinates on a plane, and output the distance
@@ -19,6 +19,7 @@ module Main where
 -- Think specifically about what typeclass its parameters should be.
 -- Write a plain-English description of how to read and understand it.
 
+third (b, c, z) = z
 
 distance :: Floating a => ((a, a), (a, a)) -> a
 distance ((x1, y1), (x2, y2)) = sqrt((x1 - x2)^2 + (y1 - y2)^2)

@@ -1,5 +1,5 @@
 module Main where
- 
+
 -- Implement Fibonacci numbers using tail recursion.
 -- Use pattern matching for the case of fib 0 = 1 and fib 1 = 1.
 -- Use a tail-recursive (iterative implementation) for the rest.
@@ -22,7 +22,8 @@ module Main where
 
 
 --tail recursive
-fibi :: (Num t, Num t1, Eq t1) => t1 -> t
+fibi :: (Num t, Integral t1) => t1 -> t
+--fibi :: (Num t, Num t1, Eq t1) => t1 -> t
 fibi x = fibi' x 1 1 where
     fibi' 0 y z = z
     fibi' 1 y z = z

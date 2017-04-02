@@ -1,5 +1,5 @@
-#lang racket
-
+ar #lang racket
+;;sokthai tang feb/08/2017 ps3c
 ;; last updated Mon Feb  6 13:14:35 2017 fred_martin@uml.edu
 
 ;; +++++++++++++++ Required for auto grading ++++++++++++++++++++++++++++
@@ -28,25 +28,34 @@
 
 ;a)
 (define (double-list1 lst)
-  1)
+  (define (iter lst newList)
+    (if (null? lst) newList
+        (cons (* (car lst) 2) 
+              (iter (cdr lst) newList))))
+    (iter lst nil)    
+  )
 
 ;b)
 ;; using scale-list 
 (define (double-list2 lst)
-  1)
+  (scale-list lst 2) 
+ )
 
 ;c)
 ;; using map
 (define (double-list3 lst)
-  1)
+  (map (lambda (x) ( * x 2)) lst))
 
 ;; SICP exercise 2.21 (pp. 106), on square-list.
 
 (define (square-list1 items)
-  1)
+  (if (null? items) nil
+      (cons (square (car items))
+            (square-list1 (cdr items)))))
 
 (define (square-list2 items)
-  1)
+  (map square items)
+)
 
 ;; enum-range is a procedure that generates a list of ints
 ;; beginning with "a" and ending with "b" (inclusive).
@@ -58,7 +67,12 @@
 
 ;; write an iterative-process version of this.
 (define (enum-range-i a b)
-  1)
+  (define (iter b newList)
+    (if (< b a) newList
+        (iter (- b 1) (cons b newList)))
+        )
+  (iter b nil)
+)
 
 ;; this is a list of the first 100 natural numbers
 (define my-nats (enum-range-i 1 100))
@@ -68,25 +82,29 @@
 
 ;; all odd numbers
 (define (odds lst) 
+  (filter odd? lst)
   ;; some map/filter expr over
-  1)
+  )
 
 ;; each number tripled
 ;; e.g. 3, 6, 9, ... , 300
 (define (triples lst)
+  (map (lambda (x) (* x 3)) lst)
   ;; maps and/or filters over
-  1)
+  )
 
 ;; sum of squares
 ;; i.e., 1 + 4 + 9 + 16 + ... + 10000
 (define (square-sum lst)
+  (accumulate + 0 (map square lst))
   ;; probably an accumulation is involved here
-  1)
+  )
 
 ;; product of each item
 ;; = 1 * 2 * 3 * ... * 100
 (define (products lst)
-  1)
+ (accumulate * 1 lst)
+  )
 
 ;; suppose we have a list of lists.
 ;; each sublist contains two numbers; e.g.:
@@ -106,19 +124,23 @@
 
 ;; write the accumulation function here
 (define (sum-of-prod-lists lst)
+  (if (null? lst) 0
+      (+ (accumulate * 1 (car lst)) 
+         (sum-of-prod-lists (rest lst)))
+  )
   ;; some accum
-  1) 
+) 
 
 ;; SICP exercise 2.35 (pp. 120), redefining count-leaves as an
 ;; accumulation.  Fill in the below procedure. Replace '<??>.
 ;; note! you may recursively call this "count-leaves" fcn
 ;;  inside of it!
 ;; e.g.:
-;;  (define tree (list 1 2 (list 3 4) (list 5 (list 6 7)))) 
+  (define tree (list 1 2 (list 3 4) (list 5 (list 6 7)))) 
 ;;  (count-leaves tree) => 7
 
 (define (count-leaves tree)
-  (accumulate '<??> '<??> (map '<??> '<??>)))
+  (accumulate + 0 (map (lambda (x) (if (list? x) (count-leaves  x) 1)) tree)))
 
 ;; SICP exercise 2.33 (pp. 119), implementing map, append, and
 ;; length.  Replace '<??> with answer
@@ -132,13 +154,13 @@
 ;; your way to an answer.
 
 (define (map-from-fold p sequence)
-  (accumulate (lambda (x y) '<??> ) nil sequence))
+  (accumulate (lambda (x y) (cons (p x) y )) nil sequence))
 
 (define (append-from-fold seq1 seq2)
-  (accumulate cons '<??> '<??>))
+  (accumulate cons seq2 seq1))
 
 (define (length-from-fold sequence)
-  (accumulate '<??> 0 sequence))
+  (accumulate (lambda (x y) (+ y 1)) 0 sequence))
 
 ;; think back to the sum-of-prod-lists problem a little while back.
 ;; now let's do it with a flat list; e.g.
@@ -151,10 +173,26 @@
 ;; step into two different things depending on whether
 ;; you've just computed a product, or need to carry forward
 ;; a multiplicand to the next operation
-(define (sum-of-prods lst)
-  ;; just need a single accumulation if it's done right
-  1)
+(define (sum-of-prods lst)  
+ (car (accumulate (lambda (x p)
+               (if (null? (car p)) (list x nil nil)
+                   (if (null? (caddr p)) 
+                       (list (* (car p) x) nil 0)
+                       (if (null? (cadr p))
+                           (list (car p) x 0)
+                           (list (+ (car p) (* x (cadr p))) nil 0))
+                    )
+                 ) 
+               )
+               (list nil nil nil) lst)))
 
+  ;initialize a empty list of three elements. 
+  ;the first element used to store the first multiplication group (4*3)
+  ;the second element used to store the second multiplication group (2*1)
+  ;the last one is used to check if the first and second elements
+  ;are ready to add. 
+  ;------------------------
+            
 
 
 ;; Solve SICP exercise 2.27 on deep-reverse.
@@ -178,8 +216,12 @@
 ;  (my-reverse '((1 2) (3 4))) => '((3 4) (1 2))
 
 (define (my-reverse items) 
-  items)
-
+  (if (null? items) nil
+      (append 
+            (my-reverse (cdr items))
+            (list (car items)))
+  )
+)
 ; deep reverse
 ; recursively reverse sublists
 ; e.g.
@@ -187,6 +229,9 @@
 ;  (deep-reverse '((1 2) (3 4))) => '((4 3) (2 1))
 ;  (deep-reverse '((1 2) (3 (4 5)))) => '(((5 4) 3) (2 1))
 
-(define (deep-reverse items) 
-  items)
+(define (deep-reverse items)
+   (if (list? items)
+      (my-reverse (map deep-reverse items))
+      items)     
+ )
 

@@ -1,6 +1,6 @@
 ;;; mc-eval-with-let.ss
 ;;; Metacircular evaluator from section 4.1 of SICP
-;;ps7a
+
 ;;; MUST SET LANGUAGE TO R5RS
 ;;;
 ;;; this is necessary because environments implementation
@@ -23,13 +23,14 @@
         ((definition? exp) (eval-definition exp env))
         ((if? exp) (eval-if exp env))
 	((and? exp) (eval-and exp env))
-        ((or? exp) (eval-or exp env))
-        ((not? exp) (eval-not exp env))
         ((lambda? exp)
          (make-procedure (lambda-parameters exp) (lambda-body exp) env))
         ((begin? exp) (eval-sequence (begin-actions exp) env))
         ((cond? exp) (mc-eval (cond->if exp) env))
 	((let? exp) (mc-eval (let->combination exp) env))
+        
+        ((for? exp) (mc-eval (for->combination exp) env))
+         
         ((application? exp)
          (mc-apply (mc-eval (operator exp) env)
 		(list-of-values (operands exp) env)))
@@ -45,7 +46,7 @@
 	  (extend-environment (procedure-parameters procedure)
 			      arguments
 			      (procedure-environment procedure))))
-        (else (error "Unknown procedure type -- MC-APPLY" procedure))))  
+        (else (error "Unknown procedure type -- MC-APPLY" procedure))))
 
 ;;; list-of-values is used to produce the list of arguments to which
 ;;; a procedure is to be applied
@@ -64,6 +65,7 @@
   (if (true? (mc-eval (if-predicate exp) env))
       (mc-eval (if-consequent exp) env)
       (mc-eval (if-alternative exp) env)))
+
 
 
 ;;; eval-sequence is used by mc-apply to evaluate the sequence of 
@@ -199,82 +201,6 @@
 (define (and-clauses exp) (cdr exp))
 
 
-
-;;;;--------------eval-or----------------
-
-(define (eval-or exp env)  
-  (define (iter clauses)
-     (cond ((null? clauses) #f)         
-           ((true? (mc-eval (car clauses) env)) #t)
-           (else (iter (cdr clauses))))
-  )
-  
- (iter (or-clauses exp)))
-
-(define (or? exp) (tagged-list? exp 'uml:or))
-
-(define (or-clauses exp) (cdr exp))
-
-
-;this (or) procedure is working as expected. it loops through the list of clauses
-;and stop if it evaluates to true. the (mc-eval) will evaluate the whole clauses
-;and determine ture/false. it will evaluate the whole clauses if the clauses all false,
-
-
-;EVIDENCE
-
-;;; MC-Eval input: (uml:or true)
-;;; MC-Eval value: #t
-;OR of true is true
-
-;;; MC-Eval input: (uml:or false)
-;;; MC-Eval value: #f
-;OR of false is false 
-
-;;; MC-Eval input: (uml:or true true)
-;;; MC-Eval value: #t
-;OR of two true is true
-
-
-;;; MC-Eval input: (uml:or false false false)
-;;; MC-Eval value: #f
-;OR of three false is false
-
-;;; MC-Eval input: (uml:or true false)
-;;; MC-Eval value: #t
-;OR of one true is true
-
-;;; MC-Eval input: (uml:define foo 1)
-;;; MC-Eval value: ok
-;define foo to 1
-
-;;; MC-Eval input: (uml:or true (uml:begin (uml:set! foo 2) true))
-;;; MC-Eval value: #t
-;short-circuited OR, it evaluates to true and the second argument is not executed
-
-;;; MC-Eval input: foo
-;;; MC-Eval value: 1
-;foo is still 1
-
-;;; MC-Eval input: (uml:or false (uml:begin (uml:set! foo 2) true))
-;;; MC-Eval value: #t
-;it evaluates both arguments since the first argument is false
-
-;;; MC-Eval input: foo
-;;; MC-Eval value: 2
-;foo is now 2
-
-
-
-
-
-;;;;;;;;;;;--------------------------
-
-
-
-
-
-
 ;;; begin expressions (a.k.a. sequences)
 
 (define (begin? exp) (tagged-list? exp 'uml:begin))
@@ -358,8 +284,120 @@
     (let ((variables (let-variables exp))
           (values (let-values exp))
           (body (let-body exp)))
-       (cons (cons 'uml:lambda (cons variables body))
-             values)))
+
+      body
+      ; (cons (cons 'uml:lambda (cons variables body))
+      ;       values)
+      ))
+
+
+;;; Adding uml:for
+;;;
+;;; Structure:
+;;;   (uml:for (<var> <exp1> <exp2>) <body>)
+
+;(define (cond->if exp)
+;  (expand-clauses (cond-clauses exp)))
+;---------------------------------------------------------
+ 
+(define (for? exp) (tagged-list? exp 'uml:for))
+(define (for-variables exp)
+  (caadr exp)) ;<var> 
+(define (for-expression exp) (cdadr exp)) ;'(<exp1> <exp2>)
+(define (for-body exp) (caddr exp)) ;'<body>
+
+ 
+(define (for->combination exp)
+
+  (let (
+        (variables (for-variables exp))
+        (start (mc-eval (car (for-expression exp)) the-global-environment))
+        (end (mc-eval (cadr (for-expression exp)) the-global-environment))
+        (body (for-body exp))
+        ) 
+    
+    (mc-eval (list 'uml:define variables start) the-global-environment)
+    ;(display body) 
+    (define (for-iter index theEnd )
+      (mc-eval body the-global-environment)
+      
+      (mc-eval (list 'uml:set! variables (list 'uml:+ variables 1)) the-global-environment)
+     
+      
+      ;(define theLet '(uml:let ((x 3) (y 5)) (uml:* x y)))
+      
+    ; (mc-eval '(uml:set! variables (uml:+ variables 1)) the-global-environment) 
+      (if (< index theEnd)
+          (for-iter (+ index 1) theEnd)
+          "ok")
+
+     ;(mc-eval '(uml:cond ((uml:< index theEnd) (for-iter (+ index 1) theEnd))
+      ;                    (else "ok")) the-global-environment)
+          
+       
+;          (mc-eval '(uml:if (uml:< 1 2)
+;                           ;(for-iter ((mc-eval '(uml:define i start) the-global-environment)) e)
+;                           (uml:+ 1 2)
+;                           "okay"
+;                           ) the-global-environment)
+      )
+    (for-iter start end)
+    ) 
+)
+
+;(define (for->combination exp)
+;  (let (
+;        (variables (for-variables exp))
+;        (start (mc-eval (car (for-expression exp)) the-global-environment))
+;        (end (mc-eval (cadr (for-expression exp)) the-global-environment))
+;        (body (for-body exp))
+;        )
+;    (list 'uml:begin
+;          (list 'uml:define (list 'for-expression variables)
+;                (list 'uml:let (list (list 'result body))
+;                      (list 'uml:if (list 'uml:< variables end)
+;                            (list 'for-expression (list 'uml:+ variables 1))
+;                                  'result)))
+;                (list 'for-expression start))))
+
+
+
+
+
+
+;---------------------------------------------------------
+
+         ;(mc-eval '(uml:if (uml:< 1 2) "small" "big") the-global-environment)                    
+;;;
+;;; This should create an environment in which <var> is initially bound
+;;; to the value of <exp1> and body is evaluated.
+;;; then <var> is incremented. If it's less than <exp2>,
+;;; then <body> is evaluated again, etc.
+;;;
+;;; for example, you should be able to write
+;;;   (uml:for (i 1 3) (uml:set! n (uml:+ i n)))
+;;; (assuming n was defined previously)
+;;;
+;;; e.g., the following should run as indicated
+;;; > (mc-eval '(uml:define n 0) the-global-environment)
+;;; ok
+;;; > (mc-eval '(uml:for (i 1 3) (uml:set! n (uml:+ n i))) the-global-environment)
+;;; ok
+;;; > (mc-eval 'n the-global-environment)
+;;; 6
+;;;
+;;; Do this by adding a procedure "for->combination"
+;;; that rewrites the uml:for expression as a procedure that implements
+;;; a recursive loop to carry out the iteration
+;;; followed by an application of this procedure
+;;; 
+;;; you need to use uml:begin in your transformed expression to do these
+;;; two things
+;;; 
+;;; follow the examples of cond->if and let->combination
+
+;;; add your work here, and also add a line to mc-eval.
+
 
 ;;; Data structures for our evaluator
 
@@ -487,17 +525,14 @@
 ;;; evaluator to be run
 
 (define (setup-environment)
-  (let (
-        (initial-env
+  (let ((initial-env
 	 (extend-environment (primitive-procedure-names)
 			     (primitive-procedure-objects)
-			     the-empty-environment ) 
-         )
-        )
+			     the-empty-environment)))
     (define-variable! 'true #t initial-env)
     (define-variable! 'false #f initial-env)
     (define-variable! 'nil '() initial-env)
-    initial-env)) 
+    initial-env))
 
 (define (primitive-procedure? proc)
   (tagged-list? proc 'primitive))
@@ -515,20 +550,18 @@
 	(list 'uml:/ /)
 	(list 'uml:= =)
 	(list 'uml:> >)
-	(list 'uml:< <)
-        (list 'uml:not not)
-        ))
+	(list 'uml:< <)))
 
 
-(define (primitive-procedure-names)
+(define (primitive-procedure-names) 
   (map car
        primitive-procedures))
 
-(define (primitive-procedure-objects) 
+(define (primitive-procedure-objects)
   (map (lambda (proc) (list 'primitive (cadr proc)))
        primitive-procedures))
 
-(define (apply-primitive-procedure proc args) 
+(define (apply-primitive-procedure proc args)
   (apply-in-underlying-scheme
    (primitive-implementation proc) args))
 
@@ -541,7 +574,7 @@
 
 (define (driver-loop)
   (prompt-for-input input-prompt)
-  (let ((input (read)))   
+  (let ((input (read))) 
     (let ((output (mc-eval input the-global-environment)))
       (announce-output output-prompt)
       (user-print output)))
@@ -559,7 +592,7 @@
 		     (procedure-parameters object)
 		     (procedure-body object)
 		     '<procedure-env>))
-      (display object))) 
+      (display object)))
 
 (define the-global-environment (setup-environment))
 
@@ -585,98 +618,15 @@
 ; then, copy-paste into a comment here how the procedure is
 ; represented internally.
 ; change this flag to true.
-(define printed-uml:not? #t)
+(define printed-uml:not? #f)
 
 
 
 
-;---------eval-not------------------
-
-
-(define (eval-not exp env)
-  (define (iter clauses)
-
-    (cond ((false? (mc-eval (car clauses) env)) #t)
-          ((true? (mc-eval (car clauses) env)) #f)
-            (else  (error "type mismatch")))
-    )             
-  (iter (not-clauses exp)))
-
-(define (not? exp) (tagged-list? exp 'uml:not))
-
-(define (not-clauses exp) (cdr exp))
-
-
-;this (uml:not) is expect a true/false clauses. it evaulates the first
-;item of the clauses and return true if the clauses is false,
-;and false if the clauses is true;
-
-;EVIDENCE
-
-;;; MC-Eval input: (uml:not false)
-;;; MC-Eval value: #t
-;NOT false is true
-
-
-;;; MC-Eval input: (uml:not true)
-;;; MC-Eval value: #f
-;NOT true is false
-
-
-;;; MC-Eval input: (uml:not (uml:and true true))
-;;; MC-Eval value: #f
-;NOT true is false
-
-
-;;; MC-Eval input: (uml:not (uml:or false false))
-;;; MC-Eval value: #t
-;NOT false is true
-
-
-;;; MC-Eval input: (uml:not (uml:or false true))
-;;; MC-Eval value: #f
-;NOT true is false
-
-
-;;; MC-Eval input: (uml:not (uml:and true))
-;;; MC-Eval value: #f
-;NOT true is false
 
 
 
-;-------------the-global-environment---------------
 
 
 
-;the-global-environment
-;(((nil
-;   false
-;   true
-;   uml:car
-;   uml:cdr
-;   uml:cons
-;   uml:null?
-;   uml:+
-;   uml:-
-;   uml:*
-;   uml:/
-;   uml:=
-;   uml:>
-;   uml:<
-;   uml:not)
-;  ()
-;  #f
-;  #t
-;  (primitive #<procedure:mcar>)
-;  (primitive #<procedure:mcdr>)
-;  (primitive #<procedure:mcons>)
-;  (primitive #<procedure:null?>)
-;  (primitive #<procedure:+>)
-;  (primitive #<procedure:->)
-;  (primitive #<procedure:*>)
-;  (primitive #<procedure:/>)
-;  (primitive #<procedure:=>)
-;  (primitive #<procedure:>>)
-;  (primitive #<procedure:<>)
-;  (primitive #<procedure:not>)))
 
