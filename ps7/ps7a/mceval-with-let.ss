@@ -202,19 +202,19 @@
 
 ;;;;;;;;;;;--------------or----------
 
-(define (eval-or exp env)  
-  (define (iter clauses)
-     (cond ((null? clauses) #t)
-           ((and (null? (cdr clauses)) (false? (mc-eval (car clauses) env))) #f)
-           ((true? (mc-eval (car clauses) env)) #t)
-           (else (iter (cdr clauses))))
-  )
-  
- (iter (or-clauses exp)))
-
-(define (or? exp) (tagged-list? exp 'uml:or))
-
-(define (or-clauses exp) (cdr exp))
+;(define (eval-or exp env)  
+;  (define (iter clauses)
+;     (cond ((null? clauses) #t)
+;           ((and (null? (cdr clauses)) (false? (mc-eval (car clauses) env))) #f)
+;           ((true? (mc-eval (car clauses) env)) #t)
+;           (else (iter (cdr clauses))))
+;  )
+;  
+; (iter (or-clauses exp)))
+;
+;(define (or? exp) (tagged-list? exp 'uml:or))
+;
+;(define (or-clauses exp) (cdr exp))
 
 
 ;;;;;;;;;;;---------not---------------
