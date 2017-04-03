@@ -1,4 +1,5 @@
-;;; mc-eval-with-let.ss
+;;;Sokthai Tang (April/2/2017)
+;;; mc-eval-with-let.ss 
 ;;; Metacircular evaluator from section 4.1 of SICP
 
 ;;; MUST SET LANGUAGE TO R5RS
@@ -93,7 +94,7 @@
   (define-variable! (definition-variable exp)
                     (mc-eval (definition-value exp) env)
                     env)
-  'ok)
+  'ok) 
 
 
 ;;; Following are the procedures that define the syntax of our language
@@ -301,14 +302,12 @@
 ;---------------------------------------------------------
  
 (define (for? exp) (tagged-list? exp 'uml:for))
-(define (for-variables exp)
-  (caadr exp)) ;<var> 
+(define (for-variables exp) (caadr exp)) ;<var> 
 (define (for-expression exp) (cdadr exp)) ;'(<exp1> <exp2>)
 (define (for-body exp) (caddr exp)) ;'<body>
 
  
 (define (for->combination exp)
-
   (let (
         (variables (for-variables exp))
         (start (mc-eval (car (for-expression exp)) the-global-environment))
@@ -317,48 +316,60 @@
         ) 
     
     (mc-eval (list 'uml:define variables start) the-global-environment)
-    ;(display body) 
-    (define (for-iter index theEnd )
-      (mc-eval body the-global-environment)
-      
-      (mc-eval (list 'uml:set! variables (list 'uml:+ variables 1)) the-global-environment)
-     
-      
-      ;(define theLet '(uml:let ((x 3) (y 5)) (uml:* x y)))
-      
-    ; (mc-eval '(uml:set! variables (uml:+ variables 1)) the-global-environment) 
-      (if (< index theEnd)
-          (for-iter (+ index 1) theEnd)
-          "ok")
-
-     ;(mc-eval '(uml:cond ((uml:< index theEnd) (for-iter (+ index 1) theEnd))
-      ;                    (else "ok")) the-global-environment)
-          
-       
-;          (mc-eval '(uml:if (uml:< 1 2)
-;                           ;(for-iter ((mc-eval '(uml:define i start) the-global-environment)) e)
-;                           (uml:+ 1 2)
-;                           "okay"
-;                           ) the-global-environment)
+    (define (for-iter index theEnd )  
+    
+      (begin (mc-eval body the-global-environment)
+             (mc-eval (list 'uml:set! variables (list 'uml:+ variables 1)) the-global-environment)
+             (cond ((< index theEnd) (for-iter (+ index 1) theEnd))
+            (else
+             (mc-eval (list 'uml:define variables start) the-global-environment)
+             "ok")))      
       )
     (for-iter start end)
     ) 
 )
 
-;(define (for->combination exp)
-;  (let (
-;        (variables (for-variables exp))
-;        (start (mc-eval (car (for-expression exp)) the-global-environment))
-;        (end (mc-eval (cadr (for-expression exp)) the-global-environment))
-;        (body (for-body exp))
-;        )
-;    (list 'uml:begin
-;          (list 'uml:define (list 'for-expression variables)
-;                (list 'uml:let (list (list 'result body))
-;                      (list 'uml:if (list 'uml:< variables end)
-;                            (list 'for-expression (list 'uml:+ variables 1))
-;                                  'result)))
-;                (list 'for-expression start))))
+;----------For Implementation (Discussion)-----------------
+
+;In this assignment, i do the getter functions and have the for->combination
+;function setup correctly.
+;I do get the result as expect.
+;For Example, i run the following code and get the correct result 
+;(mc-eval '(uml:define n 0) the-global-environment) => ok
+;(mc-eval '(uml:for (i 1 3) (uml:set! n (uml:+ n i))) the-global-environment) => ok
+;(mc-eval 'n the-global-environment) => 6
+;I create a helper function and recursivelyl call it when the index is less then "theEnd" varible.
+;The program does pass all the test on Bottlenose.
+;However, i think i may not implement everything correctly,
+;The program create a new varible to the-global-environment each time it runs.
+;For example, if i run the above example, the program will bind one more vairable "i"
+;to the-global-environment because the body expression looking for a variable "i",
+;if i don't put it on the-global-environment, it would fail. 
+
+
+;-----------------------Demonstration of working code (for)-------------------
+
+;> (mc-eval '(uml:define n 0) the-global-environment)
+;ok
+;> (mc-eval '(uml:for (i 1 3) (uml:set! n (uml:+ n i))) the-global-environment)
+;"ok"
+;> (mc-eval 'n the-global-environment)
+;6
+;> (mc-eval '(uml:for (i 1 3) (uml:set! n (uml:+ n i))) the-global-environment)
+;"ok"
+;> (mc-eval 'n the-global-environment)
+;12
+;> (mc-eval '(uml:define k 2) the-global-environment)
+;ok
+;> (mc-eval '(uml:for (i 1 5) (uml:set! k (uml:* k i))) the-global-environment)
+;"ok"
+;> (mc-eval 'k the-global-environment)
+;240
+
+
+
+
+
 
 
 
