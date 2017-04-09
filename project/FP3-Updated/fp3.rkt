@@ -99,14 +99,13 @@
 
 
 ;-----play mp3
+as
+dsf
+fdfsfdfsa
+(define pth "hello.mp3")    ; path to audio file (windows can only play .wav)
 
+(define play-asynchronously #t) ; continue execution while file is playing?
 
-;(require racket/gui)
-;
-;(define pth "song.mp3")    ; path to audio file (windows can only play .wav)
-;
-;(define play-asynchronously #t) ; continue execution while file is playing?
-;
-;(play-sound pth play-asynchronously)
+(define play (play-sound pth play-asynchronously))
 
 (define p "http://audio.oxforddictionaries.com/en/mp3/angry_gb_1.mp3")
