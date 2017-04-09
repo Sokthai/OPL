@@ -1,7 +1,9 @@
 #lang racket
+(require rsound)
+;(require racket/gui)
+;(require  json  net/url)
+(require  json srfi/13  net/url (only-in racket/gui play-sound))
 
-
-(require  json srfi/13 net/url)
 ;(require web-server/http)
 ;(require net/http-client)
 
@@ -32,8 +34,10 @@
   (cond ((number? (string-contains respond "404 Not Found")) (printf "Not Found"))
         (else
          (searchDict (readjson-from-input respond) '|word| "word        : ")
-         (searchDict (readjson-from-input respond) '|audioFile| "definitions : ")
-         (searchDict (readjson-from-input respond) '|examples| "examples    : ")))
+         (searchDict (readjson-from-input respond) '|definitions| "definitions : ")
+         (searchDict (readjson-from-input respond) '|examples| "examples    : ")
+         (searchDict (readjson-from-input respond) '|audioFile| "pronunciation : ")
+  ))
 
 )
 
@@ -83,3 +87,26 @@
 
 
 
+
+(module file-player racket/base
+   (require racket/system)
+   (define player (find-executable-path "xmms"))
+   (define (play file)
+     (system* player (if (path? file) (path->string file) file)))
+   (provide play))
+
+
+
+
+;-----play mp3
+
+
+;(require racket/gui)
+;
+;(define pth "song.mp3")    ; path to audio file (windows can only play .wav)
+;
+;(define play-asynchronously #t) ; continue execution while file is playing?
+;
+;(play-sound pth play-asynchronously)
+
+(define p "http://audio.oxforddictionaries.com/en/mp3/angry_gb_1.mp3")
