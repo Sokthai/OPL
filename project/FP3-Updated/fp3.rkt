@@ -19,12 +19,14 @@
 (define myrespond "")
 
 (define file-path "C:\\Users\\sokthai\\Downloads/")
- (define sound-url "")
+(define sound-url "")
+(define result "")
 
 (define (search w)
 
   
- 
+  ;(define allresult "")
+  (set! result "")
   (define con-url (string->url (string-append open_api w)))
   (define dict-port (get-pure-port con-url (list app_id app_key)))
   (define respond (port->string dict-port))
@@ -38,19 +40,20 @@
   
   (cond ((number? (string-contains respond "404 Not Found")) (printf "Not Found"))
         (else
-         (searchDict (readjson-from-input respond) '|word| "word        : ")
-         (searchDict (readjson-from-input respond) '|definitions| "definitions : ")
-         (searchDict (readjson-from-input respond) '|examples| "examples    : ")
-         (begin (set! sound-url (searchDict (readjson-from-input respond) '|audioFile| "pronunciation : ")))
-         (begin (set! myrespond respond))
+         (searchDict (readjson-from-input respond) '|word| "word: ")
+         (searchDict (readjson-from-input respond) '|definitions| "definitions:")
+         (searchDict (readjson-from-input respond) '|examples| "examples:")
+         (begin (set! sound-url (searchDict (readjson-from-input respond) '|audioFile| "pronunciation:")))
+         ;(begin (set! myrespond respond))
   ))
  
   (set! file-path (string-append file-path w "_gb_1.mp3"))
   ;(send-url "http://fsda")
+  result
 )
 
 
-
+(define dpath "/Users/sokthaitang/downloads/")
 
 (define (readjson-from-input var)
   (with-input-from-string var
@@ -83,27 +86,28 @@
 
 
 (define (display hash k des)
-  (cond
-    
+  (cond  
     ((list? (hash-ref hash k))
      (cond
-       ((string? (car (hash-ref hash k))) (return des (car (hash-ref hash k))))
+    
+       ((string? (car (hash-ref hash k))) (return  des (car (hash-ref hash k))))
        (else
         (show (hash-ref hash k) k des))))
-    (else (return des (hash-ref hash k (lambda () ""))))
-  ))
+    
+    (else (return  des (hash-ref hash k (lambda () ""))))
+  )
 
-(define (return des content result count )
-  (if (> count 0)
-      (if (list? result)
-          (return des content (append result (list content)) (- count 1))
-          (return des content (list result) (- count 1)))
-     
-      result )
-  ;(printf "~a~a\n return" des content)
+  
+)
 
- 
-  ;"okay"
+
+
+
+(define (return des content)
+  (if (list? result)
+      (set! result (append result (list (list des content))))
+      (set! result (list (list des content))))
+  
 )
   
 
@@ -113,8 +117,8 @@
   (cond ((null? lst) lst)
         (else
          (for (((key val) (in-hash (car lst )))) 
-           (printf "~a~a\n show" des val )
-           ;(return des val)
+           ;(printf "~a~a\n" des val )
+           (return des val)
            )
 
          (show (cdr lst) k des)
