@@ -1,5 +1,5 @@
 #lang racket
-;ps7a
+
 ;;; +++++++++ Required for auto grading ++++++++++++
 
 ;; Allow name nil to be used for the empty list.
@@ -96,14 +96,12 @@
 ;; first define a proc named convert-f-to-c which converts a single value
 
 (define (convert-f-to-c f)
-  (* (/ 5 9) (- f 32)))
+  f)
 
 ;; then use that function with stream-map to define convert-temps
 
 (define (convert-temps fahrenheit-stream)
-  (stream-car (stream-map (lambda (x) (* (/ 5 9) (- x 32))) (list fahrenheit-stream)))
-  
-)
+  fahrenheit-stream)
 
 
 ;;; ******************************************************************

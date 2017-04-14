@@ -1,5 +1,5 @@
 #lang racket
-;ps8b
+
 ;;; +++++++++ Required for auto grading ++++++++++++
 
 ;; Allow name nil to be used for the empty list.
