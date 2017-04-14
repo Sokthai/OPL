@@ -25,26 +25,19 @@
 (define (search w)
 
   
-  ;(define allresult "")
+  ;(define result "")
   (set! result "")
   (define con-url (string->url (string-append open_api w)))
   (define dict-port (get-pure-port con-url (list app_id app_key)))
   (define respond (port->string dict-port))
-
-
-  
-  
-  
-  
   (close-input-port dict-port)
   
-  (cond ((number? (string-contains respond "404 Not Found")) (printf "Not Found"))
+  (cond ((number? (string-contains respond "404 Not Found")) (set! result (list (list "Error:" "Not Found"))))
         (else
-         (searchDict (readjson-from-input respond) '|word| "word: ")
+         (searchDict (readjson-from-input respond) '|word| "word:")
          (searchDict (readjson-from-input respond) '|definitions| "definitions:")
          (searchDict (readjson-from-input respond) '|examples| "examples:")
-         (begin (set! sound-url (searchDict (readjson-from-input respond) '|audioFile| "pronunciation:")))
-         ;(begin (set! myrespond respond))
+         (searchDict (readjson-from-input respond) '|audioFile| "pronunciation:")
   ))
  
   (set! file-path (string-append file-path w "_gb_1.mp3"))
@@ -53,7 +46,7 @@
 )
 
 
-(define dpath "/Users/sokthaitang/downloads/")
+
 
 (define (readjson-from-input var)
   (with-input-from-string var
@@ -86,6 +79,7 @@
 
 
 (define (display hash k des)
+  
   (cond  
     ((list? (hash-ref hash k))
      (cond
@@ -103,10 +97,12 @@
 
 
 
-(define (return des content)
+(define (return des content )
+  
   (if (list? result)
       (set! result (append result (list (list des content))))
       (set! result (list (list des content))))
+  
   
 )
   
@@ -114,15 +110,17 @@
 
 
 (define (show lst k des)
+
   (cond ((null? lst) lst)
         (else
          (for (((key val) (in-hash (car lst )))) 
            ;(printf "~a~a\n" des val )
-           (return des val)
+          (return des val)
            )
 
          (show (cdr lst) k des)
-         )))
+         ))
+  )
 
 
 
@@ -138,6 +136,23 @@
 
 
 ;-----play mp3
+
+
+(define (soundPath lst)
+  (if (and (list? lst) (null? (cdr lst)))
+      (cadr (car lst))
+      (soundPath (cdr lst))))
+
+(define pronounce
+
+  ;(send-url (soundPath result)))
+
+  ;(play-sound (cdr (soundPath result)) #t)
+
+ ) 
+      
+
+(define dpath "/Users/sokthaitang/downloads/")
 
 (define pth "./hello.mp3")    ; path to audio file (windows can only play .wav)
 

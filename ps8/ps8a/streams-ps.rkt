@@ -52,7 +52,7 @@
 
 (define (stream-filter pred stream)
   (cond ((stream-null? stream) the-empty-stream)
-        ((pred (stream-car stream))
+        ((pred (stream-car stream))  
          (cons-stream (stream-car stream)
                       (stream-filter pred
                                      (stream-cdr stream))))
@@ -101,8 +101,7 @@
 ;; then use that function with stream-map to define convert-temps
 
 (define (convert-temps fahrenheit-stream)
-  (stream-car (stream-map (lambda (x) (* (/ 5 9) (- x 32))) (list fahrenheit-stream)))
-  
+      (stream-map (lambda (x) (* (/ 5 9) (- x 32))) fahrenheit-stream) 
 )
 
 
@@ -114,7 +113,12 @@
   (= (remainder x y) 0))
 
 (define (divisible-by-2-3-5 int-stream)
-  int-stream)
+  (if (stream-null? int-stream) the-empty-stream
+      (stream-filter (lambda (x) (or (= (remainder x 2) 0)
+                                     (= (remainder x 3) 0)
+                                     (= (remainder x 5) 0))) int-stream))
+
+)
 
 ;;; ******************************************************************
 ;;; Replace the lambda function to complete the following alternative
@@ -123,7 +127,7 @@
 ;;; (define my-integers (cons-stream 1 (stream-map <??> my-integers)))
 
 (define my-integers
-  (cons-stream 1 (stream-map (lambda (x) x) my-integers)))
+  (cons-stream 1 (stream-map (lambda (x)  (+ 1 x)) my-integers)))
 
  
 ;;; ******************************************************************
@@ -149,31 +153,31 @@
 ;;; (define x (stream-map show (stream-enumerate-interval 0 10)))
 ;;;
 ;;; How many cons cells in stream x exist?
-(define ex351-num-cons-cells 0)
+(define ex351-num-cons-cells 1)
 
 ;;; Of these cons cells in stream x, how many have values in their car positions
 ;;; that have already been forced (or were never delayed in the first place)?
-(define ex351-num-forced-at-outset 0)
+(define ex351-num-forced-at-outset 1)
 ;;;
 ;;; Now evaluate this expression:
 ;;; (stream-ref x 5)
 ;;;
 ;;; How many cons cells exist now?
-(define ex351-num-cons-cells-after-stream-ref-5 0)
+(define ex351-num-cons-cells-after-stream-ref-5 6)
 ;;;
 ;;; How many car-positions have been forced now?
-(define ex351-num-forced-after-stream-ref-5 0)
+(define ex351-num-forced-after-stream-ref-5 6)
 ;;;
 ;;; If "(stream-ref x 5)" is evaluated again, will the either of the two
 ;;; answers above change?
 ;;; Change the 0 to 'yes or 'no.
-(define ex351-num-forced-twice-stream-ref-5 0)
+(define ex351-num-forced-twice-stream-ref-5 'no)
 ;;;
 ;;; Now evaluate:
 ;;; (stream-ref x 7)
 ;;;
 ;;; How many car-positions have been forced now?
-(define ex351-num-forced-after-stream-ref-7 0)
+(define ex351-num-forced-after-stream-ref-7 8)
 ;;;
 ;;; How many total cons cells have been created at this point?
 ;;; Hint: recognize that two streams exist -- the original stream
@@ -204,36 +208,36 @@
 ;;;
 ;;; After these expresssions are evaluated,
 ;;; what is the value of sum?
-(define ex352-sum-initial-value 0)
+(define ex352-sum-initial-value 1)
 ;;;
 ;;; Now we evaluate:
 ;;; (define y (stream-filter even? seq))
 ;;; How many cons cells does seq have after this definition?
-(define ex352-num-cons-seq-after-y-defined 0)
+(define ex352-num-cons-seq-after-y-defined 3)
 ;;; What is the value of sum after y is defined?
-(define ex352-sum-after-y-defined 0)
+(define ex352-sum-after-y-defined 6)
 ;;;
 ;;; Now we evaluate:
 ;;; (define z (stream-filter (lambda (x) (= (remainder x 5) 0)) seq))
 ;;; How many cons cells does seq have after this definition?
-(define ex352-num-cons-seq-after-z-defined 0)
+(define ex352-num-cons-seq-after-z-defined 4)
 ;;; What is the value of sum after z is defined?
-(define ex352-sum-after-z-defined 0)
+(define ex352-sum-after-z-defined 10)
 ;;;
 ;;; Now we evaluate:
 ;;; (stream-ref y 2)
 ;;; How many cons cells does y have?
-(define ex352-num-cons-y-after-stream-ref-y-2 0)
+(define ex352-num-cons-y-after-stream-ref-y-2 3)
 ;;; How many cons cells does seq have?
-(define ex352-num-cons-seq-after-stream-ref-y-2 0)
+(define ex352-num-cons-seq-after-stream-ref-y-2 7)
 ;;; What is sum?
-(define ex352-sum-after-stream-ref-y-2 0)
+(define ex352-sum-after-stream-ref-y-2 28)
 ;;;
 ;;; Now we evaluate:
 ;;; (display-stream z)
 ;;; How many cons cells does seq have?
-(define ex352-num-cons-seq-after-display-z 0)
+(define ex352-num-cons-seq-after-display-z 20)
 ;;; How many cons cells does z have?
-(define ex352-num-cons-z-after-display-z 0)
+(define ex352-num-cons-z-after-display-z 8)
 
 ;;; ************************ END OF FILE *****************************

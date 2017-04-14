@@ -99,16 +99,16 @@
 ;;;
 ;;; What is:
 ;;; (stream-ref s 0) ?
-(define ex353-s-0 0)
+(define ex353-s-0 1)
 ;;;
 ;;; What is (stream-ref s 1) ?
-(define ex353-s-1 0)
+(define ex353-s-1 2)
 ;;;
 ;;; What is (stream-ref s 2) ?
-(define ex353-s-2 0)
+(define ex353-s-2 4)
 ;;;
 ;;; What is (stream-ref s 3) ?
-(define ex353-s-3 0)
+(define ex353-s-3 8)
 
 
 ;;; ******************************************************************
@@ -124,10 +124,12 @@
 ;;; (define factorials (cons-stream 1 (mul-streams <??> <??>)))
 
 (define (mul-streams s1 s2)  ;; this need to be implemented
-  s1)
+  (stream-map-general * s1 s2))
+
+ 
 
 (define factorials 
-  (cons-stream 1 (mul-streams integers integers))) ;; this line needs to be changed
+  (cons-stream 1 (mul-streams integers factorials))) ;; this line needs to be changed
 
 
 ;;; ******************************************************************
@@ -138,8 +140,9 @@
 (define fibs
   (cons-stream 0
                (cons-stream 1
-                            (add-streams (stream-cdr fibs)
-                                         fibs))))
+                              (add-streams (stream-cdr fibs) fibs)
+               )
+  ))
 ;;; remember that add-streams is:
 ;;; (define (add-streams s1 s2)
 ;;;   (stream-map + s1 s2))
