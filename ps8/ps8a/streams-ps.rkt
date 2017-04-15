@@ -114,9 +114,9 @@
 
 (define (divisible-by-2-3-5 int-stream)
   (if (stream-null? int-stream) the-empty-stream
-      (stream-filter (lambda (x) (or (= (remainder x 2) 0)
-                                     (= (remainder x 3) 0)
-                                     (= (remainder x 5) 0))) int-stream))
+      (stream-filter (lambda (x) (or (divisible? x 2)
+                                     (divisible? x 3)
+                                     (divisible? x 5))) int-stream))
 
 )
 
@@ -183,7 +183,7 @@
 ;;; Hint: recognize that two streams exist -- the original stream
 ;;; created by stream-enumerate-interval, and the stream created
 ;;; by stream-map.
-(define ex351-total-cons-cells 0)
+(define ex351-total-cons-cells 16)
 
 
 ;;; ******************************************************************
@@ -203,7 +203,8 @@
 (define sum 0)
 (define (accum x)
   (set! sum (+ x sum))
-  sum)
+  sum
+  )
 (define seq (stream-map accum (stream-enumerate-interval 1 20)))
 ;;;
 ;;; After these expresssions are evaluated,
