@@ -158,41 +158,44 @@
 ;;; Remember that streams memoize previously computed values.
 ;;; How many additions are involved in calculating (stream-ref fibs 2)?
 ;;; change the 0 to the correct answer.
-(define fib-2-with-memo 0)
+(define fib-2-with-memo 1)
 ;;;
 ;;; How many additions to calculate (stream-ref fibs 3)?
-(define fib-3-with-memo 0)
+(define fib-3-with-memo 2)
 ;;;
 ;;; How many additions to calculate (stream-ref fibs 4)?
-(define fib-4-with-memo 0)
+(define fib-4-with-memo 3)
 ;;;
 ;;; Write a function that calculates how many additions are necessary
 ;;; to calculate the nth Fibonacci number. Remember that there are no
 ;;; additions necessary for the two base cases of the 0th and 1st Fibonacci
 ;;; number.
 (define (fib-num-adds-with-memo n)
-  0)
+  (if (<= n 1) 0
+      (- n 1))
+  )
 ;;;
 ;;; Now suppose that streams did NOT memoize previously-computed values;
 ;;; e.g., that (delay <exp>) were simply implemented as (lambda () <exp>).
 ;;; Now what is the story?
 ;;;
 ;;; How many additions for (stream-ref fibs 2) ?
-(define fib-2-wo-memo 0)
+(define fib-2-wo-memo 1)
 ;;;
 ;;; for (stream-ref fibs 3) ?
-(define fib-3-wo-memo 0)
+(define fib-3-wo-memo 2)
 ;;;
 ;;; for (stream-ref fibs 4) ?
-(define fib-4-wo-memo 0)
+(define fib-4-wo-memo 3)
 ;;;
 ;;; for (stream-ref fibs 5) ?
-(define fib-5-wo-memo 0)
+(define fib-5-wo-memo 4)
 ;;;
 ;;; Write a function that calculates how many additions will be performed
 ;;; in computing the nth Fibonacci number in the case where streams do not
 ;;; memoize.
 (define (fib-num-adds-wo-memo n)
-  0)
+  (if (<= n 1) 0
+      (- n 1)))
 
 ;;; ************************ END OF FILE *****************************
