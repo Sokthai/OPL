@@ -21,6 +21,8 @@
 (define file-path "C:\\Users\\sokthai\\Downloads/")
 (define sound-url "")
 (define result "")
+(define dpath "/Users/sokthaitang/downloads/")
+
 
 (define (search w)
 
@@ -38,10 +40,16 @@
          (searchDict (readjson-from-input respond) '|definitions| "definitions:")
          (searchDict (readjson-from-input respond) '|examples| "examples:")
          (searchDict (readjson-from-input respond) '|audioFile| "pronunciation:")
+         (let* ((audioURL (soundPath result))
+                (fileName (string-append dpath
+                                       (substring audioURL 43 (string-length audioURL)))))
+           (if (not (file-exists? fileName))
+               (send-url (soundPath result))
+               'ok)
+         )
   ))
  
   (set! file-path (string-append file-path w "_gb_1.mp3"))
-  ;(send-url "http://fsda")
   result
 )
 
@@ -139,22 +147,30 @@
 
 
 (define (soundPath lst)
-  (if (and (list? lst) (null? (cdr lst)))
+  
+  (if (and (list? lst) (null? (cdr lst))) 
       (cadr (car lst))
-      (soundPath (cdr lst))))
+      (soundPath (cdr lst)))
+)
 
-(define pronounce
 
-  ;(send-url (soundPath result)))
-
-  ;(play-sound (cdr (soundPath result)) #t)
-
- ) 
+(define (pronounce lst)
+  (let ((audioURL (soundPath lst)))
+    (cond  ((equal? lst "") '())
+           (else
+            (play-sound
+               (string-append dpath
+                                       (substring audioURL 43
+                                                  (string-length audioURL))) #t)))
+ )
+  )
       
+(define (checkFileExist path)
+  
+  (delete-file (string-append dpath "universe_gb_1_8 (1).mp3"))
+  )
 
-(define dpath "/Users/sokthaitang/downloads/")
 
-(define pth "./hello.mp3")    ; path to audio file (windows can only play .wav)
 
 (define play-asynchronously #t) ; continue execution while file is playing?
 

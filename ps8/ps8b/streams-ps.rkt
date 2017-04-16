@@ -189,7 +189,7 @@
 (define fib-4-wo-memo 4)
 ;;;
 ;;; for (stream-ref fibs 5) ?
-(define fib-5-wo-memo 16) ;<--------------------------4, 3, 6, 10 , 5, 8, 256
+(define fib-5-wo-memo 16) ;<--------------------------4, 3, 6, 10 , 5, 8, 256, 16
 ;;;
 ;;; Write a function that calculates how many additions will be performed
 ;;; in computing the nth Fibonacci number in the case where streams do not
