@@ -1,0 +1,13 @@
+;How to run the program:
+> (search "boy") ;;search the word "boy" and download the audio to local directory
+> (pronounce result) ;;play the audio 
+
+NOTE: since the audio of the word is downloaded each time it search, it will 
+automatically save to the downloads folder, and the path to the download folder
+is different from OS to OS, you may need to change if it is not wokring for you.
+
+I have created 3 difference paths for difference OS.
+macPath, winPath, and ubuPath. 
+I use macPath since i use my Macbook. Change the path to your needs at line 49 and 150. if the 3 paths is not working, you need to provide the audio path where
+the audio file downloaded to.  
+

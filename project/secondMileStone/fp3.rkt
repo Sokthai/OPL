@@ -21,11 +21,9 @@
 (define file-path "C:\\Users\\sokthai\\Downloads/")
 (define sound-url "")
 (define result "")
-
-
-(define macPath "/Users/sokthaitang/downloads/") ; path for mac
-(define winPath "C:\\Users\\thai\\Downloads\\") ; path for widnow
-(define ubuPath "/home/thai/Downloads/") ; pat for ubuntu
+(define macPath "/Users/sokthaitang/downloads/")
+(define winPath "C:\\Users\\thai\\Downloads\\")
+(define ubuPath "/home/thai/Downloads/")
 
 
 (define (search w)
@@ -105,11 +103,14 @@
 )
   
 
+
+
 (define (show lst k des)
 
   (cond ((null? lst) lst)
         (else
          (for (((key val) (in-hash (car lst )))) 
+           ;(printf "~a~a\n" des val )
           (return des val)
            )
 
@@ -150,5 +151,10 @@
                                        (substring audioURL 43
                                                   (string-length audioURL))) #t)))
  )
+  )
+      
+(define (checkFileExist path)
+  
+  (delete-file (string-append macPath "universe_gb_1_8 (1).mp3"))
   )
 
