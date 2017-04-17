@@ -24,7 +24,7 @@
 
 
 (define macPath "/Users/sokthaitang/downloads/") ; path for mac
-(define winPath "C:\\Users\\thai\\Downloads\\") ; path for widnow
+(define winPath "C:\\Users\\sokthai\\Downloads\\") ; path for widnow
 (define ubuPath "/home/thai/Downloads/") ; pat for ubuntu
 
 
@@ -46,7 +46,7 @@
          (searchDict (readjson-from-input respond) '|examples| "examples:")
          (searchDict (readjson-from-input respond) '|audioFile| "pronunciation:")
          (let* ((audioURL (soundPath result)) 
-                (fileName (string-append macPath
+                (fileName (string-append winPath
                                        (substring audioURL 43 (string-length audioURL)))))
            (if (not (file-exists? fileName))
                (send-url (soundPath result))
@@ -146,7 +146,7 @@
     (cond  ((equal? lst "") '())
            (else
             (play-sound
-               (string-append macPath
+               (string-append winPath
                                        (substring audioURL 43
                                                   (string-length audioURL))) #t)))
  )
