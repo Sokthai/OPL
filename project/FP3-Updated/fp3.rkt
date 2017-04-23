@@ -15,9 +15,6 @@
 (define open_api "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/")
 
 
-
-(define myrespond "")
-
 (define file-path "C:\\Users\\sokthai\\Downloads/")
 (define sound-url "")
 (define result "")
@@ -25,20 +22,20 @@
 
 (define macPath "/Users/sokthaitang/downloads/") ; path for mac
 (define winPath "C:\\Users\\sokthai\\Downloads\\") ; path for widnow
-(define ubuPath "/home/thai/Downloads/") ; pat for ubuntu
+(define ubuPath "/home/thai/Downloads/") ; path for ubuntu
+(define path winPath)
+(define wordList "wordList")
 
+(define (search word)
 
-(define (search w)
 
   
-  ;(define result "")
   (set! result "")
-  (define con-url (string->url (string-append open_api w)))
+  (define con-url (string->url (string-append open_api word)))
   (define dict-port (get-pure-port con-url (list app_id app_key)))
   (define respond (port->string dict-port))
-  (set! myrespond respond)
   (close-input-port dict-port)
-  
+   
   (cond ((number? (string-contains respond "404 Not Found")) (set! result (list (list "Error:" "Not Found"))))
         (else
          (searchDict (readjson-from-input respond) '|word| "word:")
@@ -46,14 +43,25 @@
          (searchDict (readjson-from-input respond) '|examples| "examples:")
          (searchDict (readjson-from-input respond) '|audioFile| "pronunciation:")
          (let* ((audioURL (soundPath result)) 
-                (fileName (string-append winPath
+                (fileName (string-append path
                                        (substring audioURL 43 (string-length audioURL)))))
            (if (not (file-exists? fileName))
                (send-url (soundPath result))
                'ok)
+
+
+           (write-to-file word wordList)
+          ;(set! wordHistory (append wordHistory (list word)))
          )
   ))
+  
   result
+)
+
+
+(define (history word)
+  ;(lambda (x)  (set! word (append word x)))
+  1
 )
 
 
@@ -119,20 +127,6 @@
 
 
 
-
-(module file-player racket/base
-   (require racket/system)
-   (define player (find-executable-path "xmms"))
-   (define (play file)
-     (system* player (if (path? file) (path->string file) file)))
-   (provide play))
-
-
-
-
-;-----play mp3
-
-
 (define (soundPath lst)
   
   (if (and (list? lst) (null? (cdr lst))) 
@@ -141,14 +135,31 @@
 )
 
 
+
+
+
+
 (define (pronounce lst)
+  
   (let ((audioURL (soundPath lst)))
-    (cond  ((equal? lst "") '())
+    (cond  ((equal? (caar lst) "Error:") '())
            (else
             (play-sound
-               (string-append winPath
+               (string-append path
                                        (substring audioURL 43
                                                   (string-length audioURL))) #t)))
  )
   )
+
+
+
+
+ (define (write-to-file data path) 
+   (with-output-to-file path 
+     (lambda () 
+       (write data)) #:exists 'append))
+
+
+(define (read-from-file path)
+  (file->list path))
 
